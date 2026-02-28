@@ -73,8 +73,8 @@ export default function AdminDashboard() {
     }
 
     filtered.sort((a, b) => {
-      let aVal = a[sortField];
-      let bVal = b[sortField];
+      let aVal: string | number = a[sortField];
+      let bVal: string | number = b[sortField];
 
       if (sortField === 'weekStart' || sortField === 'createdAt') {
         aVal = new Date(aVal as string).getTime();
