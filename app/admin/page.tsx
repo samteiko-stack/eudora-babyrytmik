@@ -344,15 +344,21 @@ export default function AdminDashboard() {
                 <p className="text-neutral-600">{filteredAndSortedRegistrations.length} registreringar</p>
               </div>
               <div className="flex gap-3">
-                <select
-                  value={selectedYear}
-                  onChange={(e) => setSelectedYear(Number(e.target.value))}
-                  className="px-4 py-2.5 bg-white border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-all font-medium"
-                >
+                <div className="flex items-center gap-2 bg-white border border-neutral-300 rounded-lg p-1">
                   {availableYears.map(year => (
-                    <option key={year} value={year}>{year}</option>
+                    <button
+                      key={year}
+                      onClick={() => setSelectedYear(year)}
+                      className={`px-4 py-2 rounded-md font-medium transition-all ${
+                        selectedYear === year
+                          ? 'bg-neutral-900 text-white'
+                          : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50'
+                      }`}
+                    >
+                      {year}
+                    </button>
                   ))}
-                </select>
+                </div>
                 <button
                   onClick={() => setShowAddModal(true)}
                   className="px-5 py-2.5 bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-all font-medium flex items-center gap-2"
@@ -791,15 +797,21 @@ export default function AdminDashboard() {
                 <h2 className="text-3xl font-bold text-neutral-900 mb-2">Veckohantering {selectedYear}</h2>
                 <p className="text-neutral-600">Hantera tillgänglighet för veckor</p>
               </div>
-              <select
-                value={selectedYear}
-                onChange={(e) => setSelectedYear(Number(e.target.value))}
-                className="px-4 py-2.5 bg-white border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-all font-medium"
-              >
+              <div className="flex items-center gap-2 bg-white border border-neutral-300 rounded-lg p-1">
                 {availableYears.map(year => (
-                  <option key={year} value={year}>{year}</option>
+                  <button
+                    key={year}
+                    onClick={() => setSelectedYear(year)}
+                    className={`px-4 py-2 rounded-md font-medium transition-all ${
+                      selectedYear === year
+                        ? 'bg-neutral-900 text-white'
+                        : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50'
+                    }`}
+                  >
+                    {year}
+                  </button>
                 ))}
-              </select>
+              </div>
             </div>
 
             <div className="bg-white border border-neutral-200 rounded-lg overflow-visible">

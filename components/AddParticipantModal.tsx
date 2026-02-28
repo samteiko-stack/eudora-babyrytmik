@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { useStore } from '@/lib/store';
 import { getNext10Weeks, formatWeekRange, formatDate, getWeekNumber } from '@/lib/dates';
-import { X } from 'lucide-react';
+import { X, ChevronDown } from 'lucide-react';
 
 interface FormData {
   firstName: string;
@@ -21,7 +21,8 @@ interface Props {
 
 export default function AddParticipantModal({ onClose }: Props) {
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const { register, handleSubmit, formState: { errors }, reset, watch } = useForm<FormData>();
+  const [weekDropdownOpen, setWeekDropdownOpen] = useState(false);
+  const { register, handleSubmit, formState: { errors }, reset, watch, control, setValue } = useForm<FormData>();
   const { addRegistration, weekAvailability, getWeekRegistrations } = useStore();
 
   const selectedLocation = watch('location');
@@ -176,21 +177,50 @@ export default function AddParticipantModal({ onClose }: Props) {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Vecka <span className="text-red-500">*</span>
             </label>
-            <select
-              {...register('weekStart', { required: 'Välj en vecka' })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal focus:border-transparent"
-            >
-              <option value="">Välj vecka</option>
-              {availableWeeks.map(week => {
-                const weekKey = formatDate(week);
-                const weekNum = getWeekNumber(week);
-                return (
-                  <option key={weekKey} value={weekKey}>
-                    Vecka {weekNum} ({formatWeekRange(week)})
-                  </option>
-                );
-              })}
-            </select>
+            <Controller
+              name="weekStart"
+              control={control}
+              rules={{ required: 'Välj en vecka' }}
+              render={({ field }) => (
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setWeekDropdownOpen(!weekDropdownOpen)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal focus:border-transparent bg-white text-left flex items-center justify-between"
+                  >
+                    <span className={field.value ? 'text-gray-900' : 'text-gray-400'}>
+                      {field.value 
+                        ? `Vecka ${getWeekNumber(new Date(field.value))} (${formatWeekRange(new Date(field.value))})`
+                        : 'Välj vecka'}
+                    </span>
+                    <ChevronDown className="w-5 h-5 text-gray-400" />
+                  </button>
+                  {weekDropdownOpen && (
+                    <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                      {availableWeeks.map(week => {
+                        const weekKey = formatDate(week);
+                        const weekNum = getWeekNumber(week);
+                        return (
+                          <button
+                            key={weekKey}
+                            type="button"
+                            onClick={() => {
+                              field.onChange(weekKey);
+                              setWeekDropdownOpen(false);
+                            }}
+                            className={`w-full px-4 py-2 text-left hover:bg-gray-50 ${
+                              field.value === weekKey ? 'bg-gray-100 font-medium' : ''
+                            }`}
+                          >
+                            Vecka {weekNum} ({formatWeekRange(week)})
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+            />
             {errors.weekStart && (
               <p className="text-red-600 text-sm mt-1">{errors.weekStart.message}</p>
             )}
