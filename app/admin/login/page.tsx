@@ -6,7 +6,7 @@ import { auth } from '@/lib/auth';
 import { Lock } from 'lucide-react';
 
 export default function AdminLogin() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -17,92 +17,97 @@ export default function AdminLogin() {
     setError('');
     setIsLoading(true);
 
-    const success = auth.login(username, password);
+    const success = auth.login(email, password);
 
     if (success) {
       router.push('/admin');
     } else {
-      setError('Felaktigt användarnamn eller lösenord');
+      setError('Felaktig e-postadress eller lösenord');
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-cream flex items-center justify-center px-4">
-      <div className="max-w-md w-full">
-        <div className="bg-white rounded-lg shadow-xl p-8">
-          <div className="flex justify-center mb-6">
-            <div className="bg-teal bg-opacity-10 p-4 rounded-full">
-              <Lock className="w-12 h-12 text-teal" />
-            </div>
-          </div>
+    <div className="min-h-screen bg-[#F5F3EA]">
+      {/* Header */}
+      <header className="bg-white border-b border-neutral-200">
+        <div className="max-w-4xl mx-auto px-6 py-4">
+          <img 
+            src="/logo.svg" 
+            alt="Eudora Logo" 
+            className="h-10 w-auto"
+          />
+        </div>
+      </header>
 
-          <h1 className="text-3xl font-bold text-center text-gray-900 mb-2">
-            Admin Login
-          </h1>
-          <p className="text-center text-gray-600 mb-8">
-            Logga in för att hantera anmälningar
-          </p>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Användarnamn
-              </label>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal focus:border-transparent"
-                placeholder="admin"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Lösenord
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal focus:border-transparent"
-                placeholder="••••••••"
-              />
-            </div>
-
-            {error && (
-              <div className="bg-red-50 text-red-800 px-4 py-3 rounded-md text-sm">
-                {error}
+      <div className="flex items-center justify-center px-4 py-16">
+        <div className="max-w-md w-full">
+          <div className="bg-white border border-neutral-300 rounded-xl p-8">
+            <div className="flex justify-center mb-6">
+              <div className="bg-primary-teal/10 p-4 rounded-full">
+                <Lock className="w-12 h-12 text-primary-teal" />
               </div>
-            )}
+            </div>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-teal text-white py-3 px-6 rounded-md font-medium hover:bg-opacity-90 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
-            >
-              {isLoading ? 'Loggar in...' : 'Logga in'}
-            </button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <a
-              href="/"
-              className="text-teal hover:underline text-sm"
-            >
-              ← Tillbaka till startsidan
-            </a>
-          </div>
-
-          <div className="mt-8 p-4 bg-gray-50 rounded-md">
-            <p className="text-xs text-gray-600 text-center">
-              <strong>Demo credentials:</strong><br />
-              Username: <code className="bg-white px-2 py-1 rounded">admin</code><br />
-              Password: <code className="bg-white px-2 py-1 rounded">babyrytmik2024</code>
+            <h1 className="text-3xl font-bold text-center text-neutral-900 mb-2">
+              Admin Login
+            </h1>
+            <p className="text-center text-neutral-600 mb-8">
+              Logga in för att hantera anmälningar
             </p>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-neutral-900 mb-2">
+                  E-post
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:border-primary-teal transition-all bg-white"
+                  placeholder="din.email@eudoraforskola.se"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-neutral-900 mb-2">
+                  Lösenord
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:border-primary-teal transition-all bg-white"
+                  placeholder="••••••••"
+                />
+              </div>
+
+              {error && (
+                <div className="bg-error-light text-neutral-900 px-4 py-3 rounded-lg text-sm border border-error/30">
+                  {error}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-primary-teal text-white py-4 px-6 rounded-lg font-semibold hover:bg-primary-teal/90 transition-all disabled:bg-neutral-300 disabled:cursor-not-allowed"
+              >
+                {isLoading ? 'Loggar in...' : 'LOGGA IN'}
+              </button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <a
+                href="/"
+                className="text-primary-teal hover:underline text-sm font-medium"
+              >
+                ← Tillbaka till startsidan
+              </a>
+            </div>
           </div>
         </div>
       </div>

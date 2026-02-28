@@ -84,10 +84,10 @@ export default function Home() {
     : null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-accent-light/10">
+    <div className="min-h-screen bg-[#F5F3EA] flex flex-col">
       {/* Header */}
-      <header className="border-b border-neutral-200/50 bg-white/80 sticky top-0 z-50 backdrop-blur-md">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <header className="bg-white border-b border-neutral-200">
+        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
           <img 
             src="/logo.svg" 
             alt="Eudora Logo" 
@@ -95,43 +95,42 @@ export default function Home() {
           />
           <a
             href="/admin/login"
-            className="px-4 py-2 text-sm font-medium text-neutral-900 hover:bg-neutral-100 rounded-full transition-all border border-neutral-200"
+            className="px-4 py-2 text-sm font-medium text-neutral-900 hover:bg-neutral-100 rounded-lg transition-all border border-neutral-300"
           >
             Admin
           </a>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-6 py-20">
+      <main className="flex-1 max-w-4xl mx-auto px-6 py-12 w-full">
         {/* Hero Section */}
-        <div className="mb-20 text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-light/20 border border-accent-light/30 rounded-full text-sm font-medium text-neutral-900 mb-8">
-            <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
-            Anmälan öppen
+        <div className="mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-accent-light/30 rounded-full text-xs font-medium text-neutral-900 mb-4">
+            Eudora! 15 platser tillgängliga per vecka
           </div>
-          <h1 className="text-6xl lg:text-7xl font-bold text-neutral-900 mb-6 tracking-tight leading-tight">
-            Babysång
+          <h1 className="text-4xl font-bold text-neutral-900 mb-4">
+            Anmälan till babysång
           </h1>
-          <p className="text-lg text-neutral-600 leading-relaxed max-w-2xl mx-auto">
-            Södermalm torsdagar 10:00–11:00 • Gärdet tisdagar 13:00–14:00
+          <p className="text-sm text-neutral-900 leading-relaxed">
+            Vi ses på <strong>Södermalm (Fatburs Brunns gata 17) torsdagar kl. 10.00–11.00</strong> och på <strong>Gärdet (Sehellegatan 7) torsdagar kl. 13.00–14.00</strong>. Under samlingen sjunger vi gamla och nya sånger för och med barnen på svenska och engelska. Vi använder rörelse, spelar rytminstrument och lyssnar på musik. Anmäl ditt barn nedan:
           </p>
         </div>
 
         {/* Form Section */}
-        <div className="max-w-2xl mx-auto">
-          <div className="bg-white/60 backdrop-blur-sm border border-neutral-200/50 rounded-3xl p-8 shadow-xl shadow-neutral-900/5">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div>
+          <div className="bg-white border border-neutral-300 rounded-xl p-8">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Name Fields */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-neutral-600 mb-2 uppercase tracking-wide">
-                  Förnamn
+                <label className="block text-sm font-medium text-neutral-900 mb-2">
+                  Förnamn/First Name
                 </label>
                 <input
                   type="text"
-                  placeholder="Anna"
+                  placeholder="Ex. Anna"
                   {...register('firstName', { required: 'Förnamn krävs' })}
-                  className="w-full px-4 py-3 border border-neutral-200 rounded-xl focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/10 transition-all bg-white"
+                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/10 transition-all bg-white"
                 />
                 {errors.firstName && (
                   <p className="text-error text-xs mt-1.5">{errors.firstName.message}</p>
@@ -139,14 +138,14 @@ export default function Home() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-neutral-600 mb-2 uppercase tracking-wide">
-                  Efternamn
+                <label className="block text-sm font-medium text-neutral-900 mb-2">
+                  Efternamn/Last Name
                 </label>
                 <input
                   type="text"
-                  placeholder="Jansdotter"
+                  placeholder="Ex. Jakobsson"
                   {...register('lastName', { required: 'Efternamn krävs' })}
-                  className="w-full px-4 py-3 border border-neutral-200 rounded-xl focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/10 transition-all bg-white"
+                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/10 transition-all bg-white"
                 />
                 {errors.lastName && (
                   <p className="text-error text-xs mt-1.5">{errors.lastName.message}</p>
@@ -157,12 +156,12 @@ export default function Home() {
             {/* Contact Fields */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-neutral-600 mb-2 uppercase tracking-wide">
-                  E-post
+                <label className="block text-sm font-medium text-neutral-900 mb-2">
+                  E-post/Email
                 </label>
                 <input
                   type="email"
-                  placeholder="anna@example.com"
+                  placeholder="Ex. anna@jakobsson.se"
                   {...register('email', { 
                     required: 'E-post krävs',
                     pattern: {
@@ -170,7 +169,7 @@ export default function Home() {
                       message: 'Ogiltig e-postadress'
                     }
                   })}
-                  className="w-full px-4 py-3 border border-neutral-200 rounded-xl focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/10 transition-all bg-white"
+                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/10 transition-all bg-white"
                 />
                 {errors.email && (
                   <p className="text-error text-xs mt-1.5">{errors.email.message}</p>
@@ -178,14 +177,14 @@ export default function Home() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-neutral-600 mb-2 uppercase tracking-wide">
-                  Telefon
+                <label className="block text-sm font-medium text-neutral-900 mb-2">
+                  Mobilnummer/Phone
                 </label>
                 <input
                   type="tel"
-                  placeholder="070 123 45 67"
+                  placeholder="Ex. anna@jakobsson.se"
                   {...register('phone', { required: 'Telefonnummer krävs' })}
-                  className="w-full px-4 py-3 border border-neutral-200 rounded-xl focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/10 transition-all bg-white"
+                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/10 transition-all bg-white"
                 />
                 {errors.phone && (
                   <p className="text-error text-xs mt-1.5">{errors.phone.message}</p>
@@ -195,31 +194,31 @@ export default function Home() {
 
             {/* Location Selection */}
             <div>
-              <label className="block text-xs font-semibold text-neutral-600 mb-3 uppercase tracking-wide">
-                Välj plats
+              <label className="block text-sm font-medium text-neutral-900 mb-3">
+                Vilken förskola vill du anmäla dig till?
               </label>
               <input type="hidden" {...register('location', { required: 'Välj en plats' })} />
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-4">
                 <div 
                   onClick={() => setValue('location', 'sodermalm')}
-                  className={`cursor-pointer p-5 border rounded-2xl transition-all ${
+                  className={`cursor-pointer p-6 border-2 rounded-xl transition-all ${
                     selectedLocation === 'sodermalm' 
-                      ? 'border-neutral-900 bg-neutral-900 text-white shadow-lg ring-2 ring-neutral-900/20' 
-                      : 'border-neutral-200 hover:border-neutral-300 bg-white'
+                      ? 'border-neutral-900 bg-neutral-900 text-white' 
+                      : 'border-neutral-300 hover:border-neutral-400 bg-white'
                   }`}
                 >
-                  <div className={`text-sm font-semibold mb-2 ${
+                  <div className={`text-lg font-bold mb-2 ${
                     selectedLocation === 'sodermalm' ? 'text-white' : 'text-neutral-900'
                   }`}>
                     Södermalm
                   </div>
-                  <div className={`text-xs mb-1 ${
-                    selectedLocation === 'sodermalm' ? 'text-neutral-300' : 'text-neutral-600'
+                  <div className={`text-sm mb-2 ${
+                    selectedLocation === 'sodermalm' ? 'text-neutral-200' : 'text-neutral-700'
                   }`}>
                     Torsdagar 10:00–11:00
                   </div>
                   <div className={`text-xs ${
-                    selectedLocation === 'sodermalm' ? 'text-neutral-400' : 'text-neutral-500'
+                    selectedLocation === 'sodermalm' ? 'text-neutral-300' : 'text-neutral-500'
                   }`}>
                     Fatburs Brunnsg 17
                   </div>
@@ -227,24 +226,24 @@ export default function Home() {
                 
                 <div 
                   onClick={() => setValue('location', 'gardet')}
-                  className={`cursor-pointer p-5 border rounded-2xl transition-all ${
+                  className={`cursor-pointer p-6 border-2 rounded-xl transition-all ${
                     selectedLocation === 'gardet' 
-                      ? 'border-neutral-900 bg-neutral-900 text-white shadow-lg ring-2 ring-neutral-900/20' 
-                      : 'border-neutral-200 hover:border-neutral-300 bg-white'
+                      ? 'border-neutral-900 bg-neutral-900 text-white' 
+                      : 'border-neutral-300 hover:border-neutral-400 bg-white'
                   }`}
                 >
-                  <div className={`text-sm font-semibold mb-2 ${
+                  <div className={`text-lg font-bold mb-2 ${
                     selectedLocation === 'gardet' ? 'text-white' : 'text-neutral-900'
                   }`}>
                     Gärdet
                   </div>
-                  <div className={`text-xs mb-1 ${
-                    selectedLocation === 'gardet' ? 'text-neutral-300' : 'text-neutral-600'
+                  <div className={`text-sm mb-2 ${
+                    selectedLocation === 'gardet' ? 'text-neutral-200' : 'text-neutral-700'
                   }`}>
                     Tisdagar 13:00–14:00
                   </div>
                   <div className={`text-xs ${
-                    selectedLocation === 'gardet' ? 'text-neutral-400' : 'text-neutral-500'
+                    selectedLocation === 'gardet' ? 'text-neutral-300' : 'text-neutral-500'
                   }`}>
                     Sandhamnsg 7
                   </div>
@@ -257,7 +256,7 @@ export default function Home() {
 
             {/* Week Selection */}
             <div>
-              <label className="block text-xs font-semibold text-neutral-600 mb-2 uppercase tracking-wide">
+              <label className="block text-sm font-medium text-neutral-900 mb-2">
                 Vecka
               </label>
               <input type="hidden" {...register('weekStart', { required: 'Välj en vecka' })} />
@@ -265,19 +264,19 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={() => setIsWeekDropdownOpen(!isWeekDropdownOpen)}
-                  className="w-full px-4 py-3 border border-neutral-200 rounded-xl focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/10 transition-all bg-white text-left flex items-center justify-between"
+                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:border-primary-teal transition-all bg-white text-left flex items-center justify-between"
                 >
                   <span className={selectedWeek ? 'text-neutral-900 text-sm' : 'text-neutral-500 text-sm'}>
                     {selectedWeek 
                       ? `Vecka ${getWeekNumber(parseISO(selectedWeek))} (${formatWeekRange(parseISO(selectedWeek))})`
-                      : 'Välj vecka'
+                      : 'Vecka 10 (2 mar - 8 mar)'
                     }
                   </span>
                   <ChevronDown className={`w-4 h-4 text-neutral-400 transition-transform ${isWeekDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
                 {isWeekDropdownOpen && (
-                  <div className="absolute z-10 w-full mt-2 bg-white border border-neutral-200 rounded-xl shadow-xl max-h-64 overflow-y-auto">
+                  <div className="absolute z-10 w-full mt-2 bg-white border border-neutral-300 rounded-lg shadow-lg max-h-64 overflow-y-auto">
                     {availableWeeks.map(week => {
                       const weekKey = formatDate(week);
                       const weekNum = getWeekNumber(week);
@@ -291,8 +290,8 @@ export default function Home() {
                             setValue('weekStart', weekKey);
                             setIsWeekDropdownOpen(false);
                           }}
-                          className={`w-full px-4 py-3 text-sm text-left hover:bg-neutral-50 transition-colors first:rounded-t-xl last:rounded-b-xl ${
-                            isSelected ? 'bg-neutral-900 text-white hover:bg-neutral-800' : 'text-neutral-900'
+                          className={`w-full px-4 py-3 text-sm text-left hover:bg-primary-teal/10 transition-colors ${
+                            isSelected ? 'bg-primary-teal/10 text-primary-teal font-medium' : 'text-neutral-900'
                           }`}
                         >
                           Vecka {weekNum} ({formatWeekRange(week)})
@@ -328,10 +327,10 @@ export default function Home() {
                 <input
                   type="checkbox"
                   {...register('terms', { required: 'Du måste godkänna villkoren' })}
-                  className="w-4 h-4 text-neutral-900 focus:ring-2 focus:ring-neutral-900/20 border-neutral-300 rounded mt-0.5"
+                  className="w-4 h-4 text-primary-teal focus:ring-2 focus:ring-primary-teal/20 border-neutral-300 rounded mt-0.5"
                 />
-                <span className="ml-3 text-xs text-neutral-600">
-                  Jag godkänner <a href="#" className="text-neutral-900 hover:underline font-medium">villkoren</a>
+                <span className="ml-3 text-sm text-neutral-900">
+                  Jag godkänner <a href="#" className="text-primary-teal hover:underline font-medium underline">villkoren</a>
                 </span>
               </label>
               {errors.terms && (
@@ -354,9 +353,9 @@ export default function Home() {
             <button
               type="submit"
               disabled={isSubmitting || availableSpots === 0}
-              className="w-full bg-neutral-900 text-white py-4 px-6 rounded-xl font-semibold hover:bg-neutral-800 transition-all disabled:bg-neutral-300 disabled:cursor-not-allowed shadow-lg shadow-neutral-900/10 hover:shadow-xl hover:shadow-neutral-900/20"
+              className="w-full bg-primary-teal text-white py-4 px-6 rounded-lg font-semibold hover:bg-primary-teal/90 transition-all disabled:bg-neutral-300 disabled:cursor-not-allowed text-base"
             >
-              {isSubmitting ? 'Skickar...' : 'Skicka anmälan'}
+              {isSubmitting ? 'Skickar...' : 'SKICKA ANMÄLAN'}
             </button>
           </form>
           </div>
@@ -364,8 +363,8 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-neutral-200/50 mt-24">
-        <div className="max-w-6xl mx-auto px-6 py-8 text-center text-xs text-neutral-500">
+      <footer className="border-t border-neutral-300 bg-white mt-auto">
+        <div className="max-w-4xl mx-auto px-6 py-6 text-center text-xs text-neutral-600">
           © 2026 Eudora Babyrytmik
         </div>
       </footer>

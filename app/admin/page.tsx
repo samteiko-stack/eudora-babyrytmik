@@ -42,6 +42,7 @@ export default function AdminDashboard() {
   const [deleteConfirmModal, setDeleteConfirmModal] = useState<{ isOpen: boolean; id: string; name: string } | null>(null);
   const [cancelConfirmModal, setCancelConfirmModal] = useState<{ isOpen: boolean; id: string; name: string } | null>(null);
   const [toggleWeekModal, setToggleWeekModal] = useState<{ isOpen: boolean; weekKey: string; count: number } | null>(null);
+  const [currentUser, setCurrentUser] = useState<{ email: string; name: string } | null>(null);
 
   const allWeeksOfYear = useMemo(() => getAllWeeksOfYear(), []);
 
@@ -184,6 +185,7 @@ export default function AdminDashboard() {
       router.push('/admin/login');
     } else {
       setIsAuthenticated(true);
+      setCurrentUser(auth.getCurrentUser());
       loadFromStorage();
       initializeWeeks();
     }
@@ -218,10 +220,10 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex">
+    <div className="min-h-screen bg-[#F5F3EA] flex">
       {/* Left Sidebar */}
-      <aside className="w-64 bg-neutral-50 border-r border-neutral-200 flex flex-col">
-        <div className="p-6 border-b border-neutral-200">
+      <aside className="w-64 bg-white border-r border-neutral-300 flex flex-col">
+        <div className="p-6 border-b border-neutral-300">
           <img 
             src="/logo.svg" 
             alt="Eudora Logo" 
@@ -234,15 +236,15 @@ export default function AdminDashboard() {
             onClick={() => setActiveView('participants')}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all font-medium ${
               activeView === 'participants'
-                ? 'bg-white text-neutral-900 shadow-sm border border-neutral-200'
-                : 'text-neutral-600 hover:bg-white hover:text-neutral-900'
+                ? 'bg-primary-teal text-white'
+                : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
             }`}
           >
             <Users className="w-5 h-5" />
             <span>Deltagare</span>
             <span className={`ml-auto text-xs px-2.5 py-1 rounded-full font-semibold ${
               activeView === 'participants' 
-                ? 'bg-primary text-white' 
+                ? 'bg-white/20 text-white' 
                 : 'bg-neutral-200 text-neutral-700'
             }`}>
               {registrations.length}
@@ -253,8 +255,8 @@ export default function AdminDashboard() {
             onClick={() => setActiveView('weeks')}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all font-medium ${
               activeView === 'weeks'
-                ? 'bg-white text-neutral-900 shadow-sm border border-neutral-200'
-                : 'text-neutral-600 hover:bg-white hover:text-neutral-900'
+                ? 'bg-primary-teal text-white'
+                : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
             }`}
           >
             <Calendar className="w-5 h-5" />
@@ -265,18 +267,18 @@ export default function AdminDashboard() {
             onClick={() => setActiveView('stats')}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all font-medium ${
               activeView === 'stats'
-                ? 'bg-white text-neutral-900 shadow-sm border border-neutral-200'
-                : 'text-neutral-600 hover:bg-white hover:text-neutral-900'
+                ? 'bg-primary-teal text-white'
+                : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
             }`}
           >
             <BarChart3 className="w-5 h-5" />
             <span>Statistik</span>
           </button>
 
-          <div className="pt-4 mt-4 border-t border-neutral-200">
+          <div className="pt-4 mt-4 border-t border-neutral-300">
             <a
               href="/"
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-neutral-600 hover:bg-white hover:text-neutral-900 transition-all font-medium"
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 transition-all font-medium"
             >
               <Home className="w-5 h-5" />
               <span>Startsida</span>
@@ -284,16 +286,16 @@ export default function AdminDashboard() {
           </div>
         </nav>
 
-        <div className="p-4 border-t border-neutral-200">
-          <div className="flex items-center gap-3 px-4 py-3 bg-white rounded-lg mb-2 border border-neutral-200">
+        <div className="p-4 border-t border-neutral-300">
+          <div className="flex items-center gap-3 px-4 py-3 bg-neutral-50 rounded-lg mb-2 border border-neutral-300">
             <img 
-              src="https://api.dicebear.com/7.x/avataaars/svg?seed=Admin&backgroundColor=b6e3f4,c0aede,d1d4f9&radius=50"
+              src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${currentUser?.email || 'Admin'}&backgroundColor=b6e3f4,c0aede,d1d4f9&radius=50`}
               alt="Admin Avatar"
               className="w-10 h-10 rounded-full"
             />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-neutral-900">Admin</p>
-              <p className="text-xs text-neutral-500 truncate">admin@eudora.se</p>
+              <p className="text-sm font-medium text-neutral-900">{currentUser?.name || 'Admin'}</p>
+              <p className="text-xs text-neutral-500 truncate">{currentUser?.email || 'admin@eudora.se'}</p>
             </div>
           </div>
           <button
@@ -307,7 +309,7 @@ export default function AdminDashboard() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-auto bg-neutral-50">
+      <main className="flex-1 overflow-auto bg-[#F5F3EA]">
         {/* Participants View */}
         {activeView === 'participants' && (
           <div className="p-8">
