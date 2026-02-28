@@ -11,14 +11,21 @@ export const getNext10Weeks = (): Date[] => {
   return Array.from({ length: 10 }, (_, i) => addWeeks(nextMonday, i));
 };
 
-export const getAllWeeksOfYear = (): Date[] => {
-  const today = new Date();
-  const year = today.getFullYear();
-  const firstDay = new Date(year, 0, 1);
+export const getAllWeeksOfYear = (year?: number): Date[] => {
+  const targetYear = year || new Date().getFullYear();
+  const firstDay = new Date(targetYear, 0, 1);
   const firstMonday = getMonday(firstDay);
   
-  // Get 52 weeks from the first Monday of the year
   return Array.from({ length: 52 }, (_, i) => addWeeks(firstMonday, i));
+};
+
+export const getCurrentYear = (): number => {
+  return new Date().getFullYear();
+};
+
+export const getAvailableYears = (): number[] => {
+  const currentYear = getCurrentYear();
+  return [currentYear - 1, currentYear, currentYear + 1];
 };
 
 export const formatWeekRange = (monday: Date): string => {

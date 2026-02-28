@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useStore } from '@/lib/store';
 import { auth } from '@/lib/auth';
 import { Registration } from '@/types';
-import { formatWeekRange, formatDate, getNext10Weeks, getWeekNumber, getAllWeeksOfYear } from '@/lib/dates';
+import { formatWeekRange, formatDate, getNext10Weeks, getWeekNumber, getAllWeeksOfYear, getCurrentYear, getAvailableYears } from '@/lib/dates';
 import { parseISO, format } from 'date-fns';
 import { Trash2, Plus, Calendar, Users, Download, LogOut, Home, BarChart3, ChevronDown, ChevronRight, List, Layers, XCircle, MoreVertical } from 'lucide-react';
 import AddParticipantModal from '@/components/AddParticipantModal';
@@ -21,6 +21,7 @@ export default function AdminDashboard() {
     registrations, 
     deleteRegistration,
     cancelRegistration,
+    reactivateRegistration,
     loadFromStorage, 
     initializeWeeks,
     weekAvailability,
@@ -43,8 +44,11 @@ export default function AdminDashboard() {
   const [cancelConfirmModal, setCancelConfirmModal] = useState<{ isOpen: boolean; id: string; name: string } | null>(null);
   const [toggleWeekModal, setToggleWeekModal] = useState<{ isOpen: boolean; weekKey: string; count: number } | null>(null);
   const [currentUser, setCurrentUser] = useState<{ email: string; name: string } | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+  const [selectedYear, setSelectedYear] = useState<number>(getCurrentYear());
 
-  const allWeeksOfYear = useMemo(() => getAllWeeksOfYear(), []);
+  const allWeeksOfYear = useMemo(() => getAllWeeksOfYear(selectedYear), [selectedYear]);
+  const availableYears = useMemo(() => getAvailableYears(), []);
 
   const toggleWeek = (weekKey: string) => {
     const newExpanded = new Set(expandedWeeks);
@@ -57,7 +61,10 @@ export default function AdminDashboard() {
   };
 
   const filteredAndSortedRegistrations = useMemo(() => {
-    let filtered = registrations.filter(r => r.status !== 'cancelled');
+    let filtered = registrations.filter(r => {
+      const regYear = new Date(r.weekStart).getFullYear();
+      return regYear === selectedYear;
+    });
 
     if (selectedLocation !== 'all') {
       filtered = filtered.filter(r => r.location === selectedLocation);
@@ -91,7 +98,7 @@ export default function AdminDashboard() {
     });
 
     return filtered;
-  }, [registrations, selectedLocation, searchQuery, sortField, sortOrder]);
+  }, [registrations, selectedLocation, searchQuery, sortField, sortOrder, selectedYear]);
 
   const weekGroups = useMemo(() => {
     const groups: { [key: string]: Registration[] } = {};
@@ -138,6 +145,11 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleReactivate = (id: string) => {
+    reactivateRegistration(id);
+    setActionMenuOpen(null);
+  };
+
   const handleToggleWeek = (weekKey: string, count: number) => {
     if (count > 0) {
       setToggleWeekModal({ isOpen: true, weekKey, count });
@@ -181,6 +193,12 @@ export default function AdminDashboard() {
   };
 
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+    
     if (!auth.isAuthenticated()) {
       router.push('/admin/login');
     } else {
@@ -189,7 +207,7 @@ export default function AdminDashboard() {
       loadFromStorage();
       initializeWeeks();
     }
-  }, [router, loadFromStorage, initializeWeeks]);
+  }, [isMounted, router, loadFromStorage, initializeWeeks]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -208,11 +226,11 @@ export default function AdminDashboard() {
     router.push('/admin/login');
   };
 
-  if (!isAuthenticated) {
+  if (!isMounted || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#F5F3EA] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-teal mx-auto"></div>
           <p className="mt-4 text-neutral-600">Laddar...</p>
         </div>
       </div>
@@ -289,7 +307,13 @@ export default function AdminDashboard() {
         <div className="p-4 border-t border-neutral-300">
           <div className="flex items-center gap-3 px-4 py-3 bg-neutral-50 rounded-lg mb-2 border border-neutral-300">
             <img 
-              src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${currentUser?.email || 'Admin'}&backgroundColor=b6e3f4,c0aede,d1d4f9&radius=50`}
+              src={
+                currentUser?.email === 'suki.ogunkanmi@eudoraforskola.se'
+                  ? 'https://api.dicebear.com/7.x/avataaars/svg?seed=Suki&skinColor=brown&backgroundColor=b6e3f4&radius=50'
+                  : currentUser?.email === 'mary.carlsson@eudoraforskola.se'
+                  ? 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mary&skinColor=light&backgroundColor=c0aede&radius=50'
+                  : 'https://api.dicebear.com/7.x/avataaars/svg?seed=Admin&backgroundColor=d1d4f9&radius=50'
+              }
               alt="Admin Avatar"
               className="w-10 h-10 rounded-full"
             />
@@ -316,10 +340,19 @@ export default function AdminDashboard() {
             {/* Header */}
             <div className="mb-8 flex items-center justify-between">
               <div>
-                <h2 className="text-3xl font-bold text-neutral-900 mb-2">Deltagare</h2>
+                <h2 className="text-3xl font-bold text-neutral-900 mb-2">Deltagare {selectedYear}</h2>
                 <p className="text-neutral-600">{filteredAndSortedRegistrations.length} registreringar</p>
               </div>
               <div className="flex gap-3">
+                <select
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(Number(e.target.value))}
+                  className="px-4 py-2.5 bg-white border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-all font-medium"
+                >
+                  {availableYears.map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
                 <button
                   onClick={() => setShowAddModal(true)}
                   className="px-5 py-2.5 bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-all font-medium flex items-center gap-2"
@@ -408,7 +441,7 @@ export default function AdminDashboard() {
 
             {/* List View */}
             {viewMode === 'list' && (
-              <div className="bg-white border border-neutral-200 rounded-lg overflow-hidden">
+              <div className="bg-white border border-neutral-200 rounded-lg overflow-x-auto">
                 <table className="w-full">
                   <thead className="bg-neutral-50 border-b border-neutral-200">
                     <tr>
@@ -472,8 +505,15 @@ export default function AdminDashboard() {
                             </div>
                           </td>
                           <td className="px-6 py-4">
-                            <div className="font-medium text-neutral-900">
-                              {registration.firstName} {registration.lastName}
+                            <div className="flex items-center gap-2">
+                              <div className={`font-medium ${registration.status === 'cancelled' ? 'text-neutral-400 line-through' : 'text-neutral-900'}`}>
+                                {registration.firstName} {registration.lastName}
+                              </div>
+                              {registration.status === 'cancelled' && (
+                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-neutral-100 text-neutral-600">
+                                  Avregistrerad
+                                </span>
+                              )}
                             </div>
                           </td>
                           <td className="px-6 py-4">
@@ -503,27 +543,51 @@ export default function AdminDashboard() {
                                 <MoreVertical className="w-5 h-5" />
                               </button>
                               {actionMenuOpen === registration.id && (
-                                <div className="absolute right-0 mt-2 w-48 bg-white border border-neutral-200 rounded-lg shadow-lg z-10">
-                                  <button
-                                    onClick={() => {
-                                      handleCancel(registration.id, `${registration.firstName} ${registration.lastName}`);
-                                      setActionMenuOpen(null);
-                                    }}
-                                    className="w-full px-4 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-2 rounded-t-lg"
-                                  >
-                                    <XCircle className="w-4 h-4" />
-                                    Avregistrera
-                                  </button>
-                                  <button
-                                    onClick={() => {
-                                      handleDelete(registration.id, `${registration.firstName} ${registration.lastName}`);
-                                      setActionMenuOpen(null);
-                                    }}
-                                    className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 rounded-b-lg"
-                                  >
-                                    <Trash2 className="w-4 h-4" />
-                                    Ta bort permanent
-                                  </button>
+                                <div className="absolute right-0 mt-2 w-48 bg-white border border-neutral-200 rounded-lg shadow-xl z-50">
+                                  {registration.status === 'cancelled' ? (
+                                    <>
+                                      <button
+                                        onClick={() => handleReactivate(registration.id)}
+                                        className="w-full px-4 py-2 text-left text-sm text-green-600 hover:bg-green-50 flex items-center gap-2 rounded-t-lg"
+                                      >
+                                        <XCircle className="w-4 h-4" />
+                                        Återaktivera
+                                      </button>
+                                      <button
+                                        onClick={() => {
+                                          handleDelete(registration.id, `${registration.firstName} ${registration.lastName}`);
+                                          setActionMenuOpen(null);
+                                        }}
+                                        className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 rounded-b-lg"
+                                      >
+                                        <Trash2 className="w-4 h-4" />
+                                        Ta bort permanent
+                                      </button>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <button
+                                        onClick={() => {
+                                          handleCancel(registration.id, `${registration.firstName} ${registration.lastName}`);
+                                          setActionMenuOpen(null);
+                                        }}
+                                        className="w-full px-4 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-2 rounded-t-lg"
+                                      >
+                                        <XCircle className="w-4 h-4" />
+                                        Avregistrera
+                                      </button>
+                                      <button
+                                        onClick={() => {
+                                          handleDelete(registration.id, `${registration.firstName} ${registration.lastName}`);
+                                          setActionMenuOpen(null);
+                                        }}
+                                        className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 rounded-b-lg"
+                                      >
+                                        <Trash2 className="w-4 h-4" />
+                                        Ta bort permanent
+                                      </button>
+                                    </>
+                                  )}
                                 </div>
                               )}
                             </div>
@@ -547,7 +611,7 @@ export default function AdminDashboard() {
                   const gardet = weekRegistrations.filter(r => r.location === 'gardet').length;
 
                   return (
-                    <div key={weekKey} className="bg-white border border-neutral-200 rounded-lg overflow-hidden">
+                    <div key={weekKey} className="bg-white border border-neutral-200 rounded-lg overflow-visible">
                       <button
                         onClick={() => toggleWeek(weekKey)}
                         className="w-full px-6 py-4 flex items-center justify-between hover:bg-neutral-50 transition-colors"
@@ -603,10 +667,19 @@ export default function AdminDashboard() {
                                   <td className="px-6 py-4 text-sm text-neutral-500">
                                     {format(parseISO(registration.createdAt), 'h:mma')}
                                   </td>
-                                  <td className="px-6 py-4 text-sm font-medium text-neutral-900">
-                                    {registration.firstName}
+                                  <td className="px-6 py-4 text-sm font-medium">
+                                    <div className="flex items-center gap-2">
+                                      <span className={registration.status === 'cancelled' ? 'text-neutral-400 line-through' : 'text-neutral-900'}>
+                                        {registration.firstName}
+                                      </span>
+                                      {registration.status === 'cancelled' && (
+                                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-neutral-100 text-neutral-600">
+                                          Avregistrerad
+                                        </span>
+                                      )}
+                                    </div>
                                   </td>
-                                  <td className="px-6 py-4 text-sm font-medium text-neutral-900">
+                                  <td className={`px-6 py-4 text-sm font-medium ${registration.status === 'cancelled' ? 'text-neutral-400 line-through' : 'text-neutral-900'}`}>
                                     {registration.lastName}
                                   </td>
                                   <td className="px-6 py-4 text-sm text-neutral-600">
@@ -643,27 +716,51 @@ export default function AdminDashboard() {
                                         <MoreVertical className="w-5 h-5" />
                                       </button>
                                       {actionMenuOpen === registration.id && (
-                                        <div className="absolute right-0 mt-2 w-48 bg-white border border-neutral-200 rounded-lg shadow-lg z-10">
-                                          <button
-                                            onClick={() => {
-                                              handleCancel(registration.id, `${registration.firstName} ${registration.lastName}`);
-                                              setActionMenuOpen(null);
-                                            }}
-                                            className="w-full px-4 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-2 rounded-t-lg"
-                                          >
-                                            <XCircle className="w-4 h-4" />
-                                            Avregistrera
-                                          </button>
-                                          <button
-                                            onClick={() => {
-                                              handleDelete(registration.id, `${registration.firstName} ${registration.lastName}`);
-                                              setActionMenuOpen(null);
-                                            }}
-                                            className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 rounded-b-lg"
-                                          >
-                                            <Trash2 className="w-4 h-4" />
-                                            Ta bort permanent
-                                          </button>
+                                        <div className="absolute right-0 mt-2 w-48 bg-white border border-neutral-200 rounded-lg shadow-xl z-50">
+                                          {registration.status === 'cancelled' ? (
+                                            <>
+                                              <button
+                                                onClick={() => handleReactivate(registration.id)}
+                                                className="w-full px-4 py-2 text-left text-sm text-green-600 hover:bg-green-50 flex items-center gap-2 rounded-t-lg"
+                                              >
+                                                <XCircle className="w-4 h-4" />
+                                                Återaktivera
+                                              </button>
+                                              <button
+                                                onClick={() => {
+                                                  handleDelete(registration.id, `${registration.firstName} ${registration.lastName}`);
+                                                  setActionMenuOpen(null);
+                                                }}
+                                                className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 rounded-b-lg"
+                                              >
+                                                <Trash2 className="w-4 h-4" />
+                                                Ta bort permanent
+                                              </button>
+                                            </>
+                                          ) : (
+                                            <>
+                                              <button
+                                                onClick={() => {
+                                                  handleCancel(registration.id, `${registration.firstName} ${registration.lastName}`);
+                                                  setActionMenuOpen(null);
+                                                }}
+                                                className="w-full px-4 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-2 rounded-t-lg"
+                                              >
+                                                <XCircle className="w-4 h-4" />
+                                                Avregistrera
+                                              </button>
+                                              <button
+                                                onClick={() => {
+                                                  handleDelete(registration.id, `${registration.firstName} ${registration.lastName}`);
+                                                  setActionMenuOpen(null);
+                                                }}
+                                                className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 rounded-b-lg"
+                                              >
+                                                <Trash2 className="w-4 h-4" />
+                                                Ta bort permanent
+                                              </button>
+                                            </>
+                                          )}
                                         </div>
                                       )}
                                     </div>
@@ -685,12 +782,23 @@ export default function AdminDashboard() {
         {/* Weeks View */}
         {activeView === 'weeks' && (
           <div className="p-8">
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold text-neutral-900 mb-2">Veckohantering</h2>
-              <p className="text-neutral-600">Hantera tillgänglighet för veckor</p>
+            <div className="mb-8 flex items-center justify-between">
+              <div>
+                <h2 className="text-3xl font-bold text-neutral-900 mb-2">Veckohantering {selectedYear}</h2>
+                <p className="text-neutral-600">Hantera tillgänglighet för veckor</p>
+              </div>
+              <select
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(Number(e.target.value))}
+                className="px-4 py-2.5 bg-white border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-all font-medium"
+              >
+                {availableYears.map(year => (
+                  <option key={year} value={year}>{year}</option>
+                ))}
+              </select>
             </div>
 
-            <div className="bg-white border border-neutral-200 rounded-lg overflow-hidden">
+            <div className="bg-white border border-neutral-200 rounded-lg overflow-visible">
               <div className="overflow-x-auto max-h-[calc(100vh-280px)] overflow-y-auto">
                 <table className="w-full">
                   <thead className="bg-neutral-50 border-b border-neutral-200 sticky top-0">

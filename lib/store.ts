@@ -11,6 +11,7 @@ interface AppState {
   addRegistration: (registration: Omit<Registration, 'id' | 'createdAt' | 'status'>) => { success: boolean; message: string };
   deleteRegistration: (id: string) => void;
   cancelRegistration: (id: string) => void;
+  reactivateRegistration: (id: string) => void;
   toggleWeekAvailability: (weekStart: string) => void;
   initializeWeeks: () => void;
   getWeekRegistrations: (weekStart: string, location: 'sodermalm' | 'gardet') => Registration[];
@@ -84,6 +85,14 @@ export const useStore = create<AppState>((set, get) => ({
   cancelRegistration: (id) => {
     const updatedRegistrations = get().registrations.map(r => 
       r.id === id ? { ...r, status: 'cancelled' as const } : r
+    );
+    set({ registrations: updatedRegistrations });
+    storage.saveRegistrations(updatedRegistrations);
+  },
+
+  reactivateRegistration: (id) => {
+    const updatedRegistrations = get().registrations.map(r => 
+      r.id === id ? { ...r, status: 'confirmed' as const } : r
     );
     set({ registrations: updatedRegistrations });
     storage.saveRegistrations(updatedRegistrations);
