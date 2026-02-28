@@ -441,8 +441,9 @@ export default function AdminDashboard() {
 
             {/* List View */}
             {viewMode === 'list' && (
-              <div className="bg-white border border-neutral-200 rounded-lg overflow-x-auto">
-                <table className="w-full">
+              <div className="bg-white border border-neutral-200 rounded-lg">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
                   <thead className="bg-neutral-50 border-b border-neutral-200">
                     <tr>
                       <th className="px-6 py-4 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
@@ -596,7 +597,8 @@ export default function AdminDashboard() {
                       ))
                     )}
                   </tbody>
-                </table>
+                  </table>
+                </div>
               </div>
             )}
 
@@ -653,9 +655,10 @@ export default function AdminDashboard() {
                       </button>
 
                       {isExpanded && (
-                        <div className="border-t border-neutral-200">
-                          <table className="w-full">
-                            <tbody className="divide-y divide-neutral-200">
+                        <div className="border-t border-neutral-200 overflow-visible">
+                          <div className="overflow-visible">
+                            <table className="w-full">
+                              <tbody className="divide-y divide-neutral-200">
                               {weekRegistrations.map((registration, index) => (
                                 <tr key={registration.id} className="hover:bg-neutral-50">
                                   <td className="px-6 py-4 text-sm text-neutral-500 w-16">
@@ -767,8 +770,9 @@ export default function AdminDashboard() {
                                   </td>
                                 </tr>
                               ))}
-                            </tbody>
-                          </table>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       )}
                     </div>
