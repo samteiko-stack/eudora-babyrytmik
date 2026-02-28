@@ -333,7 +333,7 @@ export default function AdminDashboard() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-auto bg-[#F5F3EA]">
+      <main className="flex-1 overflow-y-auto overflow-x-hidden bg-[#F5F3EA]">
         {/* Participants View */}
         {activeView === 'participants' && (
           <div className="p-8">
@@ -493,7 +493,7 @@ export default function AdminDashboard() {
                       </tr>
                     ) : (
                       filteredAndSortedRegistrations.map((registration, index) => (
-                        <tr key={registration.id} className="hover:bg-neutral-50 transition-colors">
+                        <tr key={registration.id} className="hover:bg-neutral-50 transition-colors relative">
                           <td className="px-6 py-4 text-sm text-neutral-500">
                             {index + 1}
                           </td>
@@ -535,7 +535,7 @@ export default function AdminDashboard() {
                               Vecka {getWeekNumber(parseISO(registration.weekStart))}
                             </span>
                           </td>
-                          <td className="px-6 py-4 text-right">
+                          <td className="px-6 py-4 text-right relative">
                             <div className="relative inline-block action-menu">
                               <button
                                 onClick={() => setActionMenuOpen(actionMenuOpen === registration.id ? null : registration.id)}
@@ -660,7 +660,7 @@ export default function AdminDashboard() {
                             <table className="w-full">
                               <tbody className="divide-y divide-neutral-200">
                               {weekRegistrations.map((registration, index) => (
-                                <tr key={registration.id} className="hover:bg-neutral-50">
+                                <tr key={registration.id} className="hover:bg-neutral-50 relative">
                                   <td className="px-6 py-4 text-sm text-neutral-500 w-16">
                                     {index + 1}
                                   </td>
@@ -710,7 +710,7 @@ export default function AdminDashboard() {
                                       Registered
                                     </span>
                                   </td>
-                                  <td className="px-6 py-4 text-right">
+                                  <td className="px-6 py-4 text-right relative">
                                     <div className="relative inline-block action-menu">
                                       <button
                                         onClick={() => setActionMenuOpen(actionMenuOpen === registration.id ? null : registration.id)}
