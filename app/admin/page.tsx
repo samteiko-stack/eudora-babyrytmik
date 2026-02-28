@@ -221,9 +221,16 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-white flex">
       {/* Left Sidebar */}
       <aside className="w-64 bg-neutral-50 border-r border-neutral-200 flex flex-col">
-        <div className="p-6 border-b border-neutral-200">
-          <h1 className="text-xl font-bold text-neutral-900">Eudora Babyrytmik</h1>
-          <p className="text-xs text-neutral-500 mt-1">Admin Dashboard</p>
+        <div className="p-6 border-b border-neutral-200 flex items-center gap-3">
+          <img 
+            src="/logo.svg" 
+            alt="Eudora Logo" 
+            className="h-8 w-auto"
+          />
+          <div>
+            <h1 className="text-lg font-bold text-neutral-900">Eudora Babyrytmik</h1>
+            <p className="text-xs text-neutral-500">Admin Dashboard</p>
+          </div>
         </div>
 
         <nav className="flex-1 p-4 space-y-1">
