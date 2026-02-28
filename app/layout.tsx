@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
-import { Inter_Tight } from 'next/font/google'
+import { Sora } from 'next/font/google'
 import './globals.css'
 
-const interTight = Inter_Tight({ 
+const sora = Sora({ 
   subsets: ['latin'],
   display: 'swap',
 })
@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="sv" className={interTight.className}>
+    <html lang="sv" className={sora.className}>
       <body>{children}</body>
     </html>
   )
