@@ -309,10 +309,10 @@ export default function AdminDashboard() {
             <img 
               src={
                 currentUser?.email === 'suki.ogunkanmi@eudoraforskola.se'
-                  ? 'https://api.dicebear.com/7.x/avataaars/svg?seed=Suki&skinColor=brown&backgroundColor=b6e3f4&radius=50'
+                  ? 'https://api.dicebear.com/9.x/avataaars/svg?seed=Suki&backgroundColor=b6e3f4'
                   : currentUser?.email === 'mary.carlsson@eudoraforskola.se'
-                  ? 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mary&skinColor=light&backgroundColor=c0aede&radius=50'
-                  : 'https://api.dicebear.com/7.x/avataaars/svg?seed=Admin&backgroundColor=d1d4f9&radius=50'
+                  ? 'https://api.dicebear.com/9.x/avataaars/svg?seed=Mary&backgroundColor=c0aede'
+                  : 'https://api.dicebear.com/9.x/avataaars/svg?seed=Admin&backgroundColor=d1d4f9'
               }
               alt="Admin Avatar"
               className="w-10 h-10 rounded-full"
