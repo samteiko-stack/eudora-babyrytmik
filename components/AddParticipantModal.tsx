@@ -39,8 +39,8 @@ export default function AddParticipantModal({ onClose }: Props) {
     return 15 - registrations.length;
   };
 
-  const onSubmit = (data: FormData) => {
-    const result = addRegistration({
+  const onSubmit = async (data: FormData) => {
+    const result = await addRegistration({
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
