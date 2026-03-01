@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Import Data</title>
+</head>
+<body>
+  <h1>Import Registration Data</h1>
+  <button onclick="importData()">Click to Import Data</button>
+  <div id="status"></div>
+
+  <script>
+    async function importData() {
+      const response = await fetch('/scripts/import-data.json');
+      const registrations = await response.json();
+      
+      localStorage.setItem('registrations', JSON.stringify(registrations));
+      
+      document.getElementById('status').innerHTML = `<p style="color: green;">Successfully imported ${registrations.length} registrations!</p>`;
+      
+      console.log('Imported registrations:', registrations);
+      alert(`Imported ${registrations.length} registrations. Refresh the admin page to see them.`);
+    }
+  </script>
+</body>
+</html>

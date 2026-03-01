@@ -24,15 +24,15 @@ export default function Home() {
   const weekDropdownRef = useRef<HTMLDivElement>(null);
   
   const { register, handleSubmit, formState: { errors }, reset, watch, setValue } = useForm<FormData>();
-  const { addRegistration, initializeWeeks, loadFromStorage, weekAvailability, getWeekRegistrations } = useStore();
+  const { addRegistration, initializeWeeks, loadFromDatabase, weekAvailability, getWeekRegistrations } = useStore();
 
   const selectedLocation = watch('location');
   const selectedWeek = watch('weekStart');
 
   useEffect(() => {
-    loadFromStorage();
+    loadFromDatabase();
     initializeWeeks();
-  }, [loadFromStorage, initializeWeeks]);
+  }, [loadFromDatabase, initializeWeeks]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -60,7 +60,7 @@ export default function Home() {
     setIsSubmitting(true);
     setMessage(null);
 
-    const result = addRegistration({
+    const result = await addRegistration({
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,

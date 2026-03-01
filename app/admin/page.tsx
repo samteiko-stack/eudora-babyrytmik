@@ -22,11 +22,12 @@ export default function AdminDashboard() {
     deleteRegistration,
     cancelRegistration,
     reactivateRegistration,
-    loadFromStorage, 
+    loadFromDatabase, 
     initializeWeeks,
     weekAvailability,
     getWeekRegistrations,
-    toggleWeekAvailability
+    toggleWeekAvailability,
+    importRegistrations
   } = useStore();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -165,6 +166,19 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleImportData = async () => {
+    try {
+      const response = await fetch('/import-data.json');
+      const data = await response.json();
+      importRegistrations(data);
+      alert(`Successfully imported ${data.length} registrations!`);
+      window.location.reload();
+    } catch (error) {
+      console.error('Import error:', error);
+      alert('Failed to import data. Check console for details.');
+    }
+  };
+
   const exportToCSV = () => {
     const headers = ['Förnamn', 'Efternamn', 'E-post', 'Telefon', 'Plats', 'Vecka', 'Anmäld'];
     const rows = filteredAndSortedRegistrations.map(r => [
@@ -204,10 +218,10 @@ export default function AdminDashboard() {
     } else {
       setIsAuthenticated(true);
       setCurrentUser(auth.getCurrentUser());
-      loadFromStorage();
+      loadFromDatabase();
       initializeWeeks();
     }
-  }, [isMounted, router, loadFromStorage, initializeWeeks]);
+  }, [isMounted, router, loadFromDatabase, initializeWeeks]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

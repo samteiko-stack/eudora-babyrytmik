@@ -6,26 +6,41 @@ import { formatDate, getNext10Weeks } from './dates';
 interface AppState {
   registrations: Registration[];
   weekAvailability: Record<string, WeekAvailability>;
+  isLoading: boolean;
   
   // Actions
-  addRegistration: (registration: Omit<Registration, 'id' | 'createdAt' | 'status'>) => { success: boolean; message: string };
-  deleteRegistration: (id: string) => void;
-  cancelRegistration: (id: string) => void;
-  reactivateRegistration: (id: string) => void;
+  addRegistration: (registration: Omit<Registration, 'id' | 'createdAt' | 'status'>) => Promise<{ success: boolean; message: string }>;
+  deleteRegistration: (id: string) => Promise<void>;
+  cancelRegistration: (id: string) => Promise<void>;
+  reactivateRegistration: (id: string) => Promise<void>;
   toggleWeekAvailability: (weekStart: string) => void;
   initializeWeeks: () => void;
   getWeekRegistrations: (weekStart: string, location: 'sodermalm' | 'gardet') => Registration[];
-  loadFromStorage: () => void;
+  loadFromDatabase: () => Promise<void>;
+  importRegistrations: (registrations: Registration[]) => void;
 }
 
 export const useStore = create<AppState>((set, get) => ({
   registrations: [],
   weekAvailability: {},
+  isLoading: false,
 
-  loadFromStorage: () => {
-    const registrations = storage.getRegistrations();
-    const weekAvailability = storage.getWeekAvailability();
-    set({ registrations, weekAvailability });
+  loadFromDatabase: async () => {
+    try {
+      set({ isLoading: true });
+      const response = await fetch('/api/registrations');
+      if (response.ok) {
+        const registrations = await response.json();
+        set({ registrations });
+      }
+      
+      // Still load week availability from localStorage
+      const weekAvailability = storage.getWeekAvailability();
+      set({ weekAvailability, isLoading: false });
+    } catch (error) {
+      console.error('Error loading from database:', error);
+      set({ isLoading: false });
+    }
   },
 
   initializeWeeks: () => {
@@ -49,7 +64,7 @@ export const useStore = create<AppState>((set, get) => ({
     storage.saveWeekAvailability(merged);
   },
 
-  addRegistration: (registration) => {
+  addRegistration: async (registration) => {
     const { weekStart, location } = registration;
     const weekRegs = get().getWeekRegistrations(weekStart, location);
     const weekAvail = get().weekAvailability[weekStart];
@@ -62,40 +77,78 @@ export const useStore = create<AppState>((set, get) => ({
       return { success: false, message: 'Denna vecka är fullbokad. Vänligen välj en annan vecka.' };
     }
 
-    const newRegistration: Registration = {
-      ...registration,
-      id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      createdAt: new Date().toISOString(),
-      status: 'confirmed',
-    };
+    try {
+      const response = await fetch('/api/registrations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(registration),
+      });
 
-    const updatedRegistrations = [...get().registrations, newRegistration];
-    set({ registrations: updatedRegistrations });
-    storage.saveRegistrations(updatedRegistrations);
+      if (response.ok) {
+        const newRegistration = await response.json();
+        const updatedRegistrations = [...get().registrations, newRegistration];
+        set({ registrations: updatedRegistrations });
+        return { success: true, message: 'Anmälan genomförd!' };
+      }
 
-    return { success: true, message: 'Anmälan genomförd!' };
+      return { success: false, message: 'Ett fel uppstod. Försök igen.' };
+    } catch (error) {
+      console.error('Error adding registration:', error);
+      return { success: false, message: 'Ett fel uppstod. Försök igen.' };
+    }
   },
 
-  deleteRegistration: (id) => {
-    const updatedRegistrations = get().registrations.filter(r => r.id !== id);
-    set({ registrations: updatedRegistrations });
-    storage.saveRegistrations(updatedRegistrations);
+  deleteRegistration: async (id) => {
+    try {
+      const response = await fetch(`/api/registrations/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        const updatedRegistrations = get().registrations.filter(r => r.id !== id);
+        set({ registrations: updatedRegistrations });
+      }
+    } catch (error) {
+      console.error('Error deleting registration:', error);
+    }
   },
 
-  cancelRegistration: (id) => {
-    const updatedRegistrations = get().registrations.map(r => 
-      r.id === id ? { ...r, status: 'cancelled' as const } : r
-    );
-    set({ registrations: updatedRegistrations });
-    storage.saveRegistrations(updatedRegistrations);
+  cancelRegistration: async (id) => {
+    try {
+      const response = await fetch(`/api/registrations/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'cancelled' }),
+      });
+
+      if (response.ok) {
+        const updatedRegistrations = get().registrations.map(r => 
+          r.id === id ? { ...r, status: 'cancelled' as const } : r
+        );
+        set({ registrations: updatedRegistrations });
+      }
+    } catch (error) {
+      console.error('Error cancelling registration:', error);
+    }
   },
 
-  reactivateRegistration: (id) => {
-    const updatedRegistrations = get().registrations.map(r => 
-      r.id === id ? { ...r, status: 'confirmed' as const } : r
-    );
-    set({ registrations: updatedRegistrations });
-    storage.saveRegistrations(updatedRegistrations);
+  reactivateRegistration: async (id) => {
+    try {
+      const response = await fetch(`/api/registrations/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'confirmed' }),
+      });
+
+      if (response.ok) {
+        const updatedRegistrations = get().registrations.map(r => 
+          r.id === id ? { ...r, status: 'confirmed' as const } : r
+        );
+        set({ registrations: updatedRegistrations });
+      }
+    } catch (error) {
+      console.error('Error reactivating registration:', error);
+    }
   },
 
   toggleWeekAvailability: (weekStart) => {
@@ -114,5 +167,10 @@ export const useStore = create<AppState>((set, get) => ({
     return get().registrations.filter(
       r => r.weekStart === weekStart && r.location === location && r.status !== 'cancelled'
     );
+  },
+
+  importRegistrations: (registrations) => {
+    set({ registrations });
+    storage.saveRegistrations(registrations);
   },
 }));
