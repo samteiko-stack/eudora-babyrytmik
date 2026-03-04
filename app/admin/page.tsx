@@ -252,9 +252,9 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="h-screen bg-[#F5F3EA] flex overflow-hidden">
+    <div className="h-screen bg-[#F5F3EA] flex flex-col lg:flex-row overflow-hidden">
       {/* Left Sidebar */}
-      <aside className="w-64 bg-white border-r border-neutral-300 flex flex-col h-screen">
+      <aside className="w-full lg:w-64 bg-white border-b lg:border-b-0 lg:border-r border-neutral-300 flex flex-col lg:h-screen">
         <div className="p-6 border-b border-neutral-300">
           <img 
             src="/logo.svg" 
@@ -263,7 +263,7 @@ export default function AdminDashboard() {
           />
         </div>
 
-        <nav className="flex-1 p-4 space-y-1">
+        <nav className="flex lg:flex-col flex-row lg:flex-1 p-2 lg:p-4 space-x-1 lg:space-x-0 lg:space-y-1 overflow-x-auto lg:overflow-x-visible">
           <button
             onClick={() => setActiveView('participants')}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all font-medium ${
@@ -350,7 +350,7 @@ export default function AdminDashboard() {
       <main className="flex-1 overflow-y-auto overflow-x-hidden bg-[#F5F3EA]">
         {/* Participants View */}
         {activeView === 'participants' && (
-          <div className="p-8">
+          <div className="p-4 sm:p-6 lg:p-8">
             {/* Header */}
             <div className="mb-8 flex items-center justify-between">
               <div>
@@ -805,7 +805,7 @@ export default function AdminDashboard() {
 
         {/* Weeks View */}
         {activeView === 'weeks' && (
-          <div className="p-8">
+          <div className="p-4 sm:p-6 lg:p-8">
             <div className="mb-8 flex items-center justify-between">
               <div>
                 <h2 className="text-3xl font-bold text-neutral-900 mb-2">Veckohantering {selectedYear}</h2>

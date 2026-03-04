@@ -87,41 +87,41 @@ export default function Home() {
     <div className="min-h-screen bg-[#F5F3EA] flex flex-col">
       {/* Header */}
       <header className="bg-white border-b border-neutral-200">
-        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <img 
             src="/logo.svg" 
             alt="Eudora Logo" 
-            className="h-10 w-auto"
+            className="h-8 sm:h-10 w-auto"
           />
           <a
             href="/admin/login"
-            className="px-4 py-2 text-sm font-medium text-neutral-900 hover:bg-neutral-100 rounded-lg transition-all border border-neutral-300"
+            className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-neutral-900 hover:bg-neutral-100 rounded-lg transition-all border border-neutral-300"
           >
             Admin
           </a>
         </div>
       </header>
 
-      <main className="flex-1 max-w-4xl mx-auto px-6 py-12 w-full">
+      <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full">
         {/* Hero Section */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-accent-light/30 rounded-full text-xs font-medium text-neutral-900 mb-4">
             Eudora! 15 platser tillgängliga per vecka
           </div>
-          <h1 className="text-4xl font-bold text-neutral-900 mb-4">
+          <h1 className="text-2xl sm:text-4xl font-bold text-neutral-900 mb-4">
             Anmälan till babysång
           </h1>
-          <p className="text-sm text-neutral-900 leading-relaxed">
+          <p className="text-sm sm:text-base text-neutral-900 leading-relaxed">
             Vi ses på <strong>Södermalm (Fatburs Brunns gata 17) torsdagar kl. 10.00–11.00</strong> och på <strong>Gärdet (Sehellegatan 7) torsdagar kl. 13.00–14.00</strong>. Under samlingen sjunger vi gamla och nya sånger för och med barnen på svenska och engelska. Vi använder rörelse, spelar rytminstrument och lyssnar på musik. Anmäl ditt barn nedan:
           </p>
         </div>
 
         {/* Form Section */}
         <div>
-          <div className="bg-white border border-neutral-300 rounded-xl p-8">
+          <div className="bg-white border border-neutral-300 rounded-xl p-4 sm:p-8">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Name Fields */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-neutral-900 mb-2">
                   Förnamn/First Name
@@ -154,7 +154,7 @@ export default function Home() {
             </div>
 
             {/* Contact Fields */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-neutral-900 mb-2">
                   E-post/Email
@@ -198,10 +198,10 @@ export default function Home() {
                 Vilken förskola vill du anmäla dig till?
               </label>
               <input type="hidden" {...register('location', { required: 'Välj en plats' })} />
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div 
                   onClick={() => setValue('location', 'sodermalm')}
-                  className={`cursor-pointer p-6 border-2 rounded-xl transition-all ${
+                  className={`cursor-pointer p-4 sm:p-6 border-2 rounded-xl transition-all ${
                     selectedLocation === 'sodermalm' 
                       ? 'border-neutral-900 bg-neutral-900 text-white' 
                       : 'border-neutral-300 hover:border-neutral-400 bg-white'
