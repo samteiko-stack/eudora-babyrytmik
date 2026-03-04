@@ -106,7 +106,7 @@ export default function Home() {
         {/* Hero Section */}
         <div className="mb-6 sm:mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-accent-light/30 rounded-full text-xs font-medium text-neutral-900 mb-4">
-            Eudora! 15 platser tillgängliga per vecka
+            15 platser tillgängliga per vecka
           </div>
           <h1 className="text-2xl sm:text-4xl font-bold text-neutral-900 mb-4">
             Anmälan till babysång
