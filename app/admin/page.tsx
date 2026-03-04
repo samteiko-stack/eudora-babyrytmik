@@ -252,9 +252,9 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F3EA] flex">
+    <div className="h-screen bg-[#F5F3EA] flex overflow-hidden">
       {/* Left Sidebar */}
-      <aside className="w-64 bg-white border-r border-neutral-300 flex flex-col">
+      <aside className="w-64 bg-white border-r border-neutral-300 flex flex-col h-screen">
         <div className="p-6 border-b border-neutral-300">
           <img 
             src="/logo.svg" 
