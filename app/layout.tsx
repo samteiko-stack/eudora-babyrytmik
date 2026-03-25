@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
-import { Sora } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import './globals.css'
 
-const sora = Sora({ 
+const inter = Inter({ 
   subsets: ['latin'],
   display: 'swap',
 })
@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="sv" className={sora.className}>
+    <html lang="sv" className={inter.className}>
       <body>{children}</body>
     </html>
   )
