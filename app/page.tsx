@@ -7,9 +7,6 @@ import { getNext10Weeks, formatWeekRange, formatDate, getWeekNumber } from '@/li
 import {
   Location,
   TimeSlot,
-  LOCATIONS,
-  TIME_SLOTS,
-  getSessionKey,
   formatLocationSchedule,
   MAX_CAPACITY_PER_SESSION,
 } from '@/lib/schedule';
@@ -17,10 +14,10 @@ import {
   Badge,
   Button,
   Checkbox,
-  ChoiceCard,
   Field,
   Input,
   Select,
+  SessionPicker,
 } from '@/components/ui';
 
 interface FormData {
@@ -108,7 +105,7 @@ export default function Home() {
           <img src="/logo.svg" alt="Eudora Internationella Förskola" className="h-8 w-auto sm:h-10" />
           <a
             href="/admin/login"
-            className="rounded-md px-3 py-2 text-xs font-medium uppercase tracking-wide text-muted transition-colors hover:bg-bg hover:text-ink"
+            className="px-3 py-2 text-xs font-medium uppercase tracking-wide text-muted transition-colors hover:bg-bg hover:text-ink"
           >
             Admin
           </a>
@@ -175,42 +172,14 @@ export default function Home() {
             <Field label="Vilket pass vill du anmäla dig till?">
               <input type="hidden" {...register('location', { required: 'Välj ett pass' })} />
               <input type="hidden" {...register('timeSlot', { required: 'Välj ett pass' })} />
-              <div className="space-y-4">
-                {(Object.keys(LOCATIONS) as Location[]).map((location) => {
-                  const loc = LOCATIONS[location];
-
-                  return (
-                    <div key={location}>
-                      <div className="mb-2">
-                        <div className="text-sm font-semibold text-ink">{loc.label}</div>
-                        <div className="text-xs text-muted">
-                          {loc.address} · {loc.day}
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        {(Object.keys(TIME_SLOTS) as TimeSlot[]).map((timeSlot) => {
-                          const slot = TIME_SLOTS[timeSlot];
-                          const isSelected =
-                            selectedLocation === location && selectedTimeSlot === timeSlot;
-
-                          return (
-                            <ChoiceCard
-                              key={getSessionKey(location, timeSlot)}
-                              selected={isSelected}
-                              title={slot.time}
-                              description={`${loc.dayShort} · ${slot.label}`}
-                              onClick={() => {
-                                setValue('location', location, { shouldValidate: true });
-                                setValue('timeSlot', timeSlot, { shouldValidate: true });
-                              }}
-                            />
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+              <SessionPicker
+                location={selectedLocation}
+                timeSlot={selectedTimeSlot}
+                onChange={(nextLocation, nextTimeSlot) => {
+                  setValue('location', nextLocation, { shouldValidate: true });
+                  setValue('timeSlot', nextTimeSlot, { shouldValidate: true });
+                }}
+              />
               {(errors.location || errors.timeSlot) && (
                 <p className="mt-1.5 text-xs text-error">Välj ett pass</p>
               )}

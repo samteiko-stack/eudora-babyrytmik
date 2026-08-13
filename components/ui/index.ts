@@ -7,3 +7,4 @@ export { Input } from './Input';
 export { Label } from './Label';
 export { RadioGroup } from './RadioGroup';
 export { Select } from './Select';
+export { SessionPicker } from './SessionPicker';
