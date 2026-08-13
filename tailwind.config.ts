@@ -17,6 +17,7 @@ const config: Config = {
         ink: 'var(--color-ink)',
         muted: 'var(--color-muted)',
         border: 'var(--color-border)',
+        field: 'var(--color-field)',
         teal: {
           DEFAULT: 'var(--color-teal)',
           hover: 'var(--color-teal-hover)',
@@ -65,6 +66,9 @@ const config: Config = {
         md: 'var(--radius-md)',
         lg: 'var(--radius-lg)',
         full: 'var(--radius-full)',
+      },
+      fontFamily: {
+        sans: ['var(--font-geist)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
         dropdown: 'var(--shadow-dropdown)',

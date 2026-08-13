@@ -9,6 +9,7 @@ import {
   TimeSlot,
   LOCATIONS,
   TIME_SLOTS,
+  getSessionKey,
   formatLocationSchedule,
   MAX_CAPACITY_PER_SESSION,
 } from '@/lib/schedule';
@@ -16,9 +17,9 @@ import {
   Badge,
   Button,
   Checkbox,
+  ChoiceCard,
   Field,
   Input,
-  RadioGroup,
   Select,
 } from '@/components/ui';
 
@@ -90,7 +91,7 @@ export default function Home() {
       : null;
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-bg">
+    <div className="relative min-h-screen overflow-x-hidden bg-bg">
       <div className="pointer-events-none absolute inset-0" aria-hidden>
         <svg
           className="absolute -right-[8%] top-[6%] h-[86%] w-[62%] text-bg-sage"
@@ -171,32 +172,48 @@ export default function Home() {
               </Field>
             </div>
 
-            <Field label="Vilken förskola vill du anmäla dig till?">
-              <input type="hidden" {...register('location', { required: 'Välj en plats' })} />
-              <RadioGroup
-                name="location"
-                value={selectedLocation}
-                onChange={(value) => setValue('location', value, { shouldValidate: true })}
-                error={errors.location?.message}
-                options={(Object.keys(LOCATIONS) as Location[]).map((location) => ({
-                  value: location,
-                  label: `Eudora ${LOCATIONS[location].label}`,
-                }))}
-              />
-            </Field>
-
-            <Field label="Vilket pass?">
+            <Field label="Vilket pass vill du anmäla dig till?">
+              <input type="hidden" {...register('location', { required: 'Välj ett pass' })} />
               <input type="hidden" {...register('timeSlot', { required: 'Välj ett pass' })} />
-              <RadioGroup
-                name="timeSlot"
-                value={selectedTimeSlot}
-                onChange={(value) => setValue('timeSlot', value, { shouldValidate: true })}
-                error={errors.timeSlot?.message}
-                options={(Object.keys(TIME_SLOTS) as TimeSlot[]).map((timeSlot) => ({
-                  value: timeSlot,
-                  label: TIME_SLOTS[timeSlot].time,
-                }))}
-              />
+              <div className="space-y-4">
+                {(Object.keys(LOCATIONS) as Location[]).map((location) => {
+                  const loc = LOCATIONS[location];
+
+                  return (
+                    <div key={location}>
+                      <div className="mb-2">
+                        <div className="text-sm font-semibold text-ink">{loc.label}</div>
+                        <div className="text-xs text-muted">
+                          {loc.address} · {loc.day}
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        {(Object.keys(TIME_SLOTS) as TimeSlot[]).map((timeSlot) => {
+                          const slot = TIME_SLOTS[timeSlot];
+                          const isSelected =
+                            selectedLocation === location && selectedTimeSlot === timeSlot;
+
+                          return (
+                            <ChoiceCard
+                              key={getSessionKey(location, timeSlot)}
+                              selected={isSelected}
+                              title={slot.time}
+                              description={`${loc.dayShort} · ${slot.label}`}
+                              onClick={() => {
+                                setValue('location', location, { shouldValidate: true });
+                                setValue('timeSlot', timeSlot, { shouldValidate: true });
+                              }}
+                            />
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              {(errors.location || errors.timeSlot) && (
+                <p className="mt-1.5 text-xs text-error">Välj ett pass</p>
+              )}
             </Field>
 
             <Field label="Vecka">
@@ -240,7 +257,7 @@ export default function Home() {
 
             {message && (
               <div
-                className={`rounded-md border px-4 py-3 text-sm ${
+                className={`border-2 px-4 py-3 text-sm ${
                   message.type === 'success'
                     ? 'border-accent bg-accent/40 text-ink'
                     : 'border-error/30 bg-error-bg text-ink'

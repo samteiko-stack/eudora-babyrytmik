@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 
-const inter = Inter({ 
-  subsets: ['latin'],
+const geist = localFont({
+  src: './fonts/GeistVariable.ttf',
   display: 'swap',
+  weight: '100 900',
+  variable: '--font-geist',
 })
 
 export const metadata: Metadata = {
@@ -18,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="sv" className={inter.className}>
+    <html lang="sv" className={`${geist.variable} ${geist.className}`}>
       <body>{children}</body>
     </html>
   )

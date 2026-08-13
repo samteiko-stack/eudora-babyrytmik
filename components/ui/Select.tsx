@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/cn';
 
@@ -23,8 +23,28 @@ export function Select({
   error,
 }: SelectProps) {
   const [open, setOpen] = useState(false);
+  const [placement, setPlacement] = useState<'top' | 'bottom'>('bottom');
+  const [menuMaxHeight, setMenuMaxHeight] = useState(256);
   const ref = useRef<HTMLDivElement>(null);
   const selected = options.find((option) => option.value === value);
+
+  useLayoutEffect(() => {
+    if (!open || !ref.current) return;
+
+    const rect = ref.current.getBoundingClientRect();
+    const gap = 8;
+    const spaceBelow = window.innerHeight - rect.bottom - gap;
+    const spaceAbove = rect.top - gap;
+    const preferred = 256;
+
+    if (spaceBelow < 160 && spaceAbove > spaceBelow) {
+      setPlacement('top');
+      setMenuMaxHeight(Math.max(120, Math.min(preferred, spaceAbove)));
+    } else {
+      setPlacement('bottom');
+      setMenuMaxHeight(Math.max(120, Math.min(preferred, spaceBelow)));
+    }
+  }, [open]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -44,9 +64,9 @@ export function Select({
           type="button"
           onClick={() => setOpen((prev) => !prev)}
           className={cn(
-            'flex w-full items-center justify-between rounded-md border bg-surface px-4 py-3 text-left text-sm transition-colors',
-            'focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/10',
-            error ? 'border-error' : 'border-border'
+            'flex w-full items-center justify-between rounded-none border-2 bg-surface px-4 py-3 text-left text-sm transition-colors',
+            'focus:border-field focus:outline-none',
+            error ? 'border-error' : 'border-field'
           )}
         >
           <span className={selected ? 'text-ink' : 'text-muted'}>
@@ -61,7 +81,13 @@ export function Select({
         </button>
 
         {open && (
-          <div className="absolute z-20 mt-2 max-h-64 w-full overflow-y-auto rounded-md border border-border bg-surface shadow-dropdown">
+          <div
+            className={cn(
+              'absolute z-30 w-full overflow-y-auto border-2 border-field bg-surface shadow-dropdown',
+              placement === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'
+            )}
+            style={{ maxHeight: menuMaxHeight }}
+          >
             {options.map((option) => (
               <button
                 key={option.value}
