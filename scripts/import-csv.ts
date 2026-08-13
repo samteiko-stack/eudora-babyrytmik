@@ -125,15 +125,15 @@ function parseCSV(csv: string): Registration[] {
     const parts = line.split(',');
     
     const timeStr = parts[0];
-    const firstName = parts[1] || 'Anonym';
-    const lastName = parts[2] || '';
-    const email = parts[3] || 'ingen@email.se';
-    const phone = parts[4] || '0000000000';
+    const firstName = parts[1]?.trim();
+    const lastName = parts[2]?.trim();
+    const email = parts[3]?.trim();
+    const phone = parts[4]?.trim();
     const weekStr = parts[5]; // e.g., "Vecka 40"
     const locationStr = parts[6]; // e.g., "Eudora Södermalm"
     
-    // Skip rows with missing critical data
-    if (!timeStr || !weekStr) continue;
+    // Skip rows with missing critical data (empty names, no email/phone, no week)
+    if (!timeStr || !weekStr || !firstName || (!email && !phone)) continue;
     
     // Parse the registration time
     const createdAt = parse(timeStr, 'M/d/yyyy h:mma', new Date());
@@ -160,11 +160,12 @@ function parseCSV(csv: string): Registration[] {
     
     registrations.push({
       id: `import-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      firstName,
-      lastName,
-      email,
-      phone,
+      firstName: firstName,
+      lastName: lastName || '',
+      email: email || 'ingen@email.se',
+      phone: phone || '0000000000',
       location,
+      timeSlot: 'morning',
       weekStart,
       createdAt: createdAt.toISOString(),
       status: 'confirmed',

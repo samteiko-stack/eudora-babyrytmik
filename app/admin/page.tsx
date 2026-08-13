@@ -10,6 +10,7 @@ import { parseISO, format } from 'date-fns';
 import { Trash2, Plus, Calendar, Users, Download, LogOut, Home, BarChart3, ChevronDown, ChevronRight, List, Layers, XCircle, MoreVertical } from 'lucide-react';
 import AddParticipantModal from '@/components/AddParticipantModal';
 import WeekManagementModal from '@/components/WeekManagementModal';
+import { formatSessionLabel, LOCATIONS, TIME_SLOTS, MAX_CAPACITY_PER_SESSION } from '@/lib/schedule';
 
 type SortField = 'firstName' | 'lastName' | 'email' | 'weekStart' | 'createdAt' | 'location';
 type SortOrder = 'asc' | 'desc';
@@ -180,13 +181,13 @@ export default function AdminDashboard() {
   };
 
   const exportToCSV = () => {
-    const headers = ['Förnamn', 'Efternamn', 'E-post', 'Telefon', 'Plats', 'Vecka', 'Anmäld'];
+    const headers = ['Förnamn', 'Efternamn', 'E-post', 'Telefon', 'Pass', 'Vecka', 'Anmäld'];
     const rows = filteredAndSortedRegistrations.map(r => [
       r.firstName,
       r.lastName,
       r.email,
       r.phone,
-      r.location === 'sodermalm' ? 'Södermalm' : 'Gärdet',
+      formatSessionLabel(r.location, r.timeSlot || 'morning'),
       `Vecka ${getWeekNumber(parseISO(r.weekStart))}`,
       format(parseISO(r.createdAt), 'yyyy-MM-dd HH:mm')
     ]);
@@ -547,7 +548,7 @@ export default function AdminDashboard() {
                                 ? 'bg-blue-100 text-blue-800'
                                 : 'bg-purple-100 text-purple-800'
                             }`}>
-                              {registration.location === 'sodermalm' ? 'Eudora Södermalm' : 'Eudora Gärdet'}
+                              {formatSessionLabel(registration.location, registration.timeSlot || 'morning')}
                             </span>
                           </td>
                           <td className="px-6 py-4">
@@ -717,7 +718,7 @@ export default function AdminDashboard() {
                                         ? 'bg-blue-100 text-blue-800'
                                         : 'bg-purple-100 text-purple-800'
                                     }`}>
-                                      {registration.location === 'sodermalm' ? 'Eudora Södermalm' : 'Eudora Gärdet'}
+                                      {formatSessionLabel(registration.location, registration.timeSlot || 'morning')}
                                     </span>
                                   </td>
                                   <td className="px-6 py-4">
@@ -844,9 +845,13 @@ export default function AdminDashboard() {
                   <tbody className="divide-y divide-neutral-200">
                     {allWeeksOfYear.map((week) => {
                       const weekKey = formatDate(week);
-                      const sodermalm = getWeekRegistrations(weekKey, 'sodermalm');
-                      const gardet = getWeekRegistrations(weekKey, 'gardet');
-                      const total = sodermalm.length + gardet.length;
+                      const sodMorning = getWeekRegistrations(weekKey, 'sodermalm', 'morning').length;
+                      const sodAfternoon = getWeekRegistrations(weekKey, 'sodermalm', 'afternoon').length;
+                      const gardMorning = getWeekRegistrations(weekKey, 'gardet', 'morning').length;
+                      const gardAfternoon = getWeekRegistrations(weekKey, 'gardet', 'afternoon').length;
+                      const sodermalm = sodMorning + sodAfternoon;
+                      const gardet = gardMorning + gardAfternoon;
+                      const total = sodermalm + gardet;
                       const isAvailable = weekAvailability[weekKey]?.isAvailable !== false;
                       const weekNum = getWeekNumber(week);
                       const isPastWeek = new Date(weekKey) < new Date();
@@ -863,30 +868,24 @@ export default function AdminDashboard() {
                             {formatWeekRange(week)}
                           </td>
                           <td className="px-6 py-4 text-center">
-                            {sodermalm.length > 0 ? (
-                              <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                                sodermalm.length >= 15 ? 'bg-red-100 text-red-800' : 
-                                sodermalm.length >= 12 ? 'bg-yellow-100 text-yellow-800' : 
-                                'bg-green-100 text-green-800'
-                              }`}>
-                                {sodermalm.length}/15
+                            <div className="flex flex-col items-center gap-1 text-sm">
+                              <span className={sodMorning >= MAX_CAPACITY_PER_SESSION ? 'text-red-700 font-medium' : 'text-neutral-700'}>
+                                {TIME_SLOTS.morning.time}: {sodMorning}/{MAX_CAPACITY_PER_SESSION}
                               </span>
-                            ) : (
-                              <span className="text-neutral-400 text-sm">0/15</span>
-                            )}
+                              <span className={sodAfternoon >= MAX_CAPACITY_PER_SESSION ? 'text-red-700 font-medium' : 'text-neutral-700'}>
+                                {TIME_SLOTS.afternoon.time}: {sodAfternoon}/{MAX_CAPACITY_PER_SESSION}
+                              </span>
+                            </div>
                           </td>
                           <td className="px-6 py-4 text-center">
-                            {gardet.length > 0 ? (
-                              <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                                gardet.length >= 15 ? 'bg-red-100 text-red-800' : 
-                                gardet.length >= 12 ? 'bg-yellow-100 text-yellow-800' : 
-                                'bg-green-100 text-green-800'
-                              }`}>
-                                {gardet.length}/15
+                            <div className="flex flex-col items-center gap-1 text-sm">
+                              <span className={gardMorning >= MAX_CAPACITY_PER_SESSION ? 'text-red-700 font-medium' : 'text-neutral-700'}>
+                                {TIME_SLOTS.morning.time}: {gardMorning}/{MAX_CAPACITY_PER_SESSION}
                               </span>
-                            ) : (
-                              <span className="text-neutral-400 text-sm">0/15</span>
-                            )}
+                              <span className={gardAfternoon >= MAX_CAPACITY_PER_SESSION ? 'text-red-700 font-medium' : 'text-neutral-700'}>
+                                {TIME_SLOTS.afternoon.time}: {gardAfternoon}/{MAX_CAPACITY_PER_SESSION}
+                              </span>
+                            </div>
                           </td>
                           <td className="px-6 py-4 text-center">
                             {total > 0 ? (
@@ -937,13 +936,13 @@ export default function AdminDashboard() {
               <div className="bg-white border border-neutral-200 rounded-lg p-8">
                 <div className="text-sm text-neutral-500 mb-2">Södermalm</div>
                 <div className="text-5xl font-bold text-neutral-900 mb-2">{totalStats.sodermalm}</div>
-                <div className="text-sm text-neutral-600">Torsdagar 10:00-11:00</div>
+                <div className="text-sm text-neutral-600">{LOCATIONS.sodermalm.day} {TIME_SLOTS.morning.time} & {TIME_SLOTS.afternoon.time}</div>
               </div>
 
               <div className="bg-white border border-neutral-200 rounded-lg p-8">
                 <div className="text-sm text-neutral-500 mb-2">Gärdet</div>
                 <div className="text-5xl font-bold text-neutral-900 mb-2">{totalStats.gardet}</div>
-                <div className="text-sm text-neutral-600">Tisdagar 13:00-14:00</div>
+                <div className="text-sm text-neutral-600">{LOCATIONS.gardet.day} {TIME_SLOTS.morning.time} & {TIME_SLOTS.afternoon.time}</div>
               </div>
             </div>
           </div>

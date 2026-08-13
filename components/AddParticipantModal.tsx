@@ -5,13 +5,23 @@ import { useForm, Controller } from 'react-hook-form';
 import { useStore } from '@/lib/store';
 import { getNext10Weeks, formatWeekRange, formatDate, getWeekNumber } from '@/lib/dates';
 import { X, ChevronDown } from 'lucide-react';
+import {
+  Location,
+  TimeSlot,
+  LOCATIONS,
+  TIME_SLOTS,
+  getSessionKey,
+  formatSessionLabel,
+  MAX_CAPACITY_PER_SESSION,
+} from '@/lib/schedule';
 
 interface FormData {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
-  location: 'sodermalm' | 'gardet';
+  location: Location;
+  timeSlot: TimeSlot;
   weekStart: string;
 }
 
@@ -26,6 +36,7 @@ export default function AddParticipantModal({ onClose }: Props) {
   const { addRegistration, weekAvailability, getWeekRegistrations } = useStore();
 
   const selectedLocation = watch('location');
+  const selectedTimeSlot = watch('timeSlot');
   const selectedWeek = watch('weekStart');
 
   const availableWeeks = getNext10Weeks().filter(week => {
@@ -33,10 +44,10 @@ export default function AddParticipantModal({ onClose }: Props) {
     return weekAvailability[weekKey]?.isAvailable !== false;
   });
 
-  const getAvailableSpots = (weekStart: string, location: 'sodermalm' | 'gardet') => {
-    if (!weekStart || !location) return 15;
-    const registrations = getWeekRegistrations(weekStart, location);
-    return 15 - registrations.length;
+  const getAvailableSpots = (weekStart: string, location: Location, timeSlot: TimeSlot) => {
+    if (!weekStart || !location || !timeSlot) return MAX_CAPACITY_PER_SESSION;
+    const registrations = getWeekRegistrations(weekStart, location, timeSlot);
+    return MAX_CAPACITY_PER_SESSION - registrations.length;
   };
 
   const onSubmit = async (data: FormData) => {
@@ -46,6 +57,7 @@ export default function AddParticipantModal({ onClose }: Props) {
       email: data.email,
       phone: data.phone,
       location: data.location,
+      timeSlot: data.timeSlot,
       weekStart: data.weekStart,
     });
 
@@ -60,8 +72,8 @@ export default function AddParticipantModal({ onClose }: Props) {
     }
   };
 
-  const availableSpots = selectedWeek && selectedLocation 
-    ? getAvailableSpots(selectedWeek, selectedLocation)
+  const availableSpots = selectedWeek && selectedLocation && selectedTimeSlot
+    ? getAvailableSpots(selectedWeek, selectedLocation, selectedTimeSlot)
     : null;
 
   return (
@@ -146,30 +158,45 @@ export default function AddParticipantModal({ onClose }: Props) {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Plats <span className="text-red-500">*</span>
+              Pass <span className="text-red-500">*</span>
             </label>
-            <div className="space-y-2">
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  value="sodermalm"
-                  {...register('location', { required: 'Välj en plats' })}
-                  className="w-4 h-4 text-teal focus:ring-teal"
-                />
-                <span className="ml-2 text-gray-700">Södermalm</span>
-              </label>
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  value="gardet"
-                  {...register('location', { required: 'Välj en plats' })}
-                  className="w-4 h-4 text-teal focus:ring-teal"
-                />
-                <span className="ml-2 text-gray-700">Gärdet</span>
-              </label>
+            <input type="hidden" {...register('location', { required: 'Välj ett pass' })} />
+            <input type="hidden" {...register('timeSlot', { required: 'Välj ett pass' })} />
+            <div className="space-y-3">
+              {(Object.keys(LOCATIONS) as Location[]).map((location) => (
+                <div key={location}>
+                  <div className="text-xs font-medium text-gray-500 mb-1">
+                    {LOCATIONS[location].label} · {LOCATIONS[location].day}
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    {(Object.keys(TIME_SLOTS) as TimeSlot[]).map((timeSlot) => {
+                      const isSelected =
+                        selectedLocation === location && selectedTimeSlot === timeSlot;
+
+                      return (
+                        <button
+                          key={getSessionKey(location, timeSlot)}
+                          type="button"
+                          onClick={() => {
+                            setValue('location', location);
+                            setValue('timeSlot', timeSlot);
+                          }}
+                          className={`px-3 py-2 text-sm rounded-md border transition-colors text-left ${
+                            isSelected
+                              ? 'border-teal bg-teal/10 text-teal font-medium'
+                              : 'border-gray-300 hover:border-gray-400 text-gray-700'
+                          }`}
+                        >
+                          {formatSessionLabel(location, timeSlot)}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
             </div>
-            {errors.location && (
-              <p className="text-red-600 text-sm mt-1">{errors.location.message}</p>
+            {(errors.location || errors.timeSlot) && (
+              <p className="text-red-600 text-sm mt-1">Välj ett pass</p>
             )}
           </div>
 

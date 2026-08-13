@@ -3,6 +3,7 @@
 import { useStore } from '@/lib/store';
 import { getNext10Weeks, formatWeekRange, formatDate, getWeekNumber } from '@/lib/dates';
 import { X, Lock, Unlock } from 'lucide-react';
+import { LOCATIONS, TIME_SLOTS, MAX_CAPACITY_PER_SESSION } from '@/lib/schedule';
 
 interface Props {
   onClose: () => void;
@@ -14,9 +15,12 @@ export default function WeekManagementModal({ onClose }: Props) {
   const weeks = getNext10Weeks();
 
   const handleToggle = (weekKey: string) => {
-    const sodermalm = getWeekRegistrations(weekKey, 'sodermalm');
-    const gardet = getWeekRegistrations(weekKey, 'gardet');
-    const hasRegistrations = sodermalm.length > 0 || gardet.length > 0;
+    const sodMorning = getWeekRegistrations(weekKey, 'sodermalm', 'morning');
+    const sodAfternoon = getWeekRegistrations(weekKey, 'sodermalm', 'afternoon');
+    const gardMorning = getWeekRegistrations(weekKey, 'gardet', 'morning');
+    const gardAfternoon = getWeekRegistrations(weekKey, 'gardet', 'afternoon');
+    const hasRegistrations =
+      sodMorning.length + sodAfternoon.length + gardMorning.length + gardAfternoon.length > 0;
 
     if (hasRegistrations) {
       const confirmed = confirm(
@@ -52,9 +56,12 @@ export default function WeekManagementModal({ onClose }: Props) {
               const weekKey = formatDate(week);
               const weekNum = getWeekNumber(week);
               const isAvailable = weekAvailability[weekKey]?.isAvailable !== false;
-              const sodermalm = getWeekRegistrations(weekKey, 'sodermalm');
-              const gardet = getWeekRegistrations(weekKey, 'gardet');
-              const totalRegistrations = sodermalm.length + gardet.length;
+              const sodMorning = getWeekRegistrations(weekKey, 'sodermalm', 'morning');
+              const sodAfternoon = getWeekRegistrations(weekKey, 'sodermalm', 'afternoon');
+              const gardMorning = getWeekRegistrations(weekKey, 'gardet', 'morning');
+              const gardAfternoon = getWeekRegistrations(weekKey, 'gardet', 'afternoon');
+              const totalRegistrations =
+                sodMorning.length + sodAfternoon.length + gardMorning.length + gardAfternoon.length;
 
               return (
                 <div
@@ -73,16 +80,30 @@ export default function WeekManagementModal({ onClose }: Props) {
                           {formatWeekRange(week)}
                         </span>
                       </div>
-                      <div className="mt-2 flex gap-4 text-sm">
-                        <span className="text-gray-600">
-                          Södermalm: <strong>{sodermalm.length}/15</strong>
-                        </span>
-                        <span className="text-gray-600">
-                          Gärdet: <strong>{gardet.length}/15</strong>
-                        </span>
-                        <span className="text-gray-600">
+                      <div className="mt-2 space-y-1 text-sm text-gray-600">
+                        <div>
+                          {LOCATIONS.sodermalm.label}:{' '}
+                          <strong>
+                            {TIME_SLOTS.morning.time} {sodMorning.length}/{MAX_CAPACITY_PER_SESSION}
+                          </strong>
+                          {' · '}
+                          <strong>
+                            {TIME_SLOTS.afternoon.time} {sodAfternoon.length}/{MAX_CAPACITY_PER_SESSION}
+                          </strong>
+                        </div>
+                        <div>
+                          {LOCATIONS.gardet.label}:{' '}
+                          <strong>
+                            {TIME_SLOTS.morning.time} {gardMorning.length}/{MAX_CAPACITY_PER_SESSION}
+                          </strong>
+                          {' · '}
+                          <strong>
+                            {TIME_SLOTS.afternoon.time} {gardAfternoon.length}/{MAX_CAPACITY_PER_SESSION}
+                          </strong>
+                        </div>
+                        <div>
                           Totalt: <strong>{totalRegistrations}</strong>
-                        </span>
+                        </div>
                       </div>
                     </div>
 

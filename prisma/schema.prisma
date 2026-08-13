@@ -63,12 +63,13 @@ model Registration {
   email     String
   phone     String
   location  Location
+  timeSlot  TimeSlot @default(MORNING)
   weekStart DateTime
   status    RegistrationStatus @default(CONFIRMED)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([weekStart, location])
+  @@index([weekStart, location, timeSlot])
   @@index([status])
 }
 
@@ -84,6 +85,11 @@ model WeekAvailability {
 enum Location {
   SODERMALM
   GARDET
+}
+
+enum TimeSlot {
+  MORNING
+  AFTERNOON
 }
 
 enum RegistrationStatus {

@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { Registration, WeekAvailability } from '@/types';
 import { storage } from './storage';
 import { formatDate, getNext10Weeks } from './dates';
+import { Location, TimeSlot, MAX_CAPACITY_PER_SESSION } from './schedule';
 
 interface AppState {
   registrations: Registration[];
@@ -15,7 +16,7 @@ interface AppState {
   reactivateRegistration: (id: string) => Promise<void>;
   toggleWeekAvailability: (weekStart: string) => void;
   initializeWeeks: () => void;
-  getWeekRegistrations: (weekStart: string, location: 'sodermalm' | 'gardet') => Registration[];
+  getWeekRegistrations: (weekStart: string, location: Location, timeSlot?: TimeSlot) => Registration[];
   loadFromDatabase: () => Promise<void>;
   importRegistrations: (registrations: Registration[]) => void;
 }
@@ -65,16 +66,16 @@ export const useStore = create<AppState>((set, get) => ({
   },
 
   addRegistration: async (registration) => {
-    const { weekStart, location } = registration;
-    const weekRegs = get().getWeekRegistrations(weekStart, location);
+    const { weekStart, location, timeSlot } = registration;
+    const weekRegs = get().getWeekRegistrations(weekStart, location, timeSlot);
     const weekAvail = get().weekAvailability[weekStart];
 
     if (!weekAvail?.isAvailable) {
       return { success: false, message: 'Denna vecka är inte tillgänglig för anmälan.' };
     }
 
-    if (weekRegs.length >= 15) {
-      return { success: false, message: 'Denna vecka är fullbokad. Vänligen välj en annan vecka.' };
+    if (weekRegs.length >= MAX_CAPACITY_PER_SESSION) {
+      return { success: false, message: 'Detta pass är fullbokat. Vänligen välj ett annat pass eller en annan vecka.' };
     }
 
     try {
@@ -163,9 +164,13 @@ export const useStore = create<AppState>((set, get) => ({
     storage.saveWeekAvailability(updated);
   },
 
-  getWeekRegistrations: (weekStart, location) => {
+  getWeekRegistrations: (weekStart, location, timeSlot) => {
     return get().registrations.filter(
-      r => r.weekStart === weekStart && r.location === location && r.status !== 'cancelled'
+      r =>
+        r.weekStart === weekStart &&
+        r.location === location &&
+        (timeSlot ? (r.timeSlot || 'morning') === timeSlot : true) &&
+        r.status !== 'cancelled'
     );
   },
 

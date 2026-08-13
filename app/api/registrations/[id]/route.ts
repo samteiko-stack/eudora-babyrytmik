@@ -38,6 +38,7 @@ export async function PATCH(
       email: registration.email,
       phone: registration.phone,
       location: registration.location.toLowerCase(),
+      timeSlot: registration.timeSlot.toLowerCase(),
       weekStart: registration.weekStart.toISOString().split('T')[0],
       createdAt: registration.createdAt.toISOString(),
       status: registration.status.toLowerCase(),

@@ -6,13 +6,23 @@ import { useStore } from '@/lib/store';
 import { getNext10Weeks, formatWeekRange, formatDate, getWeekNumber } from '@/lib/dates';
 import { parseISO } from 'date-fns';
 import { ChevronDown } from 'lucide-react';
+import {
+  Location,
+  TimeSlot,
+  LOCATIONS,
+  TIME_SLOTS,
+  getSessionKey,
+  formatLocationSchedule,
+  MAX_CAPACITY_PER_SESSION,
+} from '@/lib/schedule';
 
 interface FormData {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
-  location: 'sodermalm' | 'gardet';
+  location: Location;
+  timeSlot: TimeSlot;
   weekStart: string;
   terms: boolean;
 }
@@ -27,6 +37,7 @@ export default function Home() {
   const { addRegistration, initializeWeeks, loadFromDatabase, weekAvailability, getWeekRegistrations } = useStore();
 
   const selectedLocation = watch('location');
+  const selectedTimeSlot = watch('timeSlot');
   const selectedWeek = watch('weekStart');
 
   useEffect(() => {
@@ -50,10 +61,10 @@ export default function Home() {
     return weekAvailability[weekKey]?.isAvailable !== false;
   });
 
-  const getAvailableSpots = (weekStart: string, location: 'sodermalm' | 'gardet') => {
-    if (!weekStart || !location) return 15;
-    const registrations = getWeekRegistrations(weekStart, location);
-    return 15 - registrations.length;
+  const getAvailableSpots = (weekStart: string, location: Location, timeSlot: TimeSlot) => {
+    if (!weekStart || !location || !timeSlot) return MAX_CAPACITY_PER_SESSION;
+    const registrations = getWeekRegistrations(weekStart, location, timeSlot);
+    return MAX_CAPACITY_PER_SESSION - registrations.length;
   };
 
   const onSubmit = async (data: FormData) => {
@@ -66,6 +77,7 @@ export default function Home() {
       email: data.email,
       phone: data.phone,
       location: data.location,
+      timeSlot: data.timeSlot,
       weekStart: data.weekStart,
     });
 
@@ -79,8 +91,8 @@ export default function Home() {
     setIsSubmitting(false);
   };
 
-  const availableSpots = selectedWeek && selectedLocation 
-    ? getAvailableSpots(selectedWeek, selectedLocation)
+  const availableSpots = selectedWeek && selectedLocation && selectedTimeSlot
+    ? getAvailableSpots(selectedWeek, selectedLocation, selectedTimeSlot)
     : null;
 
   return (
@@ -106,13 +118,13 @@ export default function Home() {
         {/* Hero Section */}
         <div className="mb-6 sm:mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-accent-light/30 rounded-full text-xs font-medium text-neutral-900 mb-4">
-            15 platser tillgängliga per vecka
+            15 platser tillgängliga per pass
           </div>
           <h1 className="text-2xl sm:text-4xl font-bold text-neutral-900 mb-4">
             Anmälan till babysång
           </h1>
           <p className="text-sm sm:text-base text-neutral-900 leading-relaxed">
-            Vi ses på <strong>Södermalm (Fatburs Brunns gata 17) torsdagar kl. 10.00–11.00</strong> och på <strong>Gärdet (Sehellegatan 7) torsdagar kl. 13.00–14.00</strong>. Under samlingen sjunger vi gamla och nya sånger för och med barnen på svenska och engelska. Vi använder rörelse, spelar rytminstrument och lyssnar på musik. Anmäl ditt barn nedan:
+            Vi ses på <strong>{formatLocationSchedule('sodermalm')}</strong> och på <strong>{formatLocationSchedule('gardet')}</strong>. Under samlingen sjunger vi gamla och nya sånger för och med barnen på svenska och engelska. Vi använder rörelse, spelar rytminstrument och lyssnar på musik. Anmäl ditt barn nedan:
           </p>
         </div>
 
@@ -192,65 +204,62 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Location Selection */}
+            {/* Session Selection */}
             <div>
               <label className="block text-sm font-medium text-neutral-900 mb-3">
-                Vilken förskola vill du anmäla dig till?
+                Vilket pass vill du anmäla dig till?
               </label>
-              <input type="hidden" {...register('location', { required: 'Välj en plats' })} />
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div 
-                  onClick={() => setValue('location', 'sodermalm')}
-                  className={`cursor-pointer p-4 sm:p-6 border-2 rounded-xl transition-all ${
-                    selectedLocation === 'sodermalm' 
-                      ? 'border-neutral-900 bg-neutral-900 text-white' 
-                      : 'border-neutral-300 hover:border-neutral-400 bg-white'
-                  }`}
-                >
-                  <div className={`text-lg font-bold mb-2 ${
-                    selectedLocation === 'sodermalm' ? 'text-white' : 'text-neutral-900'
-                  }`}>
-                    Södermalm
-                  </div>
-                  <div className={`text-sm mb-2 ${
-                    selectedLocation === 'sodermalm' ? 'text-neutral-200' : 'text-neutral-700'
-                  }`}>
-                    Torsdagar 10:00–11:00
-                  </div>
-                  <div className={`text-xs ${
-                    selectedLocation === 'sodermalm' ? 'text-neutral-300' : 'text-neutral-500'
-                  }`}>
-                    Fatburs Brunnsg 17
-                  </div>
-                </div>
-                
-                <div 
-                  onClick={() => setValue('location', 'gardet')}
-                  className={`cursor-pointer p-6 border-2 rounded-xl transition-all ${
-                    selectedLocation === 'gardet' 
-                      ? 'border-neutral-900 bg-neutral-900 text-white' 
-                      : 'border-neutral-300 hover:border-neutral-400 bg-white'
-                  }`}
-                >
-                  <div className={`text-lg font-bold mb-2 ${
-                    selectedLocation === 'gardet' ? 'text-white' : 'text-neutral-900'
-                  }`}>
-                    Gärdet
-                  </div>
-                  <div className={`text-sm mb-2 ${
-                    selectedLocation === 'gardet' ? 'text-neutral-200' : 'text-neutral-700'
-                  }`}>
-                    Tisdagar 13:00–14:00
-                  </div>
-                  <div className={`text-xs ${
-                    selectedLocation === 'gardet' ? 'text-neutral-300' : 'text-neutral-500'
-                  }`}>
-                    Sandhamnsg 7
-                  </div>
-                </div>
+              <input type="hidden" {...register('location', { required: 'Välj ett pass' })} />
+              <input type="hidden" {...register('timeSlot', { required: 'Välj ett pass' })} />
+              <div className="space-y-4">
+                {(Object.keys(LOCATIONS) as Location[]).map((location) => {
+                  const loc = LOCATIONS[location];
+
+                  return (
+                    <div key={location}>
+                      <div className="mb-2">
+                        <div className="text-sm font-semibold text-neutral-900">{loc.label}</div>
+                        <div className="text-xs text-neutral-500">{loc.address} · {loc.day}</div>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {(Object.keys(TIME_SLOTS) as TimeSlot[]).map((timeSlot) => {
+                          const slot = TIME_SLOTS[timeSlot];
+                          const isSelected =
+                            selectedLocation === location && selectedTimeSlot === timeSlot;
+
+                          return (
+                            <div
+                              key={getSessionKey(location, timeSlot)}
+                              onClick={() => {
+                                setValue('location', location);
+                                setValue('timeSlot', timeSlot);
+                              }}
+                              className={`cursor-pointer p-4 border-2 rounded-xl transition-all ${
+                                isSelected
+                                  ? 'border-neutral-900 bg-neutral-900 text-white'
+                                  : 'border-neutral-300 hover:border-neutral-400 bg-white'
+                              }`}
+                            >
+                              <div className={`text-sm font-bold mb-1 ${
+                                isSelected ? 'text-white' : 'text-neutral-900'
+                              }`}>
+                                {slot.time}
+                              </div>
+                              <div className={`text-xs ${
+                                isSelected ? 'text-neutral-300' : 'text-neutral-500'
+                              }`}>
+                                {loc.dayShort} · {slot.label}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-              {errors.location && (
-                <p className="text-error text-xs mt-1.5">{errors.location.message}</p>
+              {(errors.location || errors.timeSlot) && (
+                <p className="text-error text-xs mt-1.5">Välj ett pass</p>
               )}
             </div>
 
@@ -304,7 +313,7 @@ export default function Home() {
               {errors.weekStart && (
                 <p className="text-error text-xs mt-1.5">{errors.weekStart.message}</p>
               )}
-              {availableSpots !== null && selectedLocation && (
+              {availableSpots !== null && selectedLocation && selectedTimeSlot && (
                 <div className="mt-2 flex items-center gap-2">
                   {availableSpots > 0 ? (
                     <>
