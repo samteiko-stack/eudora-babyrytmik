@@ -175,13 +175,15 @@ export default function Home() {
               <SessionPicker
                 location={selectedLocation}
                 timeSlot={selectedTimeSlot}
-                onChange={(nextLocation, nextTimeSlot) => {
-                  setValue('location', nextLocation, { shouldValidate: true });
-                  setValue('timeSlot', nextTimeSlot, { shouldValidate: true });
-                }}
+                onLocationChange={(nextLocation) =>
+                  setValue('location', nextLocation, { shouldValidate: true })
+                }
+                onTimeSlotChange={(nextTimeSlot) =>
+                  setValue('timeSlot', nextTimeSlot, { shouldValidate: true })
+                }
               />
               {(errors.location || errors.timeSlot) && (
-                <p className="mt-1.5 text-xs text-error">Välj ett pass</p>
+                <p className="mt-1.5 text-xs text-error">Välj förskola och tid</p>
               )}
             </Field>
 

@@ -1,68 +1,86 @@
+import type { ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 import {
   Location,
   TimeSlot,
   LOCATIONS,
   TIME_SLOTS,
-  getSessionKey,
 } from '@/lib/schedule';
-import { ChoiceCard } from './ChoiceCard';
 
 interface SessionPickerProps {
   location?: Location;
   timeSlot?: TimeSlot;
-  onChange: (location: Location, timeSlot: TimeSlot) => void;
+  onLocationChange: (location: Location) => void;
+  onTimeSlotChange: (timeSlot: TimeSlot) => void;
 }
 
-export function SessionPicker({ location, timeSlot, onChange }: SessionPickerProps) {
+function OptionButton({
+  selected,
+  onClick,
+  children,
+}: {
+  selected: boolean;
+  onClick: () => void;
+  children: ReactNode;
+}) {
   return (
-    <div>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {(Object.keys(LOCATIONS) as Location[]).map((locationKey) => {
-          const loc = LOCATIONS[locationKey];
-          const isActive = location === locationKey;
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        'px-3 py-2.5 text-sm transition-colors',
+        selected
+          ? 'bg-field text-white'
+          : 'border border-field bg-surface text-ink hover:bg-bg-sage'
+      )}
+    >
+      {children}
+    </button>
+  );
+}
 
-          return (
-            <div
+export function SessionPicker({
+  location,
+  timeSlot,
+  onLocationChange,
+  onTimeSlotChange,
+}: SessionPickerProps) {
+  return (
+    <div className="space-y-4">
+      <div>
+        <p className="mb-2 text-sm font-semibold text-ink">Förskola</p>
+        <div className="grid grid-cols-2 gap-2">
+          {(Object.keys(LOCATIONS) as Location[]).map((locationKey) => (
+            <OptionButton
               key={locationKey}
-              className={cn(
-                'border-2 bg-surface p-4',
-                isActive ? 'border-field bg-bg-sage' : 'border-field'
-              )}
+              selected={location === locationKey}
+              onClick={() => onLocationChange(locationKey)}
             >
-              <div className="mb-4 border-b-2 border-field pb-3">
-                <p className="text-base font-bold text-ink">{loc.label}</p>
-                <p className="mt-1 text-sm text-ink">{loc.day}</p>
-                <p className="text-xs text-muted">{loc.address}</p>
-              </div>
-
-              <div className="grid gap-2">
-                {(Object.keys(TIME_SLOTS) as TimeSlot[]).map((slotKey) => {
-                  const slot = TIME_SLOTS[slotKey];
-
-                  return (
-                    <ChoiceCard
-                      key={getSessionKey(locationKey, slotKey)}
-                      selected={isActive && timeSlot === slotKey}
-                      title={slot.time}
-                      description={slot.label}
-                      onClick={() => onChange(locationKey, slotKey)}
-                    />
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
+              Eudora {LOCATIONS[locationKey].label}
+            </OptionButton>
+          ))}
+        </div>
+        {location && (
+          <p className="mt-2 text-xs text-muted">
+            {LOCATIONS[location].day} · {LOCATIONS[location].address}
+          </p>
+        )}
       </div>
 
-      {location && timeSlot && (
-        <p className="mt-3 text-sm text-ink">
-          Valt: <strong>{LOCATIONS[location].label}</strong>
-          {' · '}
-          {LOCATIONS[location].dayShort.toLowerCase()} {TIME_SLOTS[timeSlot].time}
-        </p>
-      )}
+      <div>
+        <p className="mb-2 text-sm font-semibold text-ink">Tid</p>
+        <div className="grid grid-cols-2 gap-2">
+          {(Object.keys(TIME_SLOTS) as TimeSlot[]).map((slotKey) => (
+            <OptionButton
+              key={slotKey}
+              selected={timeSlot === slotKey}
+              onClick={() => onTimeSlotChange(slotKey)}
+            >
+              {TIME_SLOTS[slotKey].time}
+            </OptionButton>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
