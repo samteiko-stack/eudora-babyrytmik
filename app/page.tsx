@@ -1,20 +1,26 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useStore } from '@/lib/store';
 import { getNext10Weeks, formatWeekRange, formatDate, getWeekNumber } from '@/lib/dates';
-import { parseISO } from 'date-fns';
-import { ChevronDown } from 'lucide-react';
 import {
   Location,
   TimeSlot,
   LOCATIONS,
   TIME_SLOTS,
-  getSessionKey,
   formatLocationSchedule,
   MAX_CAPACITY_PER_SESSION,
 } from '@/lib/schedule';
+import {
+  Badge,
+  Button,
+  Checkbox,
+  Field,
+  Input,
+  RadioGroup,
+  Select,
+} from '@/components/ui';
 
 interface FormData {
   firstName: string;
@@ -30,9 +36,7 @@ interface FormData {
 export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const [isWeekDropdownOpen, setIsWeekDropdownOpen] = useState(false);
-  const weekDropdownRef = useRef<HTMLDivElement>(null);
-  
+
   const { register, handleSubmit, formState: { errors }, reset, watch, setValue } = useForm<FormData>();
   const { addRegistration, initializeWeeks, loadFromDatabase, weekAvailability, getWeekRegistrations } = useStore();
 
@@ -45,18 +49,7 @@ export default function Home() {
     initializeWeeks();
   }, [loadFromDatabase, initializeWeeks]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (weekDropdownRef.current && !weekDropdownRef.current.contains(event.target as Node)) {
-        setIsWeekDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const availableWeeks = getNext10Weeks().filter(week => {
+  const availableWeeks = getNext10Weeks().filter((week) => {
     const weekKey = formatDate(week);
     return weekAvailability[weekKey]?.isAvailable !== false;
   });
@@ -91,292 +84,192 @@ export default function Home() {
     setIsSubmitting(false);
   };
 
-  const availableSpots = selectedWeek && selectedLocation && selectedTimeSlot
-    ? getAvailableSpots(selectedWeek, selectedLocation, selectedTimeSlot)
-    : null;
+  const availableSpots =
+    selectedWeek && selectedLocation && selectedTimeSlot
+      ? getAvailableSpots(selectedWeek, selectedLocation, selectedTimeSlot)
+      : null;
 
   return (
-    <div className="min-h-screen bg-[#F5F3EA] flex flex-col">
-      {/* Header */}
-      <header className="bg-white border-b border-neutral-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-          <img 
-            src="/logo.svg" 
-            alt="Eudora Logo" 
-            className="h-8 sm:h-10 w-auto"
-          />
+    <div className="relative min-h-screen overflow-hidden bg-bg">
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <svg
+          className="absolute -right-[8%] top-[6%] h-[86%] w-[62%] text-bg-sage"
+          viewBox="0 0 800 900"
+          fill="currentColor"
+          preserveAspectRatio="none"
+        >
+          <path d="M620 40c110 70 210 220 170 390-40 170-210 250-360 320-150 70-280 120-360 70-80-50-70-180-20-320 50-140 140-290 270-380C450 30 510 -30 620 40Z" />
+        </svg>
+      </div>
+
+      <header className="relative z-10 border-b border-border/60 bg-surface">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-8">
+          <img src="/logo.svg" alt="Eudora Internationella Förskola" className="h-8 w-auto sm:h-10" />
           <a
             href="/admin/login"
-            className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-neutral-900 hover:bg-neutral-100 rounded-lg transition-all border border-neutral-300"
+            className="rounded-md px-3 py-2 text-xs font-medium uppercase tracking-wide text-muted transition-colors hover:bg-bg hover:text-ink"
           >
             Admin
           </a>
         </div>
       </header>
 
-      <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full">
-        {/* Hero Section */}
-        <div className="mb-6 sm:mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-accent-light/30 rounded-full text-xs font-medium text-neutral-900 mb-4">
-            15 platser tillgängliga per pass
-          </div>
-          <h1 className="text-2xl sm:text-4xl font-bold text-neutral-900 mb-4">
+      <main className="relative z-10 mx-auto grid max-w-7xl items-start gap-10 px-4 py-10 sm:px-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(280px,0.85fr)] lg:gap-16 lg:py-14">
+        <section className="max-w-2xl">
+          <Badge className="mb-5">
+            Endast <strong>15 platser</strong> tillgängliga per pass
+          </Badge>
+
+          <h1 className="mb-4 text-3xl font-bold tracking-tight text-ink sm:text-5xl">
             Anmälan till babysång
           </h1>
-          <p className="text-sm sm:text-base text-neutral-900 leading-relaxed">
-            Vi ses på <strong>{formatLocationSchedule('sodermalm')}</strong> och på <strong>{formatLocationSchedule('gardet')}</strong>. Under samlingen sjunger vi gamla och nya sånger för och med barnen på svenska och engelska. Vi använder rörelse, spelar rytminstrument och lyssnar på musik. Anmäl ditt barn nedan:
+
+          <p className="mb-8 text-sm leading-relaxed text-ink sm:text-base">
+            Vi ses på <strong>{formatLocationSchedule('sodermalm')}</strong> och på{' '}
+            <strong>{formatLocationSchedule('gardet')}</strong>. Under samlingen sjunger vi gamla och
+            nya sånger för och med barnen på svenska och engelska. Vi använder rörelse, spelar
+            rytminstrument och lyssnar på musik. Anmäl ditt barn nedan:
           </p>
-        </div>
 
-        {/* Form Section */}
-        <div>
-          <div className="bg-white border border-neutral-300 rounded-xl p-4 sm:p-8">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            {/* Name Fields */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-neutral-900 mb-2">
-                  Förnamn/First Name
-                </label>
-                <input
-                  type="text"
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <Field label="Förnamn/First Name">
+                <Input
                   placeholder="Ex. Anna"
+                  error={errors.firstName?.message}
                   {...register('firstName', { required: 'Förnamn krävs' })}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/10 transition-all bg-white"
                 />
-                {errors.firstName && (
-                  <p className="text-error text-xs mt-1.5">{errors.firstName.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-neutral-900 mb-2">
-                  Efternamn/Last Name
-                </label>
-                <input
-                  type="text"
+              </Field>
+              <Field label="Efternamn/Last Name">
+                <Input
                   placeholder="Ex. Jakobsson"
+                  error={errors.lastName?.message}
                   {...register('lastName', { required: 'Efternamn krävs' })}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/10 transition-all bg-white"
                 />
-                {errors.lastName && (
-                  <p className="text-error text-xs mt-1.5">{errors.lastName.message}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Contact Fields */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-neutral-900 mb-2">
-                  E-post/Email
-                </label>
-                <input
+              </Field>
+              <Field label="E-post/Email">
+                <Input
                   type="email"
                   placeholder="Ex. anna@jakobsson.se"
-                  {...register('email', { 
+                  error={errors.email?.message}
+                  {...register('email', {
                     required: 'E-post krävs',
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: 'Ogiltig e-postadress'
-                    }
+                      message: 'Ogiltig e-postadress',
+                    },
                   })}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/10 transition-all bg-white"
                 />
-                {errors.email && (
-                  <p className="text-error text-xs mt-1.5">{errors.email.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-neutral-900 mb-2">
-                  Mobilnummer/Phone
-                </label>
-                <input
+              </Field>
+              <Field label="Mobilnummer/Phone">
+                <Input
                   type="tel"
-                  placeholder="Ex. anna@jakobsson.se"
+                  placeholder="Ex. 070 123 45 67"
+                  error={errors.phone?.message}
                   {...register('phone', { required: 'Telefonnummer krävs' })}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/10 transition-all bg-white"
                 />
-                {errors.phone && (
-                  <p className="text-error text-xs mt-1.5">{errors.phone.message}</p>
-                )}
-              </div>
+              </Field>
             </div>
 
-            {/* Session Selection */}
-            <div>
-              <label className="block text-sm font-medium text-neutral-900 mb-3">
-                Vilket pass vill du anmäla dig till?
-              </label>
-              <input type="hidden" {...register('location', { required: 'Välj ett pass' })} />
+            <Field label="Vilken förskola vill du anmäla dig till?">
+              <input type="hidden" {...register('location', { required: 'Välj en plats' })} />
+              <RadioGroup
+                name="location"
+                value={selectedLocation}
+                onChange={(value) => setValue('location', value, { shouldValidate: true })}
+                error={errors.location?.message}
+                options={(Object.keys(LOCATIONS) as Location[]).map((location) => ({
+                  value: location,
+                  label: `Eudora ${LOCATIONS[location].label}`,
+                }))}
+              />
+            </Field>
+
+            <Field label="Vilket pass?">
               <input type="hidden" {...register('timeSlot', { required: 'Välj ett pass' })} />
-              <div className="space-y-4">
-                {(Object.keys(LOCATIONS) as Location[]).map((location) => {
-                  const loc = LOCATIONS[location];
+              <RadioGroup
+                name="timeSlot"
+                value={selectedTimeSlot}
+                onChange={(value) => setValue('timeSlot', value, { shouldValidate: true })}
+                error={errors.timeSlot?.message}
+                options={(Object.keys(TIME_SLOTS) as TimeSlot[]).map((timeSlot) => ({
+                  value: timeSlot,
+                  label: TIME_SLOTS[timeSlot].time,
+                }))}
+              />
+            </Field>
 
-                  return (
-                    <div key={location}>
-                      <div className="mb-2">
-                        <div className="text-sm font-semibold text-neutral-900">{loc.label}</div>
-                        <div className="text-xs text-neutral-500">{loc.address} · {loc.day}</div>
-                      </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {(Object.keys(TIME_SLOTS) as TimeSlot[]).map((timeSlot) => {
-                          const slot = TIME_SLOTS[timeSlot];
-                          const isSelected =
-                            selectedLocation === location && selectedTimeSlot === timeSlot;
-
-                          return (
-                            <div
-                              key={getSessionKey(location, timeSlot)}
-                              onClick={() => {
-                                setValue('location', location);
-                                setValue('timeSlot', timeSlot);
-                              }}
-                              className={`cursor-pointer p-4 border-2 rounded-xl transition-all ${
-                                isSelected
-                                  ? 'border-neutral-900 bg-neutral-900 text-white'
-                                  : 'border-neutral-300 hover:border-neutral-400 bg-white'
-                              }`}
-                            >
-                              <div className={`text-sm font-bold mb-1 ${
-                                isSelected ? 'text-white' : 'text-neutral-900'
-                              }`}>
-                                {slot.time}
-                              </div>
-                              <div className={`text-xs ${
-                                isSelected ? 'text-neutral-300' : 'text-neutral-500'
-                              }`}>
-                                {loc.dayShort} · {slot.label}
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-              {(errors.location || errors.timeSlot) && (
-                <p className="text-error text-xs mt-1.5">Välj ett pass</p>
-              )}
-            </div>
-
-            {/* Week Selection */}
-            <div>
-              <label className="block text-sm font-medium text-neutral-900 mb-2">
-                Vecka
-              </label>
+            <Field label="Vecka">
               <input type="hidden" {...register('weekStart', { required: 'Välj en vecka' })} />
-              <div ref={weekDropdownRef} className="relative">
-                <button
-                  type="button"
-                  onClick={() => setIsWeekDropdownOpen(!isWeekDropdownOpen)}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:border-primary-teal transition-all bg-white text-left flex items-center justify-between"
-                >
-                  <span className={selectedWeek ? 'text-neutral-900 text-sm' : 'text-neutral-500 text-sm'}>
-                    {selectedWeek 
-                      ? `Vecka ${getWeekNumber(parseISO(selectedWeek))} (${formatWeekRange(parseISO(selectedWeek))})`
-                      : 'Vecka 10 (2 mar - 8 mar)'
-                    }
-                  </span>
-                  <ChevronDown className={`w-4 h-4 text-neutral-400 transition-transform ${isWeekDropdownOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                {isWeekDropdownOpen && (
-                  <div className="absolute z-10 w-full mt-2 bg-white border border-neutral-300 rounded-lg shadow-lg max-h-64 overflow-y-auto">
-                    {availableWeeks.map(week => {
-                      const weekKey = formatDate(week);
-                      const weekNum = getWeekNumber(week);
-                      const isSelected = selectedWeek === weekKey;
-                      
-                      return (
-                        <button
-                          key={weekKey}
-                          type="button"
-                          onClick={() => {
-                            setValue('weekStart', weekKey);
-                            setIsWeekDropdownOpen(false);
-                          }}
-                          className={`w-full px-4 py-3 text-sm text-left hover:bg-primary-teal/10 transition-colors ${
-                            isSelected ? 'bg-primary-teal/10 text-primary-teal font-medium' : 'text-neutral-900'
-                          }`}
-                        >
-                          Vecka {weekNum} ({formatWeekRange(week)})
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-              {errors.weekStart && (
-                <p className="text-error text-xs mt-1.5">{errors.weekStart.message}</p>
-              )}
+              <Select
+                value={selectedWeek}
+                placeholder="Välj vecka"
+                error={errors.weekStart?.message}
+                onChange={(value) => setValue('weekStart', value, { shouldValidate: true })}
+                options={availableWeeks.map((week) => {
+                  const weekKey = formatDate(week);
+                  return {
+                    value: weekKey,
+                    label: `Vecka ${getWeekNumber(week)} (${formatWeekRange(week)})`,
+                  };
+                })}
+              />
               {availableSpots !== null && selectedLocation && selectedTimeSlot && (
-                <div className="mt-2 flex items-center gap-2">
+                <p className="mt-2 text-xs font-medium">
                   {availableSpots > 0 ? (
-                    <>
-                      <div className="w-2 h-2 bg-accent rounded-full"></div>
-                      <span className="text-xs text-neutral-600 font-medium">{availableSpots} platser kvar</span>
-                    </>
+                    <span className="text-muted">{availableSpots} platser kvar</span>
                   ) : (
-                    <>
-                      <div className="w-2 h-2 bg-error rounded-full"></div>
-                      <span className="text-xs text-error font-medium">Fullbokad</span>
-                    </>
+                    <span className="text-error">Fullbokad</span>
                   )}
-                </div>
+                </p>
               )}
-            </div>
+            </Field>
 
-            {/* Terms */}
-            <div className="pt-2">
-              <label className="flex items-start cursor-pointer group">
-                <input
-                  type="checkbox"
-                  {...register('terms', { required: 'Du måste godkänna villkoren' })}
-                  className="w-4 h-4 text-primary-teal focus:ring-2 focus:ring-primary-teal/20 border-neutral-300 rounded mt-0.5"
-                />
-                <span className="ml-3 text-sm text-neutral-900">
-                  Jag godkänner <a href="#" className="text-primary-teal hover:underline font-medium underline">villkoren</a>
-                </span>
-              </label>
-              {errors.terms && (
-                <p className="text-error text-xs mt-1.5">{errors.terms.message}</p>
-              )}
-            </div>
+            <Checkbox
+              error={errors.terms?.message}
+              label={
+                <>
+                  Jag godkänner{' '}
+                  <a href="#" className="font-semibold underline">
+                    villkoren
+                  </a>
+                </>
+              }
+              {...register('terms', { required: 'Du måste godkänna villkoren' })}
+            />
 
-            {/* Message */}
             {message && (
-              <div className={`p-4 rounded-xl border text-sm ${
-                message.type === 'success' 
-                  ? 'bg-accent-light/20 text-neutral-900 border-accent-light/30' 
-                  : 'bg-error-light text-neutral-900 border-error/30'
-              }`}>
+              <div
+                className={`rounded-md border px-4 py-3 text-sm ${
+                  message.type === 'success'
+                    ? 'border-accent bg-accent/40 text-ink'
+                    : 'border-error/30 bg-error-bg text-ink'
+                }`}
+              >
                 {message.text}
               </div>
             )}
 
-            {/* Submit Button */}
-            <button
+            <Button
               type="submit"
+              variant="primary"
+              size="lg"
+              className="w-full"
               disabled={isSubmitting || availableSpots === 0}
-              className="w-full bg-primary-teal text-white py-4 px-6 rounded-lg font-semibold hover:bg-primary-teal/90 transition-all disabled:bg-neutral-300 disabled:cursor-not-allowed text-base"
             >
-              {isSubmitting ? 'Skickar...' : 'SKICKA ANMÄLAN'}
-            </button>
+              {isSubmitting ? 'Skickar...' : 'Skicka anmälan'}
+            </Button>
           </form>
-          </div>
-        </div>
-      </main>
+        </section>
 
-      {/* Footer */}
-      <footer className="border-t border-neutral-300 bg-white mt-auto">
-        <div className="max-w-4xl mx-auto px-6 py-6 text-center text-xs text-neutral-600">
-          © 2026 Eudora Babyrytmik
-        </div>
-      </footer>
+        <aside className="hidden lg:sticky lg:top-10 lg:block">
+          <img
+            src="/assets/hero-image.png"
+            alt="Barn som leker med trädjur"
+            className="h-full min-h-[720px] w-full object-cover object-[center_18%]"
+          />
+        </aside>
+      </main>
     </div>
   );
 }
