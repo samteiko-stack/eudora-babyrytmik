@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 :root {
-  /* Eudora Webflow tokens (eudora-forskola-sodermalm) */
   --color-bg: #f1f1e6;
   --color-bg-sage: #eef9dc;
   --color-surface: #ffffff;
@@ -12,7 +11,7 @@
   --color-border: #000000;
   --color-field: #69a306;
   --color-teal: #004346;
-  --color-teal-hover: #004346;
+  --color-teal-hover: #003538;
   --color-accent: #c8e793;
   --color-accent-strong: #004346;
   --color-error: #c45c5c;
@@ -34,16 +33,40 @@
   --radius-full: 9999px;
 
   --shadow-dropdown: 0 12px 32px rgba(0, 0, 0, 0.12);
-  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-geist), "Geist Wght", Arial, sans-serif;
   --font-heading: var(--font-nohemi), ui-serif, Georgia, serif;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-md: 1.125rem;
+  --font-size-lg: 1.5rem;
+  --font-size-xl: 1.875rem;
+  --font-size-2xl: 2.25rem;
+}
+
+html {
+  font-size: 100%;
 }
 
 body {
+  margin: 0;
   background-color: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Keep admin on design-system styles even after visiting registration page */
+body:has([data-app='admin']) {
+  background-color: var(--color-bg) !important;
+  color: var(--color-ink) !important;
+  font-family: var(--font-sans) !important;
+  font-size: var(--font-size-base) !important;
+  line-height: 1.5 !important;
 }
 
 @layer utilities {
@@ -55,29 +78,14 @@ body {
     font-family: var(--font-heading);
   }
 
-  .bg-section-pattern {
-    background-color: var(--color-bg);
-    background-image: url('/assets/pattern.svg');
-    background-position: 100% 0;
-    background-repeat: no-repeat;
-    background-size: cover;
+  .ds-link {
+    color: var(--color-teal);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
-}
 
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-bg-sage);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: var(--radius-full);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-muted);
+  .ds-link:hover {
+    opacity: 0.7;
+  }
 }

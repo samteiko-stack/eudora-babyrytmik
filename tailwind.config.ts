@@ -71,6 +71,15 @@ const config: Config = {
         sans: ['var(--font-geist)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         heading: ['var(--font-nohemi)', 'ui-serif', 'Georgia', 'serif'],
       },
+      fontSize: {
+        xs: ['var(--font-size-xs)', { lineHeight: '1.4' }],
+        sm: ['var(--font-size-sm)', { lineHeight: '1.5' }],
+        base: ['var(--font-size-base)', { lineHeight: '1.5' }],
+        md: ['var(--font-size-md)', { lineHeight: '1.4' }],
+        lg: ['var(--font-size-lg)', { lineHeight: '1.3' }],
+        xl: ['var(--font-size-xl)', { lineHeight: '1.2' }],
+        '2xl': ['var(--font-size-2xl)', { lineHeight: '1.15' }],
+      },
       boxShadow: {
         dropdown: 'var(--shadow-dropdown)',
       },

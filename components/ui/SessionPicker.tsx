@@ -28,10 +28,10 @@ function OptionButton({
       type="button"
       onClick={onClick}
       className={cn(
-        'px-3 py-2.5 text-sm transition-colors',
+        'px-3 py-2.5 text-base transition-colors',
         selected
-          ? 'border-2 border-ink bg-ink text-white'
-          : 'border border-ink/20 bg-surface text-ink hover:bg-bg-sage'
+          ? 'border-2 border-teal bg-teal text-white'
+          : 'border border-teal/25 bg-surface text-ink hover:bg-bg-sage'
       )}
     >
       {children}
@@ -48,7 +48,7 @@ export function SessionPicker({
   return (
     <div className="space-y-4">
       <div>
-        <p className="mb-2 text-sm font-semibold text-ink">Förskola</p>
+        <p className="mb-2 text-base font-medium text-ink">Förskola</p>
         <div className="grid grid-cols-2 gap-2">
           {(Object.keys(LOCATIONS) as Location[]).map((locationKey) => (
             <OptionButton
@@ -61,14 +61,14 @@ export function SessionPicker({
           ))}
         </div>
         {location && (
-          <p className="mt-2 text-xs text-muted">
+          <p className="mt-2 text-sm text-muted">
             {LOCATIONS[location].day} · {LOCATIONS[location].address}
           </p>
         )}
       </div>
 
       <div>
-        <p className="mb-2 text-sm font-semibold text-ink">Tid</p>
+        <p className="mb-2 text-base font-medium text-ink">Tid</p>
         <div className="grid grid-cols-2 gap-2">
           {(Object.keys(TIME_SLOTS) as TimeSlot[]).map((slotKey) => (
             <OptionButton

@@ -1,39 +1,6 @@
 [
   {
-    "id": "import-1772316699708-ckd765h0u",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-12-29",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699738-hsr0ms5hc",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-01-05",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699753-c6tapqxgr",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-01-12",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699755-x635zgy3r",
+    "id": "import-1772343066956-0k6i2cw36",
     "firstName": "Mary",
     "lastName": "Carlsson",
     "email": "maryreid.carlsson@gmail.com",
@@ -44,29 +11,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699756-af9y58bvw",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-01-19",
-    "createdAt": "2026-01-22T05:59:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699756-2zzm6x557",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-01-26",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699756-kq20ovdeg",
+    "id": "import-1772343066956-88vd2fqct",
     "firstName": "Eskil",
     "lastName": "Gustafsson",
     "email": "alissagustafsson@gmail.com",
@@ -77,7 +22,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699757-0p8fdyh02",
+    "id": "import-1772343066956-fxt4t56as",
     "firstName": "Linda",
     "lastName": "Beigart",
     "email": "linda.beigart@yahoo.com",
@@ -88,7 +33,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699758-5qvz5wkyn",
+    "id": "import-1772343066956-h5wpnj6gv",
     "firstName": "Daan",
     "lastName": "Botes",
     "email": "rozaan1980@gmail.com",
@@ -99,73 +44,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699758-4xj6pt0pl",
-    "firstName": "Alfred",
-    "lastName": "Stephanie Elis mamma och Pappa",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-01-26",
-    "createdAt": "2026-01-29T08:49:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699758-5v9lfvu8w",
-    "firstName": "Linnea ",
-    "lastName": "Cicilia Eskils mamma",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-01-26",
-    "createdAt": "2026-01-29T08:49:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699758-jc8eemuoz",
-    "firstName": "Theodor",
-    "lastName": "Benjamins Pappa",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-01-26",
-    "createdAt": "2026-01-29T08:49:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699760-b9b21bfbc",
-    "firstName": "Ebba",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-01-26",
-    "createdAt": "2026-01-29T08:49:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699760-8e6whyowk",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-02-02",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699760-o8ob64u18",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-02-09",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699761-7uycq6rl6",
+    "id": "import-1772343066956-nd0596c2t",
     "firstName": "Daan",
     "lastName": "Botes",
     "email": "rozaan1980@gmail.com",
@@ -176,7 +55,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699761-53p8vd48a",
+    "id": "import-1772343066956-qs1bfpuvl",
     "firstName": "Peter",
     "lastName": "Burgman",
     "email": "burgman.peter@gmail.com",
@@ -187,7 +66,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699761-igahbqrdm",
+    "id": "import-1772343066956-rx496mgxc",
     "firstName": "Stephanie",
     "lastName": "Rodriguez",
     "email": "sdrodriguez1@gmail.com",
@@ -198,7 +77,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699761-saqpt6crz",
+    "id": "import-1772343066956-0h3bhax6x",
     "firstName": "Marta",
     "lastName": "Roczniewska",
     "email": "kwiecien.marta@gmail.com",
@@ -209,7 +88,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699761-lc47r2axj",
+    "id": "import-1772343066956-0pu5pv6ap",
     "firstName": "Marta",
     "lastName": "Roczniewska",
     "email": "kwiecien.marta@gmail.com",
@@ -220,18 +99,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699762-63ca3xjbn",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-02-16",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699762-u57o64iz8",
+    "id": "import-1772343066957-h8i9idzcr",
     "firstName": "Tove",
     "lastName": "Winiger Gessau",
     "email": "tove@winiger.se",
@@ -242,8 +110,8 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699762-iqqw6vey8",
-    "firstName": "Tadeusz ",
+    "id": "import-1772343066957-0aapclk6m",
+    "firstName": "Tadeusz",
     "lastName": "Roczniewska",
     "email": "kwiecien.marta@gmail.com",
     "phone": "793097784",
@@ -253,19 +121,8 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699762-62zmli8wl",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-02-23",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699763-wvtm2zw35",
-    "firstName": "Tadeusz ",
+    "id": "import-1772343066957-lt8dz3rdw",
+    "firstName": "Tadeusz",
     "lastName": "Roczniewski",
     "email": "kwiecien.marta@gmail.com",
     "phone": "793097784",
@@ -275,18 +132,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699769-78tv90m2g",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-03-02",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699769-xsqwl4s19",
+    "id": "import-1772343066957-jgbtayshr",
     "firstName": "Manuela",
     "lastName": "Gotskozik Bjelke",
     "email": "manuelabjelke@gmail.com",
@@ -297,194 +143,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699769-tjwsd1yyq",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-03-09",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699770-vpoy74y9q",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-03-16",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699770-pi8niu7mx",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-03-23",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699770-kpavzhqh0",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-03-30",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699771-pxe1333k4",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-04-06",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699771-g1cal3vun",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-04-13",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699771-77vcusld0",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-04-20",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699771-q7vkhkcue",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-04-27",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699772-l3ti2o1vj",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-05-04",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699772-wary0qu1y",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-05-11",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699772-b2iorvkw6",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-05-18",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699785-zwvehse8o",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-05-25",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699786-kvinjm5nd",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-06-01",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699786-90nizlsys",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-06-08",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699786-6uce2f2k2",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-06-15",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699786-nouu7pqnj",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-06-22",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699797-d7d90gy4o",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-06-29",
-    "createdAt": "2026-01-15T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699802-84brnu0ku",
+    "id": "import-1772343066957-10q5p98il",
     "firstName": "Ashur",
     "lastName": "Adam",
     "email": "ashur.adam@gmail.com",
@@ -495,7 +154,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699803-o2gvwka7w",
+    "id": "import-1772343066957-o9y7axysf",
     "firstName": "Daan",
     "lastName": "Botes",
     "email": "rozaan1980@gmail.com",
@@ -506,7 +165,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699804-0uq10w2an",
+    "id": "import-1772343066957-29a9d2zon",
     "firstName": "Ashton",
     "lastName": "Gilbert",
     "email": "karlabothma444@gmail.com",
@@ -517,29 +176,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699823-g7nnbkv73",
-    "firstName": "Stephanie",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-09-01",
-    "createdAt": "2025-09-11T04:56:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699823-savcgj5i4",
-    "firstName": "Sharon",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-09-01",
-    "createdAt": "2025-09-11T04:57:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699825-0ce727f36",
+    "id": "import-1772343066957-ft6scxau7",
     "firstName": "Daan",
     "lastName": "Botes",
     "email": "rozaan1980@gmail.com",
@@ -550,9 +187,9 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699825-yvydi6afj",
+    "id": "import-1772343066957-vrbv4zp4d",
     "firstName": "Karla",
-    "lastName": "Gilbert ",
+    "lastName": "Gilbert",
     "email": "karlabothma444@gmail.com",
     "phone": "(076) 608-5069",
     "location": "sodermalm",
@@ -561,7 +198,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699826-0zjsrg09o",
+    "id": "import-1772343066957-i0qhw0ygw",
     "firstName": "Daan",
     "lastName": "Botes",
     "email": "rozaan1980@gmail.com",
@@ -572,62 +209,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699826-ipxmsy8uj",
-    "firstName": "Sharon / Theodore",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-09-15",
-    "createdAt": "2025-09-24T10:40:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699826-9ukamnb1k",
-    "firstName": "Stefanine",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-09-15",
-    "createdAt": "2025-09-25T07:38:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699826-ga4cor9c9",
-    "firstName": "Rozaan",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-09-22",
-    "createdAt": "2025-10-02T10:21:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699827-0tzta5bk4",
-    "firstName": "Karla",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-09-22",
-    "createdAt": "2025-10-02T10:33:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699827-bkcuffobk",
-    "firstName": "Sharon",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-09-22",
-    "createdAt": "2025-10-02T10:33:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699827-pxk0zr011",
+    "id": "import-1772343066957-ynmasrokp",
     "firstName": "Daan",
     "lastName": "Botes",
     "email": "rozaan1980@gmail.com",
@@ -638,8 +220,8 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699827-i9xflhyqt",
-    "firstName": "Samantha ",
+    "id": "import-1772343066957-qwh304zdz",
+    "firstName": "Samantha",
     "lastName": "Mullins",
     "email": "samantie7@gmail.com",
     "phone": "(073) 506-5354",
@@ -649,7 +231,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699827-u83b2y5ne",
+    "id": "import-1772343066957-x374qgjon",
     "firstName": "Natalie",
     "lastName": "Burgman",
     "email": "natjaneclarke@gmail.com",
@@ -660,7 +242,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699827-e2pawgs9t",
+    "id": "import-1772343066957-ww21imx6x",
     "firstName": "Issy",
     "lastName": "Gill",
     "email": "issyrgill@gmail.com",
@@ -671,8 +253,8 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699827-fxawrl51s",
-    "firstName": "Georgie ",
+    "id": "import-1772343066957-ny9wcdkq6",
+    "firstName": "Georgie",
     "lastName": "Rush",
     "email": "georgina.rush@dnb.se",
     "phone": "(072) 373-2400",
@@ -682,7 +264,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699844-vn7y7zyg9",
+    "id": "import-1772343066957-ipfgq5dkt",
     "firstName": "Natalie",
     "lastName": "Burgman",
     "email": "natjaneclarke@gmail.com",
@@ -693,7 +275,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699878-uxmpa905x",
+    "id": "import-1772343066957-ro5np12dm",
     "firstName": "Hannah",
     "lastName": "Garrity",
     "email": "hannahgarrity7@gmail.com",
@@ -704,7 +286,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699879-2hr3y6256",
+    "id": "import-1772343066957-81qdszngv",
     "firstName": "Marta",
     "lastName": "Roczniewska",
     "email": "marta.roczniewska@gmail.com",
@@ -715,8 +297,8 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699884-u36ptg8kw",
-    "firstName": "Eviana ",
+    "id": "import-1772343066957-hcsbdfwsl",
+    "firstName": "Eviana",
     "lastName": "Kennmar-Arnold",
     "email": "abigaillarnold@gmail.com",
     "phone": "(072) 446-6942",
@@ -726,9 +308,9 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699894-g5goomwvf",
-    "firstName": "Ophelia ",
-    "lastName": "Scott ",
+    "id": "import-1772343066957-gky1tdu7g",
+    "firstName": "Ophelia",
+    "lastName": "Scott",
     "email": "allenjackscott@gmail.com",
     "phone": "(076) 241-2251",
     "location": "sodermalm",
@@ -737,42 +319,9 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699904-ylefau2ae",
-    "firstName": "Sharon/Theodor",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-09-29",
-    "createdAt": "2025-10-02T10:28:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699911-4oxpguy52",
-    "firstName": "Karla",
-    "lastName": "Gilbert",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-09-29",
-    "createdAt": "2025-10-02T10:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699912-0qwea8oeo",
-    "firstName": "Fatemeh",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-09-29",
-    "createdAt": "2025-10-02T10:38:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699912-pg42mdwz4",
+    "id": "import-1772343066957-1fqatidae",
     "firstName": "Natalie",
-    "lastName": "Burgman ",
+    "lastName": "Burgman",
     "email": "natjaneclarke@gmail.com",
     "phone": "(070) 298-1103",
     "location": "sodermalm",
@@ -781,7 +330,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699913-eydjbxhi4",
+    "id": "import-1772343066957-7ygj6iysr",
     "firstName": "Tadeusz",
     "lastName": "Roczniewski",
     "email": "kwiecien.marta@gmail.com",
@@ -792,7 +341,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699913-sebr6ju3g",
+    "id": "import-1772343066957-2gfmp0e12",
     "firstName": "Rory",
     "lastName": "Gill",
     "email": "issyrgill@gmail.com",
@@ -803,7 +352,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699913-wh31xsfue",
+    "id": "import-1772343066957-39vh5deo8",
     "firstName": "Rory",
     "lastName": "Gill",
     "email": "issyrgill@gmail.com",
@@ -814,7 +363,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699914-tm8xd2fdd",
+    "id": "import-1772343066957-xnf0y1hqy",
     "firstName": "Ophelia",
     "lastName": "Scott",
     "email": "allenjackscott@gmail.com",
@@ -825,7 +374,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699914-n05z9t9ij",
+    "id": "import-1772343066957-lw6461yui",
     "firstName": "Marta",
     "lastName": "Roczniewska",
     "email": "kwiecien.marta@gmail.com",
@@ -836,7 +385,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699914-trj1t7xy0",
+    "id": "import-1772343066957-arx7oj7x0",
     "firstName": "Emma",
     "lastName": "Hedberg Rundgren",
     "email": "emmahedbergrundgren@gmail.com",
@@ -847,7 +396,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699923-h5yihui1i",
+    "id": "import-1772343066957-22qr82x6h",
     "firstName": "Emma",
     "lastName": "Hedberg Rundgren",
     "email": "emmahedbergrundgren@gmail.com",
@@ -858,7 +407,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699923-mwy727ppy",
+    "id": "import-1772343066957-gvykbgfvy",
     "firstName": "Ashur",
     "lastName": "Adam",
     "email": "ashur.adam@gmail.com",
@@ -869,73 +418,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699923-nao5t2a2m",
-    "firstName": "Anonym",
-    "lastName": "Theodor",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-10-13",
-    "createdAt": "2025-10-16T07:27:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699923-976bqryut",
-    "firstName": "Anonym",
-    "lastName": "Ofelia",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-10-13",
-    "createdAt": "2025-10-16T07:27:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699924-fo3nvezk9",
-    "firstName": "Rozaan",
-    "lastName": "Daniel",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-10-13",
-    "createdAt": "2025-10-16T07:27:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699924-e0vjnhxcw",
-    "firstName": "Karla",
-    "lastName": "Aston",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-10-13",
-    "createdAt": "2025-10-16T07:27:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699924-3e03cmrjn",
-    "firstName": "Anonym",
-    "lastName": "Hosein",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-10-13",
-    "createdAt": "2025-10-16T07:28:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699924-6cdeaaej0",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-10-13",
-    "createdAt": "2025-10-16T07:29:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699925-bfd0ks1xm",
+    "id": "import-1772343066957-0bloumo1q",
     "firstName": "Natalie",
     "lastName": "Burgman",
     "email": "natjaneclarke@gmail.com",
@@ -946,7 +429,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699925-6yg7cm0dm",
+    "id": "import-1772343066957-u7j5m0cdr",
     "firstName": "Natalie",
     "lastName": "Burgman",
     "email": "natjaneclarke@gmail.com",
@@ -957,7 +440,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699925-s89tn9z0z",
+    "id": "import-1772343066957-4rjncfajn",
     "firstName": "Tadeusz",
     "lastName": "Roczniewski",
     "email": "kwiecien.marta@gmail.com",
@@ -968,18 +451,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699925-a05glcmur",
-    "firstName": "Theodor",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-10-27",
-    "createdAt": "2025-11-05T15:59:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699925-2px99dmr0",
+    "id": "import-1772343066957-4op5yjqan",
     "firstName": "Natalie",
     "lastName": "Burgman",
     "email": "natjaneclarke@gmail.com",
@@ -990,7 +462,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699932-rdfzki1gd",
+    "id": "import-1772343066957-jrcawbr05",
     "firstName": "Natalie",
     "lastName": "Burgman",
     "email": "natjaneclarke@gmail.com",
@@ -1001,7 +473,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699934-lbzkn7wd6",
+    "id": "import-1772343066957-ai8cniklh",
     "firstName": "Daan",
     "lastName": "Botes",
     "email": "rozaan1980@gmail.com",
@@ -1012,7 +484,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699935-a2oq5wwee",
+    "id": "import-1772343066957-z73bsir91",
     "firstName": "Tadzio",
     "lastName": "Roczniewski",
     "email": "kwiecien.marta@gmail.com",
@@ -1023,7 +495,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699935-atdzaw8rb",
+    "id": "import-1772343066957-toudu5ltf",
     "firstName": "Tadzio",
     "lastName": "Roczniewski",
     "email": "kwiecien.marta@gmail.com",
@@ -1034,7 +506,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699935-ru60ggx39",
+    "id": "import-1772343066957-ke846k6lm",
     "firstName": "Daan",
     "lastName": "Botes",
     "email": "rozaan1980@gmail.com",
@@ -1045,53 +517,9 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699935-5il1m25c2",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-11-10",
-    "createdAt": "2025-11-19T08:56:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699936-ytylrmqc5",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-11-10",
-    "createdAt": "2025-11-19T08:56:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699936-up4azr225",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-11-10",
-    "createdAt": "2025-11-20T07:04:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699936-zwdxhecv3",
-    "firstName": "Housaain",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-11-17",
-    "createdAt": "2025-11-20T07:19:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699936-ysv0i9xjw",
+    "id": "import-1772343066957-3yqobleuq",
     "firstName": "Natalie",
-    "lastName": "Burgman ",
+    "lastName": "Burgman",
     "email": "natjaneclarke@gmail.com",
     "phone": "(070) 298-1103",
     "location": "sodermalm",
@@ -1100,9 +528,9 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699937-ew6r1bxgw",
+    "id": "import-1772343066957-k31avvot7",
     "firstName": "Natalie",
-    "lastName": "Burgman ",
+    "lastName": "Burgman",
     "email": "natjaneclarke@gmail.com",
     "phone": "(070) 298-1103",
     "location": "sodermalm",
@@ -1111,7 +539,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699937-898wtn5dl",
+    "id": "import-1772343066957-3orl6b42c",
     "firstName": "Theodor",
     "lastName": "Lim Simic",
     "email": "toni.simic242@gmail.com",
@@ -1122,62 +550,7 @@
     "status": "confirmed"
   },
   {
-    "id": "import-1772316699937-8f88pxd4y",
-    "firstName": "Rozaan",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-11-24",
-    "createdAt": "2025-12-01T09:22:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699937-vlhe2fulm",
-    "firstName": "Karla",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-11-24",
-    "createdAt": "2025-12-01T09:23:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699938-j9p5v3hag",
-    "firstName": "Olivia",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-11-24",
-    "createdAt": "2025-12-01T09:23:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316699938-f3z3jnd6v",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2025-11-24",
-    "createdAt": "2025-12-01T09:23:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316700016-2c93qsxcc",
-    "firstName": "Anonym",
-    "lastName": "",
-    "email": "ingen@email.se",
-    "phone": "0000000000",
-    "location": "sodermalm",
-    "weekStart": "2026-11-23",
-    "createdAt": "2026-01-15T07:02:00.000Z",
-    "status": "confirmed"
-  },
-  {
-    "id": "import-1772316700016-mxr0sj2af",
+    "id": "import-1772343066958-5ksrgbuoa",
     "firstName": "Mary",
     "lastName": "Carlsson",
     "email": "maryreid.carlsson@gmail.com",

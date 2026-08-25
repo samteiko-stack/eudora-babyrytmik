@@ -1,3 +1,4 @@
+export { Alert } from './Alert';
 export { Badge } from './Badge';
 export { Button } from './Button';
 export { Checkbox } from './Checkbox';
@@ -5,6 +6,8 @@ export { ChoiceCard } from './ChoiceCard';
 export { Field } from './Field';
 export { Input } from './Input';
 export { Label } from './Label';
+export { Modal, ConfirmModal } from './Modal';
+export { PasswordInput } from './PasswordInput';
 export { RadioGroup } from './RadioGroup';
 export { Select } from './Select';
 export { SessionPicker } from './SessionPicker';

@@ -49,16 +49,16 @@ export function RadioGroup<T extends string>({
                 className="sr-only"
               />
               <span>
-                <span className="block text-sm text-ink">{option.label}</span>
+                <span className="block text-base text-ink">{option.label}</span>
                 {option.description && (
-                  <span className="block text-xs text-muted">{option.description}</span>
+                  <span className="block text-sm text-muted">{option.description}</span>
                 )}
               </span>
             </label>
           );
         })}
       </div>
-      {error && <p className="mt-1.5 text-xs text-error">{error}</p>}
+      {error && <p className="mt-1.5 text-sm text-error">{error}</p>}
     </div>
   );
 }

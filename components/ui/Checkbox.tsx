@@ -21,9 +21,9 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             )}
             {...props}
           />
-          <span className="text-sm text-ink">{label}</span>
+          <span className="text-base text-ink">{label}</span>
         </label>
-        {error && <p className="mt-1.5 text-xs text-error">{error}</p>}
+        {error && <p className="mt-1.5 text-sm text-error">{error}</p>}
       </div>
     );
   }

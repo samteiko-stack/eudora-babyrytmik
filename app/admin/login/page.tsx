@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/auth';
-import { Lock } from 'lucide-react';
+import { Alert, Button, Field, Input, PasswordInput } from '@/components/ui';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -34,86 +35,71 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F3EA]">
-      {/* Header */}
-      <header className="bg-white border-b border-neutral-200">
-        <div className="max-w-4xl mx-auto px-6 py-4">
-          <img 
-            src="/logo.svg" 
-            alt="Eudora Logo" 
-            className="h-10 w-auto"
+    <div className="admin-login">
+      <aside className="admin-login__brand">
+        <div className="admin-login__brand-pattern" aria-hidden />
+
+        <div className="admin-login__brand-content">
+          <img
+            src="/assets/logo-nav.svg"
+            alt="Eudora Internationella Förskola"
+            className="admin-login__brand-logo"
           />
         </div>
-      </header>
 
-      <div className="flex items-center justify-center px-4 py-16">
-        <div className="max-w-md w-full">
-          <div className="bg-white border border-neutral-300 rounded-xl p-8">
-            <div className="flex justify-center mb-6">
-              <div className="bg-primary-teal/10 p-4 rounded-full">
-                <Lock className="w-12 h-12 text-primary-teal" />
-              </div>
-            </div>
+        <div className="admin-login__brand-content">
+          <h1 className="admin-login__brand-title">Administration</h1>
+          <p className="admin-login__brand-text">
+            Logga in för att hantera babysångsanmälningar, veckor och deltagare för Eudora
+            Södermalm och Gärdet.
+          </p>
+        </div>
 
-            <h1 className="text-3xl font-bold text-center text-neutral-900 mb-2">
-              Admin Login
-            </h1>
-            <p className="text-center text-neutral-600 mb-8">
-              Logga in för att hantera anmälningar
-            </p>
+        <p className="admin-login__brand-footer">Eudora Internationella Förskola</p>
+      </aside>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label className="block text-sm font-medium text-neutral-900 mb-2">
-                  E-post
-                </label>
-                <input
+      <div className="admin-login__panel">
+        <div className="admin-login__top">
+          <Link href="/" className="admin-login__back">
+            ← Tillbaka till anmälan
+          </Link>
+        </div>
+
+        <div className="admin-login__main">
+          <div className="admin-login__form-wrap">
+            <h2 className="admin-login__title">Välkommen tillbaka</h2>
+            <p className="admin-login__subtitle">Logga in på ditt admin-konto</p>
+
+            <form onSubmit={handleSubmit} className="admin-login__form">
+              <Field label="E-postadress" htmlFor="admin-email">
+                <Input
+                  id="admin-email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:border-primary-teal transition-all bg-white"
+                  autoComplete="email"
                   placeholder="din.email@eudoraforskola.se"
                 />
-              </div>
+              </Field>
 
-              <div>
-                <label className="block text-sm font-medium text-neutral-900 mb-2">
-                  Lösenord
-                </label>
-                <input
-                  type="password"
+              <Field label="Lösenord" htmlFor="admin-password">
+                <PasswordInput
+                  id="admin-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:border-primary-teal transition-all bg-white"
-                  placeholder="••••••••"
+                  autoComplete="current-password"
+                  placeholder="Ange ditt lösenord"
                 />
-              </div>
+              </Field>
 
-              {error && (
-                <div className="bg-error-light text-neutral-900 px-4 py-3 rounded-lg text-sm border border-error/30">
-                  {error}
-                </div>
-              )}
+              {error && <Alert>{error}</Alert>}
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full bg-primary-teal text-white py-4 px-6 rounded-lg font-semibold hover:bg-primary-teal/90 transition-all disabled:bg-neutral-300 disabled:cursor-not-allowed"
-              >
-                {isLoading ? 'Loggar in...' : 'LOGGA IN'}
-              </button>
+              <Button type="submit" variant="primary" size="lg" className="w-full" disabled={isLoading}>
+                {isLoading ? 'Loggar in...' : 'Logga in'}
+              </Button>
             </form>
-
-            <div className="mt-6 text-center">
-              <a
-                href="/"
-                className="text-primary-teal hover:underline text-sm font-medium"
-              >
-                ← Tillbaka till startsidan
-              </a>
-            </div>
           </div>
         </div>
       </div>

@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "prisma generate && next build",
+    "dev": "npm run css:site && next dev",
+    "dev:clean": "pkill -f 'next dev' 2>/dev/null || true; rm -rf .next && npm run css:site && next dev",
+    "build": "npm run css:site && prisma generate && next build",
+    "css:site": "node scripts/build-babysang-css.mjs",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",

@@ -13,6 +13,8 @@ interface SelectProps {
   options: SelectOption[];
   onChange: (value: string) => void;
   error?: string;
+  compact?: boolean;
+  className?: string;
 }
 
 export function Select({
@@ -21,6 +23,8 @@ export function Select({
   options,
   onChange,
   error,
+  compact = false,
+  className,
 }: SelectProps) {
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState<'top' | 'bottom'>('bottom');
@@ -58,13 +62,14 @@ export function Select({
   }, []);
 
   return (
-    <div>
+    <div className={className}>
       <div ref={ref} className="relative">
         <button
           type="button"
           onClick={() => setOpen((prev) => !prev)}
           className={cn(
-            'flex w-full items-center justify-between rounded-none border-2 bg-surface px-4 py-3 text-left text-sm transition-colors',
+            'flex w-full items-center justify-between rounded-none border-2 bg-surface text-left text-base transition-colors',
+            compact ? 'px-3 py-2' : 'px-4 py-3',
             'focus:border-ink focus:outline-none',
             error ? 'border-error' : 'border-field'
           )}
@@ -97,7 +102,7 @@ export function Select({
                   setOpen(false);
                 }}
                 className={cn(
-                  'w-full px-4 py-3 text-left text-sm transition-colors hover:bg-bg-sage',
+                  'w-full px-4 py-3 text-left text-base transition-colors hover:bg-bg-sage',
                   option.value === value
                     ? 'bg-bg-sage font-medium text-teal'
                     : 'text-ink'
@@ -109,7 +114,7 @@ export function Select({
           </div>
         )}
       </div>
-      {error && <p className="mt-1.5 text-xs text-error">{error}</p>}
+      {error && <p className="mt-1.5 text-sm text-error">{error}</p>}
     </div>
   );
 }

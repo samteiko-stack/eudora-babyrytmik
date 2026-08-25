@@ -1,9 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { useStore } from '@/lib/store';
 import { getNext10Weeks, formatWeekRange, formatDate, getWeekNumber } from '@/lib/dates';
-import { X, Lock, Unlock } from 'lucide-react';
+import { Lock, Unlock } from 'lucide-react';
 import { LOCATIONS, TIME_SLOTS, MAX_CAPACITY_PER_SESSION } from '@/lib/schedule';
+import { Badge, Button, ConfirmModal, Modal } from '@/components/ui';
 
 interface Props {
   onClose: () => void;
@@ -11,6 +13,7 @@ interface Props {
 
 export default function WeekManagementModal({ onClose }: Props) {
   const { weekAvailability, toggleWeekAvailability, getWeekRegistrations } = useStore();
+  const [pendingToggle, setPendingToggle] = useState<{ weekKey: string; count: number } | null>(null);
 
   const weeks = getNext10Weeks();
 
@@ -19,40 +22,35 @@ export default function WeekManagementModal({ onClose }: Props) {
     const sodAfternoon = getWeekRegistrations(weekKey, 'sodermalm', 'afternoon');
     const gardMorning = getWeekRegistrations(weekKey, 'gardet', 'morning');
     const gardAfternoon = getWeekRegistrations(weekKey, 'gardet', 'afternoon');
-    const hasRegistrations =
-      sodMorning.length + sodAfternoon.length + gardMorning.length + gardAfternoon.length > 0;
+    const totalRegistrations =
+      sodMorning.length + sodAfternoon.length + gardMorning.length + gardAfternoon.length;
 
-    if (hasRegistrations) {
-      const confirmed = confirm(
-        'Det finns redan anmälningar för denna vecka. Är du säker på att du vill ändra tillgängligheten?'
-      );
-      if (!confirmed) return;
+    if (totalRegistrations > 0) {
+      setPendingToggle({ weekKey, count: totalRegistrations });
+      return;
     }
 
     toggleWeekAvailability(weekKey);
   };
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-          <h2 className="text-2xl font-bold text-gray-900">Hantera veckor</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
+  const confirmToggle = () => {
+    if (pendingToggle) {
+      toggleWeekAvailability(pendingToggle.weekKey);
+      setPendingToggle(null);
+    }
+  };
 
-        <div className="p-6">
-          <p className="text-gray-600 mb-6">
-            Stäng av veckor som inte ska vara tillgängliga för anmälan. 
+  return (
+    <>
+      <Modal title="Hantera veckor" onClose={onClose} size="lg">
+        <div className="overflow-y-auto p-6">
+          <p className="mb-6 text-base text-muted">
+            Stäng av veckor som inte ska vara tillgängliga för anmälan.
             Veckor som redan har anmälningar kan fortfarande stängas av, men befintliga anmälningar påverkas inte.
           </p>
 
           <div className="space-y-3">
-            {weeks.map(week => {
+            {weeks.map((week) => {
               const weekKey = formatDate(week);
               const weekNum = getWeekNumber(week);
               const isAvailable = weekAvailability[weekKey]?.isAvailable !== false;
@@ -66,83 +64,91 @@ export default function WeekManagementModal({ onClose }: Props) {
               return (
                 <div
                   key={weekKey}
-                  className={`border rounded-lg p-4 transition-colors ${
-                    isAvailable ? 'border-gray-200 bg-white' : 'border-red-200 bg-red-50'
+                  className={`border p-4 transition-colors ${
+                    isAvailable ? 'border-ink/10 bg-surface' : 'border-error/30 bg-error-bg'
                   }`}
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3">
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          Vecka {weekNum}
-                        </h3>
-                        <span className="text-sm text-gray-500">
-                          {formatWeekRange(week)}
-                        </span>
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-3">
+                        <h3 className="text-base font-semibold text-ink">Vecka {weekNum}</h3>
+                        <span className="text-sm text-muted">{formatWeekRange(week)}</span>
+                        {!isAvailable && <Badge variant="error">Stängd</Badge>}
                       </div>
-                      <div className="mt-2 space-y-1 text-sm text-gray-600">
+                      <div className="mt-2 space-y-1 text-sm text-muted">
                         <div>
                           {LOCATIONS.sodermalm.label}:{' '}
-                          <strong>
+                          <strong className="text-ink">
                             {TIME_SLOTS.morning.time} {sodMorning.length}/{MAX_CAPACITY_PER_SESSION}
                           </strong>
                           {' · '}
-                          <strong>
+                          <strong className="text-ink">
                             {TIME_SLOTS.afternoon.time} {sodAfternoon.length}/{MAX_CAPACITY_PER_SESSION}
                           </strong>
                         </div>
                         <div>
                           {LOCATIONS.gardet.label}:{' '}
-                          <strong>
+                          <strong className="text-ink">
                             {TIME_SLOTS.morning.time} {gardMorning.length}/{MAX_CAPACITY_PER_SESSION}
                           </strong>
                           {' · '}
-                          <strong>
+                          <strong className="text-ink">
                             {TIME_SLOTS.afternoon.time} {gardAfternoon.length}/{MAX_CAPACITY_PER_SESSION}
                           </strong>
                         </div>
                         <div>
-                          Totalt: <strong>{totalRegistrations}</strong>
+                          Totalt: <strong className="text-ink">{totalRegistrations}</strong>
                         </div>
                       </div>
                     </div>
 
-                    <button
+                    <Button
+                      type="button"
+                      variant={isAvailable ? 'secondary' : 'primary'}
+                      size="sm"
+                      className="shrink-0 normal-case"
                       onClick={() => handleToggle(weekKey)}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-colors ${
-                        isAvailable
-                          ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                          : 'bg-red-100 text-red-700 hover:bg-red-200'
-                      }`}
                     >
                       {isAvailable ? (
                         <>
-                          <Unlock className="w-4 h-4" />
+                          <Unlock className="mr-2 h-4 w-4" />
                           Öppen
                         </>
                       ) : (
                         <>
-                          <Lock className="w-4 h-4" />
+                          <Lock className="mr-2 h-4 w-4" />
                           Stängd
                         </>
                       )}
-                    </button>
+                    </Button>
                   </div>
                 </div>
               );
             })}
           </div>
 
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <button
-              onClick={onClose}
-              className="w-full bg-teal text-white py-3 px-6 rounded-md font-medium hover:bg-opacity-90 transition-colors"
-            >
+          <div className="mt-6 border-t border-ink/10 pt-6">
+            <Button type="button" variant="primary" size="lg" className="w-full" onClick={onClose}>
               Stäng
-            </button>
+            </Button>
           </div>
         </div>
-      </div>
-    </div>
+      </Modal>
+
+      {pendingToggle && (
+        <ConfirmModal
+          title="Ändra veckostatus"
+          message={
+            <>
+              Det finns <strong>{pendingToggle.count} anmälningar</strong> för denna vecka.
+              Är du säker på att du vill ändra tillgängligheten?
+            </>
+          }
+          confirmLabel="Fortsätt"
+          onConfirm={confirmToggle}
+          onCancel={() => setPendingToggle(null)}
+        />
+      )}
+    </>
   );
 }

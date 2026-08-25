@@ -1,0 +1,195 @@
+/* Scoped to registration site only — do not touch global html (breaks admin) */
+.babysang-site {
+  min-height: 100vh;
+  background-color: var(--color-scheme-1--secondary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body:has(.babysang-site) {
+  background-color: var(--color-scheme-1--secondary);
+}
+
+.babysang-site .page-wrapper,
+.babysang-site .is-section.background-secondary {
+  min-height: calc(100vh - 4.5rem);
+}
+
+.babysang-site .padding-section-large.offset {
+  padding-bottom: 4rem;
+}
+
+.babysang-site .contact7_content--form-right {
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+/* Critical layout fallbacks if upstream Webflow bundle fails to load */
+.babysang-site .w-layout-grid,
+.babysang-site .contact7_content {
+  display: grid;
+  grid-column-gap: 5vw;
+  grid-row-gap: 5vw;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.babysang-site .is-section.background-secondary {
+  background-color: var(--color-scheme-1--secondary, #f1f1e6);
+  color: #000;
+}
+
+.babysang-site .navbar5_component {
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.babysang-site .navbar5_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 4.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.babysang-site .form_input,
+.babysang-site .form_input.w-input,
+.babysang-site .form_input.w-select {
+  font-size: 1rem;
+}
+
+.babysang-site .form_field-label {
+  font-size: 1rem;
+}
+
+.babysang-site .button,
+.babysang-site .w-button {
+  font-size: 1rem;
+}
+
+.babysang-site .contact7_content-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.babysang-site .contact7_content-right {
+  width: 100%;
+}
+
+@media screen and (max-width: 991px) {
+  .babysang-site .contact7_content--form-right {
+    grid-template-columns: 1fr;
+  }
+}
+
+.babysang-site .navbar5_container > .navbar5_menu-right {
+  margin-left: auto;
+}
+
+.babysang-site .form_field-error {
+  color: #c45c5c;
+  font-size: var(--font-size-sm);
+  margin-top: 0.5rem;
+}
+
+.babysang-site .session-selector {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.babysang-site .session-selector__step {
+  animation: session-step-in 0.2s ease;
+}
+
+.babysang-site .session-selector__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@keyframes session-step-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.35rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.babysang-site .wf-choice-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  width: 100%;
+  min-height: 5.5rem;
+  padding: 1rem 1.1rem;
+  border: 2px solid var(--color-scheme-1--bright-green);
+  background-color: var(--color-scheme-1--background);
+  color: var(--color-scheme-1--text);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+.babysang-site .wf-choice-card:hover {
+  background-color: var(--color-scheme-1--other-secondary);
+}
+
+.babysang-site .wf-choice-card.is-selected {
+  border-color: var(--color-scheme-1--green);
+  background-color: var(--color-scheme-1--other-secondary);
+  box-shadow: inset 0 0 0 1px var(--color-scheme-1--green);
+}
+
+.babysang-site .wf-choice-card__check {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border: 2px solid var(--color-scheme-1--bright-green);
+  background: transparent;
+  color: transparent;
+  transition: all 0.2s;
+}
+
+.babysang-site .wf-choice-card__check svg {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+.babysang-site .wf-choice-card.is-selected .wf-choice-card__check {
+  border-color: var(--color-scheme-1--green);
+  background-color: var(--color-scheme-1--green);
+  color: #fff;
+}
+
+.babysang-site .wf-choice-card__title {
+  display: block;
+  padding-right: 2rem;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.babysang-site .wf-choice-card__description {
+  display: block;
+  font-size: var(--font-size-sm);
+  line-height: 1.4;
+  opacity: 0.72;
+}
+
+@media screen and (max-width: 767px) {
+  .babysang-site .session-selector__grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -54,6 +54,19 @@ export function getSessionKey(location: Location, timeSlot: TimeSlot): string {
   return `${location}-${timeSlot}`;
 }
 
+export function parseSessionKey(key: string): { location: Location; timeSlot: TimeSlot } | null {
+  const [location, timeSlot] = key.split('-') as [Location?, TimeSlot?];
+  if (!location || !timeSlot) return null;
+  if (!(location in LOCATIONS) || !(timeSlot in TIME_SLOTS)) return null;
+  return { location, timeSlot };
+}
+
+export function formatSessionRadioLabel(location: Location, timeSlot: TimeSlot): string {
+  const loc = LOCATIONS[location];
+  const slot = TIME_SLOTS[timeSlot];
+  return `Eudora ${loc.label} · ${loc.dayShort} ${slot.time}`;
+}
+
 export function formatSessionLabel(location: Location, timeSlot: TimeSlot): string {
   const loc = LOCATIONS[location];
   const slot = TIME_SLOTS[timeSlot];

@@ -19,9 +19,9 @@ export function ChoiceCard({ selected, title, description, onClick }: ChoiceCard
           : 'border-field bg-surface text-ink hover:bg-bg-sage'
       )}
     >
-      <span className="block text-sm font-bold">{title}</span>
+      <span className="block text-base font-bold">{title}</span>
       {description && (
-        <span className={cn('mt-1 block text-xs', selected ? 'text-white/80' : 'text-muted')}>
+        <span className={cn('mt-1 block text-sm', selected ? 'text-white/80' : 'text-muted')}>
           {description}
         </span>
       )}

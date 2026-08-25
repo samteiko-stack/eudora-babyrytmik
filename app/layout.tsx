@@ -27,8 +27,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="sv" className={`${geist.variable} ${nohemi.variable} ${geist.className}`}>
-      <body>{children}</body>
+    <html lang="sv" className={`${geist.variable} ${nohemi.variable}`}>
+      <body className="font-sans">{children}</body>
     </html>
   )
 }
