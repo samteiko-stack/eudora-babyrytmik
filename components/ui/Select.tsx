@@ -65,7 +65,7 @@ export function Select({
           onClick={() => setOpen((prev) => !prev)}
           className={cn(
             'flex w-full items-center justify-between rounded-none border-2 bg-surface px-4 py-3 text-left text-sm transition-colors',
-            'focus:border-field focus:outline-none',
+            'focus:border-ink focus:outline-none',
             error ? 'border-error' : 'border-field'
           )}
         >

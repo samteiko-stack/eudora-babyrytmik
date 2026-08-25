@@ -30,8 +30,8 @@ function OptionButton({
       className={cn(
         'px-3 py-2.5 text-sm transition-colors',
         selected
-          ? 'bg-field text-white'
-          : 'border border-field bg-surface text-ink hover:bg-bg-sage'
+          ? 'border-2 border-ink bg-ink text-white'
+          : 'border border-ink/20 bg-surface text-ink hover:bg-bg-sage'
       )}
     >
       {children}

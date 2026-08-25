@@ -69,6 +69,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-geist)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        heading: ['var(--font-nohemi)', 'ui-serif', 'Georgia', 'serif'],
       },
       boxShadow: {
         dropdown: 'var(--shadow-dropdown)',

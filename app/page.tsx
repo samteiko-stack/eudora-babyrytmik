@@ -88,19 +88,8 @@ export default function Home() {
       : null;
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-bg">
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <svg
-          className="absolute -right-[8%] top-[6%] h-[86%] w-[62%] text-bg-sage"
-          viewBox="0 0 800 900"
-          fill="currentColor"
-          preserveAspectRatio="none"
-        >
-          <path d="M620 40c110 70 210 220 170 390-40 170-210 250-360 320-150 70-280 120-360 70-80-50-70-180-20-320 50-140 140-290 270-380C450 30 510 -30 620 40Z" />
-        </svg>
-      </div>
-
-      <header className="relative z-10 border-b border-border/60 bg-surface">
+    <div className="relative min-h-screen overflow-x-hidden bg-section-pattern">
+      <header className="relative z-10 border-b border-ink/10 bg-surface">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-8">
           <img src="/logo.svg" alt="Eudora Internationella Förskola" className="h-8 w-auto sm:h-10" />
           <a
@@ -112,24 +101,24 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto grid max-w-7xl items-start gap-10 px-4 py-10 sm:px-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(280px,0.85fr)] lg:gap-16 lg:py-14">
+      <main className="relative z-10 mx-auto grid max-w-7xl items-stretch gap-10 px-4 py-10 sm:px-8 lg:grid-cols-[minmax(0,1fr)_0.7fr] lg:gap-[5vw] lg:py-14">
         <section className="max-w-2xl">
           <Badge className="mb-5">
             Endast <strong>15 platser</strong> tillgängliga per pass
           </Badge>
 
-          <h1 className="mb-4 text-3xl font-bold tracking-tight text-ink sm:text-5xl">
+          <h1 className="font-heading mb-4 text-4xl font-bold leading-tight text-ink sm:text-5xl lg:text-[3rem]">
             Anmälan till babysång
           </h1>
 
-          <p className="mb-8 text-sm leading-relaxed text-ink sm:text-base">
+          <p className="mb-8 text-base leading-relaxed text-ink">
             Vi ses på <strong>{formatLocationSchedule('sodermalm')}</strong> och på{' '}
             <strong>{formatLocationSchedule('gardet')}</strong>. Under samlingen sjunger vi gamla och
             nya sånger för och med barnen på svenska och engelska. Vi använder rörelse, spelar
             rytminstrument och lyssnar på musik. Anmäl ditt barn nedan:
           </p>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6">
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <Field label="Förnamn/First Name">
                 <Input
@@ -218,7 +207,7 @@ export default function Home() {
               label={
                 <>
                   Jag godkänner{' '}
-                  <a href="#" className="font-semibold underline">
+                  <a href="#" className="font-bold underline">
                     villkoren
                   </a>
                 </>
@@ -250,12 +239,14 @@ export default function Home() {
           </form>
         </section>
 
-        <aside className="hidden lg:sticky lg:top-10 lg:block">
-          <img
-            src="/assets/hero-image.png"
-            alt="Barn som leker med trädjur"
-            className="h-full min-h-[720px] w-full object-cover object-[center_18%]"
-          />
+        <aside className="hidden lg:block">
+          <div className="overflow-hidden">
+            <img
+              src="/assets/hero-image.png"
+              alt="Barn som leker med trädjur"
+              className="aspect-square w-full object-cover"
+            />
+          </div>
         </aside>
       </main>
     </div>

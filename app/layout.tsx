@@ -9,6 +9,13 @@ const geist = localFont({
   variable: '--font-geist',
 })
 
+const nohemi = localFont({
+  src: './fonts/Nohemi-VF.ttf',
+  display: 'swap',
+  weight: '100 900',
+  variable: '--font-nohemi',
+})
+
 export const metadata: Metadata = {
   title: 'Eudora Babyrytmik - Anmälan till babysång',
   description: 'Anmälan till babysång på Södermalm och Gärdet',
@@ -20,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="sv" className={`${geist.variable} ${geist.className}`}>
+    <html lang="sv" className={`${geist.variable} ${nohemi.variable} ${geist.className}`}>
       <body>{children}</body>
     </html>
   )

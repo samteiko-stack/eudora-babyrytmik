@@ -11,9 +11,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    'bg-teal text-white hover:bg-teal-hover disabled:bg-border disabled:text-muted',
+    'border-2 border-teal bg-teal text-white hover:opacity-70 disabled:border-border disabled:bg-border disabled:text-muted disabled:opacity-100',
   secondary:
-    'border border-ink bg-surface text-ink hover:bg-bg disabled:border-border disabled:text-muted',
+    'border-2 border-ink bg-surface text-ink hover:bg-bg disabled:border-border disabled:text-muted',
   ghost: 'text-ink hover:bg-bg-sage disabled:text-muted',
 };
 

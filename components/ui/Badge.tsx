@@ -10,7 +10,7 @@ export function Badge({ children, className }: BadgeProps) {
   return (
     <div
       className={cn(
-        'inline-flex items-center rounded-none bg-accent px-3 py-1.5 text-sm text-ink',
+        'inline-flex items-center rounded-none bg-accent px-4 py-2 text-sm text-teal',
         className
       )}
     >
