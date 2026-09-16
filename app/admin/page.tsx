@@ -5,12 +5,23 @@ import { useRouter } from 'next/navigation';
 import { useStore } from '@/lib/store';
 import { auth } from '@/lib/auth';
 import { Registration } from '@/types';
-import { formatWeekRange, formatDate, getNext10Weeks, getWeekNumber, getAllWeeksOfYear, getCurrentYear, getAvailableYears } from '@/lib/dates';
+import {
+  formatWeekRange,
+  formatDate,
+  formatRegistrationDate,
+  formatRegistrationTime,
+  getNext10Weeks,
+  getWeekNumber,
+  getAllWeeksOfYear,
+  getCurrentYear,
+  getAvailableYears,
+} from '@/lib/dates';
 import { parseISO, format } from 'date-fns';
-import { Trash2, Plus, Calendar, Users, Download, LogOut, Home, BarChart3, ChevronDown, ChevronRight, XCircle, MoreVertical } from 'lucide-react';
+import { Plus, Calendar, Users, Download, LogOut, Home, BarChart3, ChevronDown, ChevronRight } from 'lucide-react';
 import AddParticipantModal from '@/components/AddParticipantModal';
 import WeekManagementModal from '@/components/WeekManagementModal';
-import { Button, ConfirmModal, Input, Select } from '@/components/ui';
+import { RegistrationActionsMenu } from '@/components/admin/RegistrationActionsMenu';
+import { Badge, Button, ConfirmModal, Input, Select } from '@/components/ui';
 import { formatSessionLabel, LOCATIONS, TIME_SLOTS, MAX_CAPACITY_PER_SESSION } from '@/lib/schedule';
 
 type SortField = 'firstName' | 'lastName' | 'email' | 'weekStart' | 'createdAt' | 'location';
@@ -250,18 +261,6 @@ export default function AdminDashboard() {
     }
   }, [isMounted, router, loadFromDatabase, initializeWeeks]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      if (!target.closest('.action-menu')) {
-        setActionMenuOpen(null);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   const handleLogout = () => {
     auth.logout();
     router.push('/admin/login');
@@ -301,10 +300,10 @@ export default function AdminDashboard() {
           >
             <Users className="w-5 h-5" />
             <span>Deltagare</span>
-            <span className={`ml-auto text-xs px-2.5 py-1 rounded-full font-semibold ${
+            <span className={`ml-auto px-2.5 py-1 text-sm font-semibold ${
               activeView === 'participants' 
                 ? 'bg-surface/20 text-white' 
-                : 'bg-neutral-200 text-ink'
+                : 'bg-bg-sage text-ink'
             }`}>
               {registrations.length}
             </span>
@@ -511,99 +510,55 @@ export default function AdminDashboard() {
                           </td>
                           <td className="px-6 py-4">
                             <div className="text-base text-ink">
-                              {format(parseISO(registration.createdAt), 'M/d/yyyy')}
+                              {formatRegistrationDate(registration.createdAt)}
                             </div>
-                            <div className="text-xs text-muted">
-                              {format(parseISO(registration.createdAt), 'h:mma')}
+                            <div className="text-sm text-muted">
+                              {formatRegistrationTime(registration.createdAt)}
                             </div>
                           </td>
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-2">
-                              <div className={`font-medium ${registration.status === 'cancelled' ? 'text-neutral-400 line-through' : 'text-ink'}`}>
+                              <div className={`font-medium ${registration.status === 'cancelled' ? 'text-muted line-through' : 'text-ink'}`}>
                                 {registration.firstName} {registration.lastName}
                               </div>
                               {registration.status === 'cancelled' && (
-                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-bg-sage text-muted">
+                                <Badge variant="muted" size="sm">
                                   Avregistrerad
-                                </span>
+                                </Badge>
                               )}
                             </div>
                           </td>
                           <td className="px-6 py-4">
                             <div className="text-base text-ink">{registration.email}</div>
-                            <div className="text-xs text-muted">{registration.phone}</div>
+                            <div className="text-sm text-muted">{registration.phone}</div>
                           </td>
                           <td className="px-6 py-4">
-                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                              registration.location === 'sodermalm'
-                                ? 'bg-blue-100 text-blue-800'
-                                : 'bg-purple-100 text-purple-800'
-                            }`}>
+                            <Badge variant="session" size="sm">
                               {formatSessionLabel(registration.location, registration.timeSlot || 'morning')}
-                            </span>
+                            </Badge>
                           </td>
                           <td className="px-6 py-4">
-                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-bg-sage text-ink">
+                            <Badge variant="week" size="sm">
                               Vecka {getWeekNumber(parseISO(registration.weekStart))}
-                            </span>
+                            </Badge>
                           </td>
-                          <td className="px-6 py-4 text-right relative">
-                            <div className="relative inline-block action-menu">
-                              <button
-                                onClick={() => setActionMenuOpen(actionMenuOpen === registration.id ? null : registration.id)}
-                                className="text-neutral-400 hover:text-ink transition-colors p-1"
-                              >
-                                <MoreVertical className="w-5 h-5" />
-                              </button>
-                              {actionMenuOpen === registration.id && (
-                                <div className="absolute right-0 mt-2 w-48 bg-surface border border-ink/10 rounded-none shadow-xl z-50">
-                                  {registration.status === 'cancelled' ? (
-                                    <>
-                                      <button
-                                        onClick={() => handleReactivate(registration.id)}
-                                        className="w-full px-4 py-2 text-left text-base text-green-600 hover:bg-green-50 flex items-center gap-2 rounded-t-lg"
-                                      >
-                                        <XCircle className="w-4 h-4" />
-                                        Återaktivera
-                                      </button>
-                                      <button
-                                        onClick={() => {
-                                          handleDelete(registration.id, `${registration.firstName} ${registration.lastName}`);
-                                          setActionMenuOpen(null);
-                                        }}
-                                        className="w-full px-4 py-2 text-left text-base text-red-600 hover:bg-red-50 flex items-center gap-2 rounded-b-lg"
-                                      >
-                                        <Trash2 className="w-4 h-4" />
-                                        Ta bort permanent
-                                      </button>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <button
-                                        onClick={() => {
-                                          handleCancel(registration.id, `${registration.firstName} ${registration.lastName}`);
-                                          setActionMenuOpen(null);
-                                        }}
-                                        className="w-full px-4 py-2 text-left text-base text-ink hover:bg-bg-sage flex items-center gap-2 rounded-t-lg"
-                                      >
-                                        <XCircle className="w-4 h-4" />
-                                        Avregistrera
-                                      </button>
-                                      <button
-                                        onClick={() => {
-                                          handleDelete(registration.id, `${registration.firstName} ${registration.lastName}`);
-                                          setActionMenuOpen(null);
-                                        }}
-                                        className="w-full px-4 py-2 text-left text-base text-red-600 hover:bg-red-50 flex items-center gap-2 rounded-b-lg"
-                                      >
-                                        <Trash2 className="w-4 h-4" />
-                                        Ta bort permanent
-                                      </button>
-                                    </>
-                                  )}
-                                </div>
-                              )}
-                            </div>
+                          <td className="px-6 py-4 text-right">
+                            <RegistrationActionsMenu
+                              registrationId={registration.id}
+                              isOpen={actionMenuOpen === registration.id}
+                              isCancelled={registration.status === 'cancelled'}
+                              onToggle={() =>
+                                setActionMenuOpen(actionMenuOpen === registration.id ? null : registration.id)
+                              }
+                              onClose={() => setActionMenuOpen(null)}
+                              onCancel={() =>
+                                handleCancel(registration.id, `${registration.firstName} ${registration.lastName}`)
+                              }
+                              onReactivate={() => handleReactivate(registration.id)}
+                              onDelete={() =>
+                                handleDelete(registration.id, `${registration.firstName} ${registration.lastName}`)
+                              }
+                            />
                           </td>
                         </tr>
                       ))
@@ -638,7 +593,7 @@ export default function AdminDashboard() {
                           )}
                           <div className="text-left">
                             <div className="text-xs text-muted uppercase tracking-wider font-medium">
-                              Week Number
+                              Veckonummer
                             </div>
                             <div className="text-lg font-bold text-ink">
                               Vecka {weekNum}
@@ -650,19 +605,19 @@ export default function AdminDashboard() {
                           <div className="text-base text-muted">{weekRange}</div>
                           <div className="flex items-center gap-3">
                             {sodermalm > 0 && (
-                              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                              <Badge variant="session" size="sm">
                                 Eudora Södermalm
-                              </span>
+                              </Badge>
                             )}
                             {gardet > 0 && (
-                              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                              <Badge variant="session" size="sm">
                                 Eudora Gärdet
-                              </span>
+                              </Badge>
                             )}
                           </div>
-                          <div className="inline-flex items-center px-3 py-1 rounded-full text-base font-semibold bg-green-100 text-green-800">
-                            {weekRegistrations.length} Registered
-                          </div>
+                          <Badge variant="count" size="sm">
+                            {weekRegistrations.length} anmälda
+                          </Badge>
                         </div>
                       </button>
 
@@ -677,24 +632,24 @@ export default function AdminDashboard() {
                                     {index + 1}
                                   </td>
                                   <td className="px-6 py-4 text-base text-ink">
-                                    {format(parseISO(registration.createdAt), 'M/d/yyyy')}
+                                    {formatRegistrationDate(registration.createdAt)}
                                   </td>
-                                  <td className="px-6 py-4 text-base text-muted">
-                                    {format(parseISO(registration.createdAt), 'h:mma')}
+                                  <td className="px-6 py-4 text-sm text-muted">
+                                    {formatRegistrationTime(registration.createdAt)}
                                   </td>
                                   <td className="px-6 py-4 text-base font-medium">
                                     <div className="flex items-center gap-2">
-                                      <span className={registration.status === 'cancelled' ? 'text-neutral-400 line-through' : 'text-ink'}>
+                                      <span className={registration.status === 'cancelled' ? 'text-muted line-through' : 'text-ink'}>
                                         {registration.firstName}
                                       </span>
                                       {registration.status === 'cancelled' && (
-                                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-bg-sage text-muted">
+                                        <Badge variant="muted" size="sm">
                                           Avregistrerad
-                                        </span>
+                                        </Badge>
                                       )}
                                     </div>
                                   </td>
-                                  <td className={`px-6 py-4 text-base font-medium ${registration.status === 'cancelled' ? 'text-neutral-400 line-through' : 'text-ink'}`}>
+                                  <td className={`px-6 py-4 text-base font-medium ${registration.status === 'cancelled' ? 'text-muted line-through' : 'text-ink'}`}>
                                     {registration.lastName}
                                   </td>
                                   <td className="px-6 py-4 text-base text-muted">
@@ -704,81 +659,37 @@ export default function AdminDashboard() {
                                     {registration.phone}
                                   </td>
                                   <td className="px-6 py-4">
-                                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                                      registration.location === 'sodermalm'
-                                        ? 'bg-blue-100 text-blue-800'
-                                        : 'bg-purple-100 text-purple-800'
-                                    }`}>
+                                    <Badge variant="session" size="sm">
                                       {formatSessionLabel(registration.location, registration.timeSlot || 'morning')}
-                                    </span>
+                                    </Badge>
                                   </td>
                                   <td className="px-6 py-4">
-                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-bg-sage text-ink">
+                                    <Badge variant="week" size="sm">
                                       Vecka {weekNum}
-                                    </span>
+                                    </Badge>
                                   </td>
                                   <td className="px-6 py-4">
-                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                      Registered
-                                    </span>
+                                    <Badge variant="count" size="sm">
+                                      Anmäld
+                                    </Badge>
                                   </td>
-                                  <td className="px-6 py-4 text-right relative">
-                                    <div className="relative inline-block action-menu">
-                                      <button
-                                        onClick={() => setActionMenuOpen(actionMenuOpen === registration.id ? null : registration.id)}
-                                        className="text-neutral-400 hover:text-ink transition-colors p-1"
-                                      >
-                                        <MoreVertical className="w-5 h-5" />
-                                      </button>
-                                      {actionMenuOpen === registration.id && (
-                                        <div className="absolute right-0 mt-2 w-48 bg-surface border border-ink/10 rounded-none shadow-xl z-50">
-                                          {registration.status === 'cancelled' ? (
-                                            <>
-                                              <button
-                                                onClick={() => handleReactivate(registration.id)}
-                                                className="w-full px-4 py-2 text-left text-base text-green-600 hover:bg-green-50 flex items-center gap-2 rounded-t-lg"
-                                              >
-                                                <XCircle className="w-4 h-4" />
-                                                Återaktivera
-                                              </button>
-                                              <button
-                                                onClick={() => {
-                                                  handleDelete(registration.id, `${registration.firstName} ${registration.lastName}`);
-                                                  setActionMenuOpen(null);
-                                                }}
-                                                className="w-full px-4 py-2 text-left text-base text-red-600 hover:bg-red-50 flex items-center gap-2 rounded-b-lg"
-                                              >
-                                                <Trash2 className="w-4 h-4" />
-                                                Ta bort permanent
-                                              </button>
-                                            </>
-                                          ) : (
-                                            <>
-                                              <button
-                                                onClick={() => {
-                                                  handleCancel(registration.id, `${registration.firstName} ${registration.lastName}`);
-                                                  setActionMenuOpen(null);
-                                                }}
-                                                className="w-full px-4 py-2 text-left text-base text-ink hover:bg-bg-sage flex items-center gap-2 rounded-t-lg"
-                                              >
-                                                <XCircle className="w-4 h-4" />
-                                                Avregistrera
-                                              </button>
-                                              <button
-                                                onClick={() => {
-                                                  handleDelete(registration.id, `${registration.firstName} ${registration.lastName}`);
-                                                  setActionMenuOpen(null);
-                                                }}
-                                                className="w-full px-4 py-2 text-left text-base text-red-600 hover:bg-red-50 flex items-center gap-2 rounded-b-lg"
-                                              >
-                                                <Trash2 className="w-4 h-4" />
-                                                Ta bort permanent
-                                              </button>
-                                            </>
-                                          )}
-                                        </div>
-                                      )}
-                                    </div>
+                                  <td className="px-6 py-4 text-right">
+                                    <RegistrationActionsMenu
+                                      registrationId={registration.id}
+                                      isOpen={actionMenuOpen === registration.id}
+                                      isCancelled={registration.status === 'cancelled'}
+                                      onToggle={() =>
+                                        setActionMenuOpen(actionMenuOpen === registration.id ? null : registration.id)
+                                      }
+                                      onClose={() => setActionMenuOpen(null)}
+                                      onCancel={() =>
+                                        handleCancel(registration.id, `${registration.firstName} ${registration.lastName}`)
+                                      }
+                                      onReactivate={() => handleReactivate(registration.id)}
+                                      onDelete={() =>
+                                        handleDelete(registration.id, `${registration.firstName} ${registration.lastName}`)
+                                      }
+                                    />
                                   </td>
                                 </tr>
                               ))}

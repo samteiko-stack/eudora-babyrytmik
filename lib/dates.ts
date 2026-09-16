@@ -1,4 +1,5 @@
 import { startOfWeek, addWeeks, format, parseISO } from 'date-fns';
+import { sv } from 'date-fns/locale';
 
 export const getMonday = (date: Date): Date => {
   return startOfWeek(date, { weekStartsOn: 1 });
@@ -38,6 +39,16 @@ export const formatWeekRange = (monday: Date): string => {
 export const formatDate = (date: Date | string): string => {
   const d = typeof date === 'string' ? parseISO(date) : date;
   return format(d, 'yyyy-MM-dd');
+};
+
+export const formatRegistrationDate = (date: Date | string): string => {
+  const d = typeof date === 'string' ? parseISO(date) : date;
+  return format(d, 'd MMM yyyy', { locale: sv });
+};
+
+export const formatRegistrationTime = (date: Date | string): string => {
+  const d = typeof date === 'string' ? parseISO(date) : date;
+  return format(d, 'HH:mm', { locale: sv });
 };
 
 export const getWeekNumber = (date: Date): number => {
