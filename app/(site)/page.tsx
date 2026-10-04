@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { CheckCircle2 } from 'lucide-react';
 import { SiteNav } from '@/components/site/SiteNav';
 import { SessionSelector } from '@/components/webflow/SessionSelector';
 import { getNext10Weeks, formatWeekRange, formatDate, getWeekNumber } from '@/lib/dates';
@@ -9,6 +10,7 @@ import { useStore } from '@/lib/store';
 import {
   Location,
   TimeSlot,
+  formatSessionLabel,
   formatLocationSchedule,
   MAX_CAPACITY_PER_SESSION,
 } from '@/lib/schedule';
@@ -25,9 +27,16 @@ interface FormData {
   terms: boolean;
 }
 
+interface SuccessfulRegistration {
+  session: string;
+  week: string;
+}
+
 export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [successfulRegistration, setSuccessfulRegistration] = useState<SuccessfulRegistration | null>(null);
+  const successRef = useRef<HTMLDivElement>(null);
 
   const { register, handleSubmit, formState: { errors }, reset, watch, setValue, resetField } = useForm<FormData>();
   const { addRegistration, initializeWeeks, loadFromDatabase, weekAvailability, getWeekRegistrations } = useStore();
@@ -40,6 +49,13 @@ export default function Home() {
     loadFromDatabase();
     initializeWeeks();
   }, [loadFromDatabase, initializeWeeks]);
+
+  useEffect(() => {
+    if (!successfulRegistration) return;
+
+    successRef.current?.focus();
+    successRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, [successfulRegistration]);
 
   const availableWeeks = getNext10Weeks().filter((week) => {
     const weekKey = formatDate(week);
@@ -68,6 +84,15 @@ export default function Home() {
 
     if (result.success) {
       setMessage({ type: 'success', text: result.message });
+      const selectedWeekDate = availableWeeks.find(
+        (week) => formatDate(week) === data.weekStart
+      );
+      setSuccessfulRegistration({
+        session: formatSessionLabel(data.location, data.timeSlot),
+        week: selectedWeekDate
+          ? `Vecka ${getWeekNumber(selectedWeekDate)} (${formatWeekRange(selectedWeekDate)})`
+          : data.weekStart,
+      });
       reset();
     } else {
       setMessage({ type: 'error', text: result.message });
@@ -130,9 +155,48 @@ export default function Home() {
                       <div className="contact7_form-block w-form">
                         <form
                           onSubmit={handleSubmit(onSubmit)}
-                          className="contact7_form is-spaced"
+                          className={`contact7_form is-spaced${successfulRegistration ? ' is-success' : ''}`}
                           noValidate
                         >
+                          {successfulRegistration && (
+                            <div
+                              ref={successRef}
+                              className="registration-success"
+                              role="status"
+                              aria-live="polite"
+                              tabIndex={-1}
+                            >
+                              <div className="registration-success__icon" aria-hidden="true">
+                                <CheckCircle2 strokeWidth={2.25} />
+                              </div>
+                              <p className="registration-success__eyebrow">Klart!</p>
+                              <h2 className="registration-success__title">Din anmälan är skickad</h2>
+                              <p className="registration-success__message">
+                                Din plats är registrerad. Vi ser fram emot att träffa er på babysången!
+                              </p>
+                              <div className="registration-success__summary">
+                                <div>
+                                  <span>Pass</span>
+                                  <strong>{successfulRegistration.session}</strong>
+                                </div>
+                                <div>
+                                  <span>Datum</span>
+                                  <strong>{successfulRegistration.week}</strong>
+                                </div>
+                              </div>
+                              <button
+                                type="button"
+                                className="registration-success__new"
+                                onClick={() => {
+                                  setSuccessfulRegistration(null);
+                                  setMessage(null);
+                                }}
+                              >
+                                Gör en ny anmälan
+                              </button>
+                            </div>
+                          )}
+
                           <div className="form_field-2col">
                             <div className="form_field-wrapper">
                               <label htmlFor="first-name" className="form_field-label">
