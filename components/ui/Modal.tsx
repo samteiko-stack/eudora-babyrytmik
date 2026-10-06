@@ -55,7 +55,7 @@ export function Modal({ title, onClose, children, size = 'md', className }: Moda
         )}
       >
         <div className="flex shrink-0 items-center justify-between border-b border-ink/10 px-4 py-4 sm:px-6">
-          <h2 id="ds-modal-title" className="text-lg font-semibold text-ink">
+          <h2 id="ds-modal-title" className="text-xl font-semibold text-ink">
             {title}
           </h2>
           <button

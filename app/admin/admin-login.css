@@ -59,7 +59,7 @@
 .admin-login__brand-title {
   margin: 0;
   font-family: var(--font-heading);
-  font-size: 2.25rem;
+  font-size: var(--font-size-4xl);
   font-weight: 700;
   line-height: 1.15;
   color: #ffffff;
@@ -67,7 +67,7 @@
 
 @media (min-width: 1024px) {
   .admin-login__brand-title {
-    font-size: 3rem;
+    font-size: var(--font-size-5xl);
   }
 }
 
@@ -140,7 +140,7 @@
 .admin-login__title {
   margin: 0;
   font-family: var(--font-heading);
-  font-size: 1.875rem;
+  font-size: var(--font-size-3xl);
   font-weight: 700;
   color: var(--color-ink, #000);
 }
@@ -174,7 +174,7 @@
   }
 
   .admin-login__brand-title {
-    font-size: 1.75rem;
+    font-size: var(--font-size-3xl);
   }
 
   .admin-login__brand-text {

@@ -9188,16 +9188,16 @@ body:has(.babysang-site) {
 .babysang-site .form_input,
 .babysang-site .form_input.w-input,
 .babysang-site .form_input.w-select {
-  font-size: 1rem;
+  font-size: var(--font-size-base);
 }
 
 .babysang-site .form_field-label {
-  font-size: 1rem;
+  font-size: var(--font-size-base);
 }
 
 .babysang-site .button,
 .babysang-site .w-button {
-  font-size: 1rem;
+  font-size: var(--font-size-base);
 }
 
 .babysang-site .contact7_content-left {
@@ -9253,7 +9253,7 @@ body:has(.babysang-site) {
 .babysang-site .registration-success__eyebrow {
   margin: 0 0 0.35rem;
   color: var(--color-scheme-1--green, #146c43);
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -9268,7 +9268,7 @@ body:has(.babysang-site) {
 .babysang-site .registration-success__message {
   max-width: 32rem;
   margin: 1rem auto 0;
-  font-size: 1.125rem;
+  font-size: var(--font-size-lg);
   line-height: 1.55;
 }
 
@@ -9294,7 +9294,7 @@ body:has(.babysang-site) {
 }
 
 .babysang-site .registration-success__summary span {
-  font-size: 0.8rem;
+  font-size: var(--font-size-xs);
   font-weight: 600;
   letter-spacing: 0.08em;
   opacity: 0.65;
@@ -9302,7 +9302,7 @@ body:has(.babysang-site) {
 }
 
 .babysang-site .registration-success__summary strong {
-  font-size: 0.95rem;
+  font-size: var(--font-size-base);
   line-height: 1.4;
 }
 
@@ -9467,7 +9467,7 @@ body:has(.babysang-site) {
 
   .babysang-site .navbar5_menu-right .button {
     padding: 0.65rem 1rem;
-    font-size: 0.875rem;
+    font-size: var(--font-size-sm);
   }
 
   .babysang-site .padding-global {

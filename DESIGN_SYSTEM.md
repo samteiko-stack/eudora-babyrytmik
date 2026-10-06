@@ -13,6 +13,19 @@ Global tokens live in `app/globals.css` and are exposed to Tailwind in `tailwind
 - Typography: `font-sans` for interface text and `font-heading` for page and feature headings.
 - Focus: interactive controls use the shared `--focus-ring` treatment.
 
+### Type scale
+
+Use the shared type scale by role; do not introduce one-off font sizes.
+
+- `text-xs` (12px): table headings, eyebrows, timestamps, and compact counts.
+- `text-sm` (14px): supporting text, metadata, validation, and navigation.
+- `text-base` (16px): body copy, form controls, labels, and primary table content.
+- `text-lg` (18px): emphasized body text and small card titles.
+- `text-xl` (20px): section and modal titles.
+- `text-2xl` (24px): feature headings.
+- `text-3xl` (30px): page titles.
+- `text-4xl` and `text-5xl` (36px and 48px): display and metric values only.
+
 Do not add another `:root` token block to a page stylesheet. Extend the global semantic tokens instead.
 
 ## Shared components
