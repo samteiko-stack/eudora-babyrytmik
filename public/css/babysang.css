@@ -9153,17 +9153,36 @@ body:has(.babysang-site) {
 }
 
 .babysang-site .navbar5_component {
+  z-index: 1000;
   background-color: #fff;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  height: 4.5rem;
+  min-height: 4.5rem;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .babysang-site .navbar5_container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
+  max-width: 95rem;
+  height: 100%;
   min-height: 4.5rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.babysang-site .navbar5_logo-link {
+  display: flex;
+  align-items: center;
+}
+
+.babysang-site .navbar5_logo {
+  display: block;
+  width: auto;
+  height: 2.5rem;
 }
 
 .babysang-site .form_input,
@@ -9321,7 +9340,11 @@ body:has(.babysang-site) {
 }
 
 .babysang-site .navbar5_container > .navbar5_menu-right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   margin-left: auto;
+  margin-top: 0;
 }
 
 .babysang-site .form_field-error {
@@ -9425,6 +9448,28 @@ body:has(.babysang-site) {
 }
 
 @media screen and (max-width: 767px) {
+  .babysang-site .navbar5_component,
+  .babysang-site .navbar5_container {
+    height: 4rem;
+    min-height: 4rem;
+  }
+
+  .babysang-site .navbar5_logo {
+    height: 2rem;
+  }
+
+  .babysang-site .navbar5_container > .navbar5_menu-right {
+    width: auto;
+    flex: 0 0 auto;
+    align-items: center;
+    margin-top: 0;
+  }
+
+  .babysang-site .navbar5_menu-right .button {
+    padding: 0.65rem 1rem;
+    font-size: 0.875rem;
+  }
+
   .babysang-site .session-selector__grid {
     grid-template-columns: 1fr;
   }

@@ -5,11 +5,14 @@ import { mainSitePath } from '@/lib/site-url';
 
 export function SiteNav() {
   return (
-    <div className="navbar5_component w-nav" role="banner">
+    <header className="navbar5_component w-nav">
       <div className="navbar5_container container-large">
         <a href={mainSitePath('/')} className="navbar5_logo-link w-nav-brand">
           <img
-            loading="lazy"
+            loading="eager"
+            decoding="sync"
+            width="199"
+            height="40"
             src="/assets/logo-nav.svg"
             alt="Eudora Internationella Förskola"
             className="navbar5_logo"
@@ -22,6 +25,6 @@ export function SiteNav() {
           </Link>
         </div>
       </div>
-    </div>
+    </header>
   );
 }

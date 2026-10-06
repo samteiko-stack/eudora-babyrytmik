@@ -3,17 +3,24 @@
 @tailwind utilities;
 
 :root {
+  /* Brand and semantic color tokens */
   --color-bg: #f1f1e6;
   --color-bg-sage: #eef9dc;
   --color-surface: #ffffff;
+  --color-surface-subtle: #fafbf7;
   --color-ink: #000000;
   --color-muted: rgba(0, 0, 0, 0.6);
-  --color-border: #000000;
+  --color-border: rgba(0, 0, 0, 0.1);
+  --color-border-strong: #000000;
   --color-field: #69a306;
   --color-teal: #004346;
   --color-teal-hover: #003538;
   --color-accent: #c8e793;
   --color-accent-strong: #004346;
+  --color-success: #20734b;
+  --color-success-bg: #e8f5ec;
+  --color-warning: #8a5a00;
+  --color-warning-bg: #fff5d8;
   --color-error: #c45c5c;
   --color-error-bg: #fdecec;
 
@@ -27,12 +34,16 @@
   --space-10: 2.5rem;
   --space-12: 3rem;
 
+  /* Shape and elevation tokens */
   --radius-sm: 0;
   --radius-md: 0;
   --radius-lg: 0;
   --radius-full: 9999px;
 
+  --shadow-sm: none;
+  --shadow-card: none;
   --shadow-dropdown: 0 12px 32px rgba(0, 0, 0, 0.12);
+  --focus-ring: 0 0 0 3px rgba(95, 143, 33, 0.3);
   --font-sans: var(--font-geist), "Geist Wght", Arial, sans-serif;
   --font-heading: var(--font-nohemi), ui-serif, Georgia, serif;
 
@@ -58,6 +69,20 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-field);
+  outline-offset: 2px;
 }
 
 /* Keep admin on design-system styles even after visiting registration page */

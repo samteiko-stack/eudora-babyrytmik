@@ -14,9 +14,11 @@ const config: Config = {
           sage: 'var(--color-bg-sage)',
         },
         surface: 'var(--color-surface)',
+        'surface-subtle': 'var(--color-surface-subtle)',
         ink: 'var(--color-ink)',
         muted: 'var(--color-muted)',
         border: 'var(--color-border)',
+        'border-strong': 'var(--color-border-strong)',
         field: 'var(--color-field)',
         teal: {
           DEFAULT: 'var(--color-teal)',
@@ -33,6 +35,14 @@ const config: Config = {
           DEFAULT: 'var(--color-error)',
           light: 'var(--color-error-bg)',
           bg: 'var(--color-error-bg)',
+        },
+        success: {
+          DEFAULT: 'var(--color-success)',
+          bg: 'var(--color-success-bg)',
+        },
+        warning: {
+          DEFAULT: 'var(--color-warning)',
+          bg: 'var(--color-warning-bg)',
         },
         primary: {
           DEFAULT: 'var(--color-ink)',
@@ -81,6 +91,8 @@ const config: Config = {
         '2xl': ['var(--font-size-2xl)', { lineHeight: '1.15' }],
       },
       boxShadow: {
+        sm: 'var(--shadow-sm)',
+        card: 'var(--shadow-card)',
         dropdown: 'var(--shadow-dropdown)',
       },
     },

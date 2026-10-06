@@ -3,20 +3,6 @@
   box-sizing: border-box;
 }
 
-:root {
-  --color-bg: #f1f1e6;
-  --color-surface: #ffffff;
-  --color-ink: #000000;
-  --color-muted: rgba(0, 0, 0, 0.6);
-  --color-teal: #004346;
-  --color-field: #69a306;
-  --color-error: #c45c5c;
-  --font-size-xs: 0.75rem;
-  --font-size-base: 1rem;
-  --font-sans: var(--font-geist), "Geist Wght", Arial, sans-serif;
-  --font-heading: var(--font-nohemi), ui-serif, Georgia, serif;
-}
-
 .admin-login {
   display: grid;
   min-height: 100vh;

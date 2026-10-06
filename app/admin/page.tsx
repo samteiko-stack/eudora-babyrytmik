@@ -21,7 +21,7 @@ import { Plus, Calendar, Users, Download, LogOut, Home, BarChart3, ChevronDown, 
 import AddParticipantModal from '@/components/AddParticipantModal';
 import WeekManagementModal from '@/components/WeekManagementModal';
 import { RegistrationActionsMenu } from '@/components/admin/RegistrationActionsMenu';
-import { Badge, Button, ConfirmModal, Input, Select } from '@/components/ui';
+import { Badge, Button, Card, ConfirmModal, EmptyState, Input, NavItem, PageHeader, Select, StatCard, Switch } from '@/components/ui';
 import { formatSessionLabel, LOCATIONS, TIME_SLOTS, MAX_CAPACITY_PER_SESSION } from '@/lib/schedule';
 
 type SortField = 'firstName' | 'lastName' | 'email' | 'weekStart' | 'createdAt' | 'location';
@@ -289,54 +289,36 @@ export default function AdminDashboard() {
           />
         </div>
 
-        <nav className="flex lg:flex-col flex-row lg:flex-1 p-2 lg:p-4 space-x-1 lg:space-x-0 lg:space-y-1 overflow-x-auto lg:overflow-x-visible">
-          <button
+        <nav className="flex flex-row gap-1 overflow-x-auto p-2 lg:flex-1 lg:flex-col lg:overflow-x-visible lg:p-4">
+          <NavItem
             onClick={() => setActiveView('participants')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-none transition-all font-medium ${
-              activeView === 'participants'
-                ? 'bg-teal text-white'
-                : 'text-muted hover:bg-bg-sage hover:text-ink'
-            }`}
+            active={activeView === 'participants'}
+            icon={<Users className="h-5 w-5" />}
+            count={registrations.length}
           >
-            <Users className="w-5 h-5" />
-            <span>Deltagare</span>
-            <span className={`ml-auto px-2.5 py-1 text-sm font-semibold ${
-              activeView === 'participants' 
-                ? 'bg-surface/20 text-white' 
-                : 'bg-bg-sage text-ink'
-            }`}>
-              {registrations.length}
-            </span>
-          </button>
+            Deltagare
+          </NavItem>
 
-          <button
+          <NavItem
             onClick={() => setActiveView('weeks')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-none transition-all font-medium ${
-              activeView === 'weeks'
-                ? 'bg-teal text-white'
-                : 'text-muted hover:bg-bg-sage hover:text-ink'
-            }`}
+            active={activeView === 'weeks'}
+            icon={<Calendar className="h-5 w-5" />}
           >
-            <Calendar className="w-5 h-5" />
-            <span>Veckor</span>
-          </button>
+            Veckor
+          </NavItem>
 
-          <button
+          <NavItem
             onClick={() => setActiveView('stats')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-none transition-all font-medium ${
-              activeView === 'stats'
-                ? 'bg-teal text-white'
-                : 'text-muted hover:bg-bg-sage hover:text-ink'
-            }`}
+            active={activeView === 'stats'}
+            icon={<BarChart3 className="h-5 w-5" />}
           >
-            <BarChart3 className="w-5 h-5" />
-            <span>Statistik</span>
-          </button>
+            Statistik
+          </NavItem>
 
           <div className="pt-4 mt-4 border-t border-ink/10">
             <a
               href="/"
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-none text-muted hover:bg-bg-sage hover:text-ink transition-all font-medium"
+              className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm font-semibold text-muted transition-colors hover:bg-bg-sage hover:text-ink"
             >
               <Home className="w-5 h-5" />
               <span>Startsida</span>
@@ -345,7 +327,7 @@ export default function AdminDashboard() {
         </nav>
 
         <div className="p-4 border-t border-ink/10">
-          <div className="flex items-center gap-3 px-4 py-3 bg-bg-sage rounded-none mb-2 border border-ink/10">
+          <div className="mb-2 flex items-center gap-3 rounded-md border border-border bg-bg-sage px-3 py-3">
             <img 
               src={
                 currentUser?.email === 'suki.ogunkanmi@eudoraforskola.se'
@@ -364,7 +346,7 @@ export default function AdminDashboard() {
           </div>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-none text-red-600 hover:bg-red-50 hover:text-red-700 transition-all font-medium"
+            className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm font-semibold text-error transition-colors hover:bg-error-bg"
           >
             <LogOut className="w-5 h-5" />
             <span>Logga ut</span>
@@ -378,31 +360,20 @@ export default function AdminDashboard() {
         {activeView === 'participants' && (
           <div className="p-4 sm:p-6 lg:p-8">
             {/* Header */}
-            <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div>
-                <h2 className="text-3xl font-bold text-ink mb-2">Deltagare {selectedYear}</h2>
-                <p className="text-muted">{filteredAndSortedRegistrations.length} registreringar</p>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <button
-                  onClick={() => setShowAddModal(true)}
-                  className="px-5 py-2.5 bg-teal text-white rounded-none hover:opacity-90 transition-all font-medium flex items-center gap-2"
-                >
-                  <Plus className="w-5 h-5" />
-                  Lägg till
-                </button>
-                <button
-                  onClick={exportToCSV}
-                  className="px-5 py-2.5 bg-surface border border-ink/10 text-ink rounded-none hover:bg-bg-sage transition-all font-medium flex items-center gap-2"
-                >
-                  <Download className="w-5 h-5" />
-                  Exportera
-                </button>
-              </div>
-            </div>
+            <PageHeader
+              className="mb-6"
+              title={`Deltagare ${selectedYear}`}
+              description={`${filteredAndSortedRegistrations.length} registreringar`}
+              actions={
+                <>
+                  <Button onClick={() => setShowAddModal(true)}><Plus className="h-5 w-5" />Lägg till</Button>
+                  <Button variant="secondary" onClick={exportToCSV}><Download className="h-5 w-5" />Exportera</Button>
+                </>
+              }
+            />
 
             {/* Toolbar */}
-            <div className="mb-6 sticky top-0 z-20 bg-bg pb-4 border-b border-ink/10">
+            <Card padding="sm" className="sticky top-0 z-20 mb-6 shadow-card">
               <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
                 <div className="min-w-0 flex-1">
                   <Input
@@ -448,11 +419,11 @@ export default function AdminDashboard() {
                   )}
                 </div>
               </div>
-            </div>
+            </Card>
 
             {/* List View */}
             {viewMode === 'list' && (
-              <div className="bg-surface border border-ink/10 rounded-none">
+              <Card padding="none" className="overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full">
                   <thead className="bg-bg-sage border-b border-ink/10">
@@ -498,9 +469,7 @@ export default function AdminDashboard() {
                   <tbody className="divide-y divide-ink/10">
                     {filteredAndSortedRegistrations.length === 0 ? (
                       <tr>
-                        <td colSpan={7} className="px-6 py-12 text-center text-muted">
-                          Inga deltagare hittades
-                        </td>
+                        <td colSpan={7}><EmptyState title="Inga deltagare hittades" description="Justera sökningen eller filtren och försök igen." icon={<Users className="h-6 w-6" />} /></td>
                       </tr>
                     ) : (
                       filteredAndSortedRegistrations.map((registration, index) => (
@@ -566,7 +535,7 @@ export default function AdminDashboard() {
                   </tbody>
                   </table>
                 </div>
-              </div>
+              </Card>
             )}
 
             {/* Grouped View */}
@@ -580,7 +549,7 @@ export default function AdminDashboard() {
                   const gardet = weekRegistrations.filter(r => r.location === 'gardet').length;
 
                   return (
-                    <div key={weekKey} className="bg-surface border border-ink/10 rounded-none overflow-visible">
+                    <div key={weekKey} className="overflow-visible rounded-lg border border-border bg-surface shadow-sm">
                       <button
                         onClick={() => toggleWeek(weekKey)}
                         className="w-full px-6 py-4 flex items-center justify-between hover:bg-bg-sage transition-colors"
@@ -709,21 +678,20 @@ export default function AdminDashboard() {
         {/* Weeks View */}
         {activeView === 'weeks' && (
           <div className="p-4 sm:p-6 lg:p-8">
-            <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div>
-                <h2 className="text-3xl font-bold text-ink mb-2">Veckohantering {selectedYear}</h2>
-                <p className="text-muted">Hantera tillgänglighet för veckor</p>
-              </div>
-              <Select
+            <PageHeader
+              className="mb-6"
+              title={`Veckohantering ${selectedYear}`}
+              description="Hantera tillgänglighet och kapacitet för alla pass."
+              actions={<Select
                 compact
                 className="w-full sm:w-28"
                 value={String(selectedYear)}
                 options={yearOptions}
                 onChange={(value) => setSelectedYear(Number(value))}
-              />
-            </div>
+              />}
+            />
 
-            <div className="bg-surface border border-ink/10 rounded-none overflow-visible">
+            <Card padding="none" className="overflow-visible">
               <div className="overflow-x-auto max-h-[calc(100vh-280px)] overflow-y-auto">
                 <table className="w-full">
                   <thead className="bg-bg-sage border-b border-ink/10 sticky top-0">
@@ -763,20 +731,20 @@ export default function AdminDashboard() {
                           </td>
                           <td className="px-6 py-4 text-center">
                             <div className="flex flex-col items-center gap-1 text-base">
-                              <span className={sodMorning >= MAX_CAPACITY_PER_SESSION ? 'text-red-700 font-medium' : 'text-ink'}>
+                              <span className={sodMorning >= MAX_CAPACITY_PER_SESSION ? 'text-error font-medium' : 'text-ink'}>
                                 {TIME_SLOTS.morning.time}: {sodMorning}/{MAX_CAPACITY_PER_SESSION}
                               </span>
-                              <span className={sodAfternoon >= MAX_CAPACITY_PER_SESSION ? 'text-red-700 font-medium' : 'text-ink'}>
+                              <span className={sodAfternoon >= MAX_CAPACITY_PER_SESSION ? 'text-error font-medium' : 'text-ink'}>
                                 {TIME_SLOTS.afternoon.time}: {sodAfternoon}/{MAX_CAPACITY_PER_SESSION}
                               </span>
                             </div>
                           </td>
                           <td className="px-6 py-4 text-center">
                             <div className="flex flex-col items-center gap-1 text-base">
-                              <span className={gardMorning >= MAX_CAPACITY_PER_SESSION ? 'text-red-700 font-medium' : 'text-ink'}>
+                              <span className={gardMorning >= MAX_CAPACITY_PER_SESSION ? 'text-error font-medium' : 'text-ink'}>
                                 {TIME_SLOTS.morning.time}: {gardMorning}/{MAX_CAPACITY_PER_SESSION}
                               </span>
-                              <span className={gardAfternoon >= MAX_CAPACITY_PER_SESSION ? 'text-red-700 font-medium' : 'text-ink'}>
+                              <span className={gardAfternoon >= MAX_CAPACITY_PER_SESSION ? 'text-error font-medium' : 'text-ink'}>
                                 {TIME_SLOTS.afternoon.time}: {gardAfternoon}/{MAX_CAPACITY_PER_SESSION}
                               </span>
                             </div>
@@ -789,18 +757,7 @@ export default function AdminDashboard() {
                             )}
                           </td>
                           <td className="px-6 py-4 text-center">
-                            <button
-                              onClick={() => handleToggleWeek(weekKey, total)}
-                              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                                isAvailable ? 'bg-green-500' : 'bg-neutral-300'
-                              }`}
-                            >
-                              <span
-                                className={`inline-block h-4 w-4 transform rounded-full bg-surface shadow transition-transform ${
-                                  isAvailable ? 'translate-x-6' : 'translate-x-1'
-                                }`}
-                              />
-                            </button>
+                            <Switch checked={isAvailable} onChange={() => handleToggleWeek(weekKey, total)} label={`${isAvailable ? 'Stäng' : 'Öppna'} vecka ${weekNum}`} />
                           </td>
                         </tr>
                       );
@@ -808,36 +765,19 @@ export default function AdminDashboard() {
                   </tbody>
                 </table>
               </div>
-            </div>
+            </Card>
           </div>
         )}
 
         {/* Stats View */}
         {activeView === 'stats' && (
-          <div className="p-8">
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold text-ink mb-2">Statistik</h2>
-              <p className="text-muted">Översikt över anmälningar</p>
-            </div>
+          <div className="p-4 sm:p-6 lg:p-8">
+            <PageHeader className="mb-8" title="Statistik" description="Översikt över anmälningar" />
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-surface border border-ink/10 rounded-none p-8">
-                <div className="text-base text-muted mb-2">Totalt antal anmälningar</div>
-                <div className="text-5xl font-bold text-ink mb-2">{totalStats.total}</div>
-                <div className="text-base text-muted">Alla platser och veckor</div>
-              </div>
-
-              <div className="bg-surface border border-ink/10 rounded-none p-8">
-                <div className="text-base text-muted mb-2">Södermalm</div>
-                <div className="text-5xl font-bold text-ink mb-2">{totalStats.sodermalm}</div>
-                <div className="text-base text-muted">{LOCATIONS.sodermalm.day} {TIME_SLOTS.morning.time} & {TIME_SLOTS.afternoon.time}</div>
-              </div>
-
-              <div className="bg-surface border border-ink/10 rounded-none p-8">
-                <div className="text-base text-muted mb-2">Gärdet</div>
-                <div className="text-5xl font-bold text-ink mb-2">{totalStats.gardet}</div>
-                <div className="text-base text-muted">{LOCATIONS.gardet.day} {TIME_SLOTS.morning.time} & {TIME_SLOTS.afternoon.time}</div>
-              </div>
+              <StatCard label="Totalt antal anmälningar" value={totalStats.total} detail="Alla platser och veckor" />
+              <StatCard label="Södermalm" value={totalStats.sodermalm} detail={`${LOCATIONS.sodermalm.day} ${TIME_SLOTS.morning.time} & ${TIME_SLOTS.afternoon.time}`} />
+              <StatCard label="Gärdet" value={totalStats.gardet} detail={`${LOCATIONS.gardet.day} ${TIME_SLOTS.morning.time} & ${TIME_SLOTS.afternoon.time}`} />
             </div>
           </div>
         )}
