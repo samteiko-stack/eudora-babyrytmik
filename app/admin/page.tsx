@@ -280,7 +280,7 @@ export default function AdminDashboard() {
   return (
     <div className="flex min-h-screen flex-col bg-bg lg:h-screen lg:flex-row lg:overflow-hidden">
       {/* Left Sidebar */}
-      <aside className="w-full shrink-0 border-b border-ink/10 bg-surface lg:h-screen lg:w-64 lg:border-b-0 lg:border-r">
+      <aside className="w-full shrink-0 border-b border-ink/10 bg-surface lg:flex lg:h-screen lg:w-64 lg:flex-col lg:border-b-0 lg:border-r">
         <div className="flex items-center justify-between border-b border-ink/10 p-4 lg:p-6">
           <img 
             src="/logo.svg" 
