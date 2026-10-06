@@ -81,7 +81,7 @@ export default function AddParticipantModal({ onClose }: Props) {
 
   return (
     <Modal title="Lägg till deltagare" onClose={onClose} size="lg">
-      <form onSubmit={handleSubmit(onSubmit)} className="overflow-y-auto p-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="overflow-y-auto p-4 sm:p-6">
         <div className="grid gap-5">
           <div className="grid gap-5 md:grid-cols-2">
             <Field label="Förnamn" htmlFor="add-first-name" required>
@@ -174,7 +174,7 @@ export default function AddParticipantModal({ onClose }: Props) {
             </Alert>
           )}
 
-          <div className="flex gap-3 border-t border-ink/10 pt-5">
+          <div className="flex flex-col-reverse gap-3 border-t border-ink/10 pt-5 sm:flex-row">
             <Button type="button" variant="secondary" size="lg" className="flex-1" onClick={onClose}>
               Avbryt
             </Button>

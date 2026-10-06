@@ -278,18 +278,26 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="h-screen bg-bg flex flex-col lg:flex-row overflow-hidden">
+    <div className="flex min-h-screen flex-col bg-bg lg:h-screen lg:flex-row lg:overflow-hidden">
       {/* Left Sidebar */}
-      <aside className="w-full lg:w-64 bg-surface border-b lg:border-b-0 lg:border-r border-ink/10 flex flex-col lg:h-screen">
-        <div className="p-6 border-b border-ink/10">
+      <aside className="w-full shrink-0 border-b border-ink/10 bg-surface lg:h-screen lg:w-64 lg:border-b-0 lg:border-r">
+        <div className="flex items-center justify-between border-b border-ink/10 p-4 lg:p-6">
           <img 
             src="/logo.svg" 
             alt="Eudora Logo" 
-            className="h-10 w-auto"
+            className="h-8 w-auto lg:h-10"
           />
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="flex h-10 w-10 items-center justify-center text-error lg:hidden"
+            aria-label="Logga ut"
+          >
+            <LogOut className="h-5 w-5" />
+          </button>
         </div>
 
-        <nav className="flex flex-row gap-1 overflow-x-auto p-2 lg:flex-1 lg:flex-col lg:overflow-x-visible lg:p-4">
+        <nav className="grid grid-cols-4 gap-1 p-2 lg:flex lg:flex-1 lg:flex-col lg:p-4">
           <NavItem
             onClick={() => setActiveView('participants')}
             active={activeView === 'participants'}
@@ -315,10 +323,10 @@ export default function AdminDashboard() {
             Statistik
           </NavItem>
 
-          <div className="pt-4 mt-4 border-t border-ink/10">
+          <div className="contents lg:mt-4 lg:block lg:border-t lg:border-ink/10 lg:pt-4">
             <a
               href="/"
-              className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm font-semibold text-muted transition-colors hover:bg-bg-sage hover:text-ink"
+              className="flex min-h-14 w-full flex-col items-center justify-center gap-1 px-2 py-2 text-center text-xs font-semibold text-muted transition-colors hover:bg-bg-sage hover:text-ink lg:min-h-11 lg:flex-row lg:justify-start lg:gap-3 lg:px-3 lg:py-2.5 lg:text-left lg:text-sm"
             >
               <Home className="w-5 h-5" />
               <span>Startsida</span>
@@ -326,7 +334,7 @@ export default function AdminDashboard() {
           </div>
         </nav>
 
-        <div className="p-4 border-t border-ink/10">
+        <div className="hidden border-t border-ink/10 p-4 lg:block">
           <div className="mb-2 flex items-center gap-3 rounded-md border border-border bg-bg-sage px-3 py-3">
             <img 
               src={
@@ -355,7 +363,7 @@ export default function AdminDashboard() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto overflow-x-hidden bg-bg">
+      <main className="min-w-0 flex-1 bg-bg lg:overflow-y-auto lg:overflow-x-hidden">
         {/* Participants View */}
         {activeView === 'participants' && (
           <div className="p-4 sm:p-6 lg:p-8">
@@ -366,14 +374,14 @@ export default function AdminDashboard() {
               description={`${filteredAndSortedRegistrations.length} registreringar`}
               actions={
                 <>
-                  <Button onClick={() => setShowAddModal(true)}><Plus className="h-5 w-5" />Lägg till</Button>
-                  <Button variant="secondary" onClick={exportToCSV}><Download className="h-5 w-5" />Exportera</Button>
+                  <Button className="flex-1 sm:flex-none" onClick={() => setShowAddModal(true)}><Plus className="h-5 w-5" />Lägg till</Button>
+                  <Button className="flex-1 sm:flex-none" variant="secondary" onClick={exportToCSV}><Download className="h-5 w-5" />Exportera</Button>
                 </>
               }
             />
 
             {/* Toolbar */}
-            <Card padding="sm" className="sticky top-0 z-20 mb-6 shadow-card">
+            <Card padding="sm" className="mb-6 lg:sticky lg:top-0 lg:z-20">
               <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
                 <div className="min-w-0 flex-1">
                   <Input
@@ -384,7 +392,7 @@ export default function AdminDashboard() {
                     className="border-ink/10 focus:border-field"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:flex lg:items-center lg:gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:flex lg:items-center lg:gap-3">
                   <Select
                     compact
                     className="w-full lg:w-28"
@@ -401,7 +409,7 @@ export default function AdminDashboard() {
                   />
                   <Select
                     compact
-                    className="w-full sm:col-span-2 lg:col-span-1 lg:w-44"
+                    className="w-full lg:w-44"
                     value={viewMode}
                     options={viewModeOptions}
                     onChange={(value) => setViewMode(value as ViewMode)}
@@ -411,7 +419,7 @@ export default function AdminDashboard() {
                       type="button"
                       variant="ghost"
                       size="sm"
-                      className="col-span-2 normal-case lg:col-span-1"
+                      className="normal-case"
                       onClick={clearFilters}
                     >
                       Rensa filter
@@ -424,7 +432,7 @@ export default function AdminDashboard() {
             {/* List View */}
             {viewMode === 'list' && (
               <Card padding="none" className="overflow-hidden">
-                <div className="overflow-x-auto">
+                <div className="hidden overflow-x-auto md:block">
                   <table className="w-full">
                   <thead className="bg-bg-sage border-b border-ink/10">
                     <tr>
@@ -535,6 +543,45 @@ export default function AdminDashboard() {
                   </tbody>
                   </table>
                 </div>
+                <div className="divide-y divide-ink/10 md:hidden">
+                  {filteredAndSortedRegistrations.length === 0 ? (
+                    <EmptyState title="Inga deltagare hittades" description="Justera sökningen eller filtren och försök igen." icon={<Users className="h-6 w-6" />} />
+                  ) : (
+                    filteredAndSortedRegistrations.map((registration) => (
+                      <article key={registration.id} className="relative p-4">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <h3 className={`font-semibold ${registration.status === 'cancelled' ? 'text-muted line-through' : 'text-ink'}`}>
+                                {registration.firstName} {registration.lastName}
+                              </h3>
+                              {registration.status === 'cancelled' && <Badge variant="muted" size="sm">Avregistrerad</Badge>}
+                            </div>
+                            <p className="mt-1 break-all text-sm text-ink">{registration.email}</p>
+                            <p className="text-sm text-muted">{registration.phone}</p>
+                          </div>
+                          <RegistrationActionsMenu
+                            registrationId={registration.id}
+                            isOpen={actionMenuOpen === registration.id}
+                            isCancelled={registration.status === 'cancelled'}
+                            onToggle={() => setActionMenuOpen(actionMenuOpen === registration.id ? null : registration.id)}
+                            onClose={() => setActionMenuOpen(null)}
+                            onCancel={() => handleCancel(registration.id, `${registration.firstName} ${registration.lastName}`)}
+                            onReactivate={() => handleReactivate(registration.id)}
+                            onDelete={() => handleDelete(registration.id, `${registration.firstName} ${registration.lastName}`)}
+                          />
+                        </div>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          <Badge variant="session" size="sm">{formatSessionLabel(registration.location, registration.timeSlot || 'morning')}</Badge>
+                          <Badge variant="week" size="sm">Vecka {getWeekNumber(parseISO(registration.weekStart))}</Badge>
+                        </div>
+                        <p className="mt-3 text-xs text-muted">
+                          Anmäld {formatRegistrationDate(registration.createdAt)} kl. {formatRegistrationTime(registration.createdAt)}
+                        </p>
+                      </article>
+                    ))
+                  )}
+                </div>
               </Card>
             )}
 
@@ -552,7 +599,7 @@ export default function AdminDashboard() {
                     <div key={weekKey} className="overflow-visible rounded-lg border border-border bg-surface shadow-sm">
                       <button
                         onClick={() => toggleWeek(weekKey)}
-                        className="w-full px-6 py-4 flex items-center justify-between hover:bg-bg-sage transition-colors"
+                        className="flex w-full flex-col items-stretch gap-3 px-4 py-4 text-left transition-colors hover:bg-bg-sage sm:flex-row sm:items-center sm:justify-between sm:px-6"
                       >
                         <div className="flex items-center gap-4">
                           {isExpanded ? (
@@ -570,9 +617,9 @@ export default function AdminDashboard() {
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-6">
+                        <div className="flex flex-wrap items-center gap-2 sm:justify-end sm:gap-3">
                           <div className="text-base text-muted">{weekRange}</div>
-                          <div className="flex items-center gap-3">
+                          <div className="flex flex-wrap items-center gap-2">
                             {sodermalm > 0 && (
                               <Badge variant="session" size="sm">
                                 Eudora Södermalm
@@ -592,8 +639,8 @@ export default function AdminDashboard() {
 
                       {isExpanded && (
                         <div className="border-t border-ink/10 overflow-visible">
-                          <div className="overflow-visible">
-                            <table className="w-full">
+                          <div className="overflow-x-auto">
+                            <table className="min-w-[58rem] w-full">
                               <tbody className="divide-y divide-ink/10">
                               {weekRegistrations.map((registration, index) => (
                                 <tr key={registration.id} className="hover:bg-bg-sage relative">
@@ -692,7 +739,7 @@ export default function AdminDashboard() {
             />
 
             <Card padding="none" className="overflow-visible">
-              <div className="overflow-x-auto max-h-[calc(100vh-280px)] overflow-y-auto">
+              <div className="hidden max-h-[calc(100vh-280px)] overflow-auto md:block">
                 <table className="w-full">
                   <thead className="bg-bg-sage border-b border-ink/10 sticky top-0">
                     <tr>
@@ -764,6 +811,44 @@ export default function AdminDashboard() {
                     })}
                   </tbody>
                 </table>
+              </div>
+              <div className="divide-y divide-ink/10 md:hidden">
+                {allWeeksOfYear.map((week) => {
+                  const weekKey = formatDate(week);
+                  const sodMorning = getWeekRegistrations(weekKey, 'sodermalm', 'morning').length;
+                  const sodAfternoon = getWeekRegistrations(weekKey, 'sodermalm', 'afternoon').length;
+                  const gardMorning = getWeekRegistrations(weekKey, 'gardet', 'morning').length;
+                  const gardAfternoon = getWeekRegistrations(weekKey, 'gardet', 'afternoon').length;
+                  const total = sodMorning + sodAfternoon + gardMorning + gardAfternoon;
+                  const isAvailable = weekAvailability[weekKey]?.isAvailable !== false;
+                  const weekNum = getWeekNumber(week);
+                  const isPastWeek = new Date(weekKey) < new Date();
+
+                  return (
+                    <article key={weekKey} className={`p-4 ${isPastWeek ? 'opacity-50' : ''}`}>
+                      <div className="flex items-center justify-between gap-4">
+                        <div>
+                          <h3 className="font-semibold text-ink">Vecka {weekNum}</h3>
+                          <p className="text-sm text-muted">{formatWeekRange(week)}</p>
+                        </div>
+                        <Switch checked={isAvailable} onChange={() => handleToggleWeek(weekKey, total)} label={`${isAvailable ? 'Stäng' : 'Öppna'} vecka ${weekNum}`} />
+                      </div>
+                      <div className="mt-4 grid grid-cols-1 gap-3 text-sm min-[420px]:grid-cols-2">
+                        <div className="border border-ink/10 bg-bg-sage p-3">
+                          <strong className="block text-ink">Södermalm</strong>
+                          <span className="mt-1 block text-muted">{TIME_SLOTS.morning.time}: {sodMorning}/{MAX_CAPACITY_PER_SESSION}</span>
+                          <span className="block text-muted">{TIME_SLOTS.afternoon.time}: {sodAfternoon}/{MAX_CAPACITY_PER_SESSION}</span>
+                        </div>
+                        <div className="border border-ink/10 bg-bg-sage p-3">
+                          <strong className="block text-ink">Gärdet</strong>
+                          <span className="mt-1 block text-muted">{TIME_SLOTS.morning.time}: {gardMorning}/{MAX_CAPACITY_PER_SESSION}</span>
+                          <span className="block text-muted">{TIME_SLOTS.afternoon.time}: {gardAfternoon}/{MAX_CAPACITY_PER_SESSION}</span>
+                        </div>
+                      </div>
+                      <p className="mt-3 text-sm text-muted">Totalt: <strong className="text-ink">{total}</strong></p>
+                    </article>
+                  );
+                })}
               </div>
             </Card>
           </div>

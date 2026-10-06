@@ -39,7 +39,7 @@ export function Modal({ title, onClose, children, size = 'md', className }: Moda
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 sm:items-center sm:p-4"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -49,12 +49,12 @@ export function Modal({ title, onClose, children, size = 'md', className }: Moda
         aria-modal="true"
         aria-labelledby="ds-modal-title"
         className={cn(
-          'flex max-h-[90vh] w-full flex-col overflow-hidden border border-ink/10 bg-surface',
+          'flex max-h-[100dvh] w-full flex-col overflow-hidden border border-ink/10 bg-surface sm:max-h-[90vh]',
           sizeClasses[size],
           className
         )}
       >
-        <div className="flex shrink-0 items-center justify-between border-b border-ink/10 px-6 py-4">
+        <div className="flex shrink-0 items-center justify-between border-b border-ink/10 px-4 py-4 sm:px-6">
           <h2 id="ds-modal-title" className="text-lg font-semibold text-ink">
             {title}
           </h2>
@@ -95,13 +95,13 @@ export function ConfirmModal({
 }: ConfirmModalProps) {
   return (
     <Modal title={title} onClose={onCancel} size="sm">
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <div className="mb-6 text-base text-muted">{message}</div>
-        <div className="flex justify-end gap-3">
+        <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 text-base font-medium text-ink transition-colors hover:bg-bg-sage"
+            className="w-full px-4 py-3 text-base font-medium text-ink transition-colors hover:bg-bg-sage sm:w-auto sm:py-2"
           >
             {cancelLabel}
           </button>
@@ -109,7 +109,7 @@ export function ConfirmModal({
             type="button"
             onClick={onConfirm}
             className={cn(
-              'px-4 py-2 text-base font-medium text-white transition-colors',
+              'w-full px-4 py-3 text-base font-medium text-white transition-colors sm:w-auto sm:py-2',
               variant === 'danger'
                 ? 'bg-red-600 hover:bg-red-700'
                 : 'bg-teal hover:opacity-90'

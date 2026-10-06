@@ -43,7 +43,7 @@ export default function WeekManagementModal({ onClose }: Props) {
   return (
     <>
       <Modal title="Hantera veckor" onClose={onClose} size="lg">
-        <div className="overflow-y-auto p-6">
+        <div className="overflow-y-auto p-4 sm:p-6">
           <p className="mb-6 text-base text-muted">
             Stäng av veckor som inte ska vara tillgängliga för anmälan.
             Veckor som redan har anmälningar kan fortfarande stängas av, men befintliga anmälningar påverkas inte.
@@ -64,7 +64,7 @@ export default function WeekManagementModal({ onClose }: Props) {
               return (
                 <div
                   key={weekKey}
-                  className={`border p-4 transition-colors ${
+                  className={`border p-3 transition-colors sm:p-4 ${
                     isAvailable ? 'border-ink/10 bg-surface' : 'border-error/30 bg-error-bg'
                   }`}
                 >

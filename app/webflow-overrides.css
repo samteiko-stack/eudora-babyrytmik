@@ -357,12 +357,57 @@ body:has(.babysang-site) {
     font-size: 0.875rem;
   }
 
+  .babysang-site .padding-global {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .babysang-site .padding-section-large.offset {
+    padding-top: 5.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .babysang-site .contact7_content,
+  .babysang-site .contact7_content--form-right {
+    grid-row-gap: 2rem;
+  }
+
+  .babysang-site .contact7_content-left {
+    gap: 1.5rem;
+  }
+
+  .babysang-site .heading-style-h2 {
+    font-size: clamp(2rem, 9vw, 2.75rem);
+    line-height: 1.08;
+  }
+
+  .babysang-site .form_field-2col {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .babysang-site .contact7_form.is-spaced {
+    grid-row-gap: 1.25rem;
+  }
+
+  .babysang-site .contact7_image {
+    aspect-ratio: 4 / 3;
+  }
+
+  .babysang-site .larger-tag {
+    width: 100%;
+  }
+
+  .babysang-site .larger-tag .div-block-322 {
+    justify-content: center;
+    text-align: center;
+  }
+
   .babysang-site .session-selector__grid {
     grid-template-columns: 1fr;
   }
 
   .babysang-site .registration-success {
-    min-height: 30rem;
+    min-height: 0;
     padding: 2rem 1.25rem;
   }
 
@@ -373,5 +418,25 @@ body:has(.babysang-site) {
   .babysang-site .registration-success__summary > div + div {
     border-top: 1px solid rgba(0, 0, 0, 0.16);
     border-left: 0;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .babysang-site .navbar5_container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .babysang-site .navbar5_logo {
+    height: 1.75rem;
+  }
+
+  .babysang-site .navbar5_menu-right .button {
+    padding: 0.55rem 0.75rem;
+  }
+
+  .babysang-site .contact7_form > .button,
+  .babysang-site .contact7_form > .w-button {
+    width: 100%;
   }
 }

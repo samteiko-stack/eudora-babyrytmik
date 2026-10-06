@@ -156,3 +156,52 @@
   display: grid;
   gap: 1.5rem;
 }
+
+@media (max-width: 1023px) {
+  .admin-login {
+    display: block;
+  }
+
+  .admin-login__brand {
+    min-height: auto;
+    gap: 1.25rem;
+    justify-content: flex-start;
+    padding: 1.25rem;
+  }
+
+  .admin-login__brand-logo {
+    height: 2rem;
+  }
+
+  .admin-login__brand-title {
+    font-size: 1.75rem;
+  }
+
+  .admin-login__brand-text {
+    margin-top: 0.5rem;
+    line-height: 1.45;
+  }
+
+  .admin-login__brand-footer {
+    display: none;
+  }
+
+  .admin-login__panel {
+    min-height: auto;
+  }
+
+  .admin-login__top {
+    justify-content: flex-start;
+    padding: 1.25rem 1rem 0;
+  }
+
+  .admin-login__main {
+    align-items: flex-start;
+    padding: 2.5rem 1rem 3rem;
+  }
+
+  .admin-login__form {
+    margin-top: 1.5rem;
+    gap: 1.25rem;
+  }
+}

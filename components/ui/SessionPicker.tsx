@@ -49,7 +49,7 @@ export function SessionPicker({
     <div className="space-y-4">
       <div>
         <p className="mb-2 text-base font-medium text-ink">Förskola</p>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {(Object.keys(LOCATIONS) as Location[]).map((locationKey) => (
             <OptionButton
               key={locationKey}
@@ -69,7 +69,7 @@ export function SessionPicker({
 
       <div>
         <p className="mb-2 text-base font-medium text-ink">Tid</p>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {(Object.keys(TIME_SLOTS) as TimeSlot[]).map((slotKey) => (
             <OptionButton
               key={slotKey}
