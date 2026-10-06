@@ -522,11 +522,13 @@ export default function AdminDashboard() {
                           <td className="px-6 py-4 text-right">
                             <RegistrationActionsMenu
                               registrationId={registration.id}
-                              isOpen={actionMenuOpen === registration.id}
+                              isOpen={actionMenuOpen === `list-desktop:${registration.id}`}
                               isCancelled={registration.status === 'cancelled'}
-                              onToggle={() =>
-                                setActionMenuOpen(actionMenuOpen === registration.id ? null : registration.id)
-                              }
+                              onToggle={() => setActionMenuOpen(current =>
+                                current === `list-desktop:${registration.id}`
+                                  ? null
+                                  : `list-desktop:${registration.id}`
+                              )}
                               onClose={() => setActionMenuOpen(null)}
                               onCancel={() =>
                                 handleCancel(registration.id, `${registration.firstName} ${registration.lastName}`)
@@ -562,9 +564,13 @@ export default function AdminDashboard() {
                           </div>
                           <RegistrationActionsMenu
                             registrationId={registration.id}
-                            isOpen={actionMenuOpen === registration.id}
+                            isOpen={actionMenuOpen === `list-mobile:${registration.id}`}
                             isCancelled={registration.status === 'cancelled'}
-                            onToggle={() => setActionMenuOpen(actionMenuOpen === registration.id ? null : registration.id)}
+                            onToggle={() => setActionMenuOpen(current =>
+                              current === `list-mobile:${registration.id}`
+                                ? null
+                                : `list-mobile:${registration.id}`
+                            )}
                             onClose={() => setActionMenuOpen(null)}
                             onCancel={() => handleCancel(registration.id, `${registration.firstName} ${registration.lastName}`)}
                             onReactivate={() => handleReactivate(registration.id)}
@@ -692,11 +698,13 @@ export default function AdminDashboard() {
                                   <td className="px-6 py-4 text-right">
                                     <RegistrationActionsMenu
                                       registrationId={registration.id}
-                                      isOpen={actionMenuOpen === registration.id}
+                                      isOpen={actionMenuOpen === `grouped:${registration.id}`}
                                       isCancelled={registration.status === 'cancelled'}
-                                      onToggle={() =>
-                                        setActionMenuOpen(actionMenuOpen === registration.id ? null : registration.id)
-                                      }
+                                      onToggle={() => setActionMenuOpen(current =>
+                                        current === `grouped:${registration.id}`
+                                          ? null
+                                          : `grouped:${registration.id}`
+                                      )}
                                       onClose={() => setActionMenuOpen(null)}
                                       onCancel={() =>
                                         handleCancel(registration.id, `${registration.firstName} ${registration.lastName}`)
