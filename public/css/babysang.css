@@ -9502,10 +9502,6 @@ body:has(.babysang-site) {
     grid-row-gap: 1.25rem;
   }
 
-  .babysang-site .contact7_image {
-    aspect-ratio: 4 / 3;
-  }
-
   .babysang-site .larger-tag {
     width: 100%;
   }

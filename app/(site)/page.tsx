@@ -141,14 +141,6 @@ export default function Home() {
                         </div>
                       </div>
 
-                      <div className="contact7_image-wrapper">
-                        <img
-                          src="/assets/hero-babysang.jpg"
-                          alt=""
-                          loading="lazy"
-                          className="contact7_image"
-                        />
-                      </div>
                     </div>
 
                     <div className="contact7_content-right">
