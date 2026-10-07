@@ -385,6 +385,7 @@ export default function AdminDashboard() {
               <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
                 <div className="min-w-0 flex-1">
                   <Input
+                    compact
                     type="text"
                     placeholder="Sök namn, e-post eller telefon..."
                     value={searchQuery}

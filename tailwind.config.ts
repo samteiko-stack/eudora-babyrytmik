@@ -71,6 +71,11 @@ const config: Config = {
         10: 'var(--space-10)',
         12: 'var(--space-12)',
       },
+      height: {
+        'control-sm': 'var(--control-height-sm)',
+        'control-md': 'var(--control-height-md)',
+        'control-lg': 'var(--control-height-lg)',
+      },
       borderRadius: {
         sm: 'var(--radius-sm)',
         md: 'var(--radius-md)',

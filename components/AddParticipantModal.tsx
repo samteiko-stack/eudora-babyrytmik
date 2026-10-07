@@ -150,7 +150,6 @@ export default function AddParticipantModal({ onClose }: Props) {
           <Field label="Vecka" required>
             <input type="hidden" {...register('weekStart', { required: 'Välj en vecka' })} />
             <Select
-              compact
               value={selectedWeek ?? ''}
               placeholder="Välj vecka"
               options={weekOptions}

@@ -48,6 +48,16 @@ Prefer composing these primitives over copying their class strings into a page.
 - Tables may scroll horizontally on small screens; primary actions must remain reachable without horizontal scrolling.
 - Page titles and actions use `PageHeader` so hierarchy remains consistent across admin views.
 
+## Control sizing
+
+Inputs, password fields, dropdown triggers, and buttons use one shared height scale:
+
+- Compact (`h-control-sm`, 40px): dense filter and toolbar controls only.
+- Standard (`h-control-md`, 48px): form fields, dropdowns, and default buttons.
+- Large (`h-control-lg`, 56px): prominent primary actions.
+
+Controls placed in the same row must use the same size. Use the `compact` prop on both `Input` and `Select` in dense toolbars; standard form controls should omit it.
+
 ## Responsive layout
 
 - Start with a single-column mobile layout.
